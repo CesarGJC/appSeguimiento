@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.moxos.uab.persistence.siiga.PlanesDao">
+
+    <resultMap id="plancito2" type="com.moxos.uab.domain.entity.siiga.Planes">
+        <result property="id_prg_plan" column="id_prg_plan"/>
+        <result property="id_programa" column="id_programa"/>
+        <result property="id_plan" column="id_plan"/>
+        <result property="id_tipo_grado" column="id_tipo_grado"/>
+        <result property="tipo_grado" column="tipo_grado"/>
+    </resultMap>
+    <select id="getUnvListarPlanes" resultMap="plancito2">
+        SELECT * FROM mi_unv_listar_planes(#{id_universidad})
+            AS (id_prg_plan integer, id_programa dentero, id_plan dtexto, id_tipo_grado dentero, tipo_grado dtexto);
+    </select>
+    <resultMap id="plancito" type="com.moxos.uab.domain.entity.siiga.Planes">
+        <result property="id_programa" column="id_programa"/>
+        <result property="id_prg_plan" column="id_prg_plan"/>
+        <result property="id_plan" column="id_plan"/>
+        <result property="tipo_grado" column="tipo_grado"/>
+    </resultMap>
+
+    <select id="getPrgListarPlanes" resultMap="plancito">
+        SELECT * FROM mi_prg_listar_planes(#{id_programa})
+            AS (id_programa dentero, id_prg_plan integer, id_plan dtexto, tipo_grado dtexto);
+    </select>
+
+    <select id="getFclListarPlanes" resultMap="plancito">
+        SELECT * FROM mi_fcl_listar_planes(#{id_facultad})
+            AS (id_programa dentero, id_prg_plan integer, id_plan dtexto, tipo_grado dtexto);
+    </select>
+</mapper>

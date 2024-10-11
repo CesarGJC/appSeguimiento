@@ -1,0 +1,79 @@
+.circulo-container {
+  display: grid;
+  justify-items: center; /* centra horizontalmente */
+  align-items: center; /* centra verticalmente */
+}
+.circulo {
+  position: relative;
+  width: 200px;
+  height: 200px;
+  box-shadow: -15px 10px 31px -6px rgba(0,0,0,0.75);
+  background-size: cover;
+  border-radius: 50%;
+  background-color: #ccc;
+  cursor: pointer;
+}
+.circulo .imagen {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+}
+.circulo .progress {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(12, 2, 50, 0.75);
+  width: 200px;
+  height: 200px;
+  border-radius: 50%; 
+}
+.circulo .progress span{
+  color: #fff;
+  font-size: 5vh;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.boton {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: rgba(21, 4, 81, 0.75);
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  line-height: 10px;
+  font-size: 15px;
+  color: #ccc;
+  text-decoration: none;
+}
+.boton:hover {
+  background-color: rgba(0, 0, 0, 0.75);
+  transform: scale(1.2);
+  border-radius: 50%;
+  border-color: #fff;
+  color: #fff;
+}
+.boton1 {
+  top: 150px;
+  left: 50px;
+}
+
+.boton2 {
+  top: 165px;
+  left: 83px;
+}
+
+.boton3 {
+  top: 150px;
+  left: 115px;
+}
+.hidden{
+    display: none;
+}  

@@ -1,0 +1,102 @@
+.table-reporte {
+    font-family: Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    border: 1px solid rgb(47, 46, 46);
+    width: auto;
+    margin: 0 0 40px 0;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    font-size: 10px;
+}
+
+.table-reporte td {
+    padding: 2px;
+    border: 1px solid rgb(47, 46, 46);
+}
+
+.table-reporte tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.table-reporte tbody tr:hover {
+    background-color: #ddd;
+    border: 1px solid rgb(24, 24, 24);
+}
+
+.table-reporte th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: center;
+}
+
+th[data-title="NOMBRECOMPLETO"] {
+    background-color: #04aa6d;
+    color: white;
+    border: 1px solid #01462d;
+    width: 350px;
+}
+
+th[data-title="NRO"] {
+    background-color: #04aa6d;
+    color: white;
+    border: 1px solid #01462d;
+    width: 50px;
+}
+
+th[data-title="MATERIA"] {
+    background-color: #04aa6d;
+    color: white;
+    border: 1px solid #01462d;
+    width: 70px;
+}
+
+th[data-title="REPROBADO"] {
+    background-color: #c42108;
+    color: white;
+    border: 1px solid #550d01;
+    width: 70px;
+}
+
+th[data-title="VERANO"] {
+    background-color: #7bd444;
+    color: white;
+    border: 1px solid #102a01;
+    width: 70px;
+}
+th[data-title="MESA"] {
+    background-color: #7badf7;
+    color: white;
+    border: 1px solid #012b69;
+    width: 70px;
+}
+td[data-evaluacion="1"]{
+    background-color: #FFE300;
+    color: #000;
+    text-align: center;
+}
+td[data-evaluacion="3"]{
+    background-color: #7bd444;
+    color: #000;
+    text-align: center;
+}
+td[data-evaluacion="4"]{
+    background-color: #7badf7;
+    color: #000;
+    text-align: center;
+}
+td[data-reprobado="A"] {
+    background-color: #BDD7EE;
+    color: #000;
+    text-align: center;
+}
+
+td[data-reprobado="R"] {
+    background-color: #FFFF00;
+    color: #000;
+    text-align: center;
+}
+
+td[data-programado="X"] {
+    background-color: #E23C2F;
+    color: #000;
+    text-align: center;
+}

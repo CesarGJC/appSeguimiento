@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.moxos.uab.persistence.die.PoliticasDesarrolloDao">
+    <insert id="savePoliticasDesarrollo">
+        INSERT INTO public.tpoliticas_desarrollo(id_area_estrategica, politica_desarrollo, id_estado, fec_registro, fec_modificacion, ult_usuario)
+        VALUES (#{id_area_estrategica}, #{politica_desarrollo}, #{id_estado}, #{fec_registro}, #{fec_modificacion}, #{ult_usuario});
+    </insert>
+    <update id="updatePoliticasDesarrollo">
+        UPDATE public.tpoliticas_desarrollo
+        SET id_area_estrategica=#{id_area_estrategica},
+            politica_desarrollo=#{politica_desarrollo},
+            id_estado=#{id_estado},
+            fec_registro=#{fec_registro},
+            fec_modificacion=#{fec_modificacion},
+            ult_usuario=#{ult_usuario}
+        WHERE id_politica_desarrollo=#{id_politica_desarrollo};
+    </update>
+    <update id="deletePoliticasDesarrollo">
+        UPDATE public.tpoliticas_desarrollo
+        SET id_estado='X'
+        WHERE id_politica_desarrollo=#{id_politica_desarrollo};
+    </update>
+    <select id="selectPoliticasDesarrollo" resultType="com.moxos.uab.domain.entity.die.PoliticasDesarrollo">
+        SELECT id_politica_desarrollo, id_area_estrategica, politica_desarrollo, id_estado, fec_registro, fec_modificacion, ult_usuario
+        FROM public.tpoliticas_desarrollo
+        WHERE id_politica_desarrollo=#{id_politica_desarrollo} and id_estado='X';
+    </select>
+    <select id="getByid" resultType="com.moxos.uab.domain.entity.die.PoliticasDesarrollo">
+        SELECT id_politica_desarrollo, id_area_estrategica, politica_desarrollo, id_estado, fec_registro, fec_modificacion, ult_usuario
+        FROM public.tpoliticas_desarrollo
+        WHERE id_politica_desarrollo=#{id_politica_desarrollo} limit 1;
+    </select>
+    <select id="getAllPoliticasDesarrollo" resultType="com.moxos.uab.domain.entity.die.PoliticasDesarrollo">
+        SELECT id_politica_desarrollo, id_area_estrategica, politica_desarrollo, id_estado, fec_registro, fec_modificacion, ult_usuario
+        FROM public.tpoliticas_desarrollo
+        WHERE id_politica_desarrollo=#{id_politica_desarrollo} and id_estado='X';
+    </select>
+</mapper>

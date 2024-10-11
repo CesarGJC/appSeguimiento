@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.moxos.uab.persistence.siiga.ProgramasDao">
+    <resultMap id="programa" type="com.moxos.uab.domain.entity.siiga.Programas">
+        <result property="id_programa" column="id_programa"/>
+        <result property="id_sede" column="id_sede"/>
+        <result property="id_facultad" column="id_facultad"/>
+        <result property="id_campus" column="id_campus"/>
+        <result property="id_area_conocimiento" column="id_area_conocimiento"/>
+        <result property="id_tipo_ensenyanza" column="id_tipo_ensenyanza"/>
+        <result property="id_periodo" column="id_periodo"/>
+        <result property="programa" column="programa"/>
+        <result property="resolucion_hcu" column="resolucion_hcu"/>
+        <result property="fec_inicio" column="fec_inicio"/>
+        <result property="mision" column="mision"/>
+        <result property="objetivos" column="objetivos"/>
+        <result property="duracion" column="duracion"/>
+        <result property="turno" column="turno"/>
+        <result property="nro_estudiante" column="nro_estudiante"/>
+        <result property="nota_aprobacion" column="nota_aprobacion"/>
+        <result property="nota_admision" column="nota_admision"/>
+    </resultMap>
+
+    <select id="getPrgBuscarPrograma" resultMap="programa">
+        SELECT *
+        FROM mi_prg_buscar_programa(#{id_programa});
+    </select>
+    <select id="getFclListarProgramas" resultMap="programa">
+        SELECT *
+        FROM mi_fcl_listar_programas(#{id_facultad});
+    </select>
+
+    <select id="getUnvListarProgramas" resultMap="programa">
+        SELECT *
+        FROM mi_unv_listar_programas(#{id_universidad});
+    </select>
+</mapper>

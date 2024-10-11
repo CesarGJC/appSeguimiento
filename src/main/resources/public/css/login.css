@@ -1,0 +1,39 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: linear-gradient(to right, #305395 0%, #305395 100%);
+}
+
+.container-login {
+    width: 350px;
+    height: 500px;
+    padding: 20px;
+    justify-content: center;
+    align-items: center;
+    background: #FFFFFF;
+    border-radius: 15px;
+    -webkit-box-shadow: 10px 12px 36px 6px rgba(0, 0, 0, 0.59);
+    -moz-box-shadow: 10px 12px 36px 6px rgba(0, 0, 0, 0.59);
+    box-shadow: 10px 12px 36px 6px rgba(0, 0, 0, 0.59);
+}
+
+.logo {
+    width: 100%;
+    text-align: center;
+}
+
+.logo img {
+    width: 200px;
+}
+
+form {
+    margin-top: 50px;
+    padding: 10px;
+}
+
+.capchat {
+    width: 100%;
+    margin-bottom: 10px;
+}

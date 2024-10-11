@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.moxos.uab.persistence.die.ResponsableMetaDao">
+    <insert id="saveResponsableMeta">
+        INSERT INTO public.tresponsable_meta(id_catalogo_indicador, gestion, unidad_porcentaje, programado, ejecutado, porcentaje_ejecutado, id_unidad_encargada, id_estado, fec_registro, fec_modificacion, ult_usuario)
+        VALUES (#{id_catalogo_indicador}, #{gestion}, #{unidad_porcentaje}, #{programado}, #{ejecutado}, #{porcentaje_ejecutado}, #{id_unidad_encargada}, #{id_estado}, #{fec_registro}, #{fec_modificacion}, #{ult_usuario});
+    </insert>
+    <update id="updateResponsableMeta">
+        UPDATE public.tresponsable_meta
+        SET id_catalogo_indicador=#{id_catalogo_indicador},
+            gestion=#{gestion},
+            unidad_porcentaje=#{unidad_porcentaje},
+            programado=#{programado},
+            ejecutado=#{ejecutado},
+            porcentaje_ejecutado=#{porcentaje_ejecutado},
+            id_unidad_encargada=#{id_unidad_encargada},
+            id_estado=#{id_estado},
+            fec_registro=#{fec_registro},
+            fec_modificacion=#{fec_modificacion},
+            ult_usuario=#{ult_usuario}
+        WHERE id_responsable_meta=#{id_responsable_meta};
+    </update>
+    <update id="deleteResponsableMeta">
+        UPDATE public.tresponsable_meta
+        SET id_estado='X'
+        WHERE id_responsable_meta=#{id_responsable_meta};
+    </update>
+    <select id="selectResponsableMetas" resultType="com.moxos.uab.domain.entity.die.ResponsableMeta">
+        SELECT id_responsable_meta, id_catalogo_indicador, gestion, unidad_porcentaje, programado, ejecutado, porcentaje_ejecutado, id_unidad_encargada, id_estado, fec_registro, fec_modificacion, ult_usuario
+        FROM public.tresponsable_meta
+        WHERE id_responsable_meta=#{id_responsable_meta}
+    </select>
+    <select id="getByid" resultType="com.moxos.uab.domain.entity.die.ResponsableMeta">
+        SELECT id_responsable_meta, id_catalogo_indicador, gestion, unidad_porcentaje, programado, ejecutado, porcentaje_ejecutado, id_unidad_encargada, id_estado, fec_registro, fec_modificacion, ult_usuario
+        FROM public.tresponsable_meta
+        WHERE id_responsable_meta=#{id_responsable_meta} limit 1;
+    </select>
+</mapper>

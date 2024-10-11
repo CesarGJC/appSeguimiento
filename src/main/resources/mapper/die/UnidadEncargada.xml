@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.moxos.uab.persistence.die.UnidadEncargadaDao">
+    <insert id="saveUnidadEncargada">
+        INSERT INTO public.tunidad_encargada(unidad_responsable, categoria_programatica, nombre_responsable, id_estado, fec_registro, fec_modificacion, ult_usuario)
+        VALUES (#{unidad_responsable}, #{categoria_programatica}, #{nombre_responsable}, #{id_estado}, #{fec_registro}, #{fec_modificacion}, #{ult_usuario});
+    </insert>
+    <update id="updateUnidadEncargada">
+        UPDATE public.tunidad_encargada
+        SET unidad_responsable=#{unidad_responsable},
+            categoria_programatica=#{categoria_programatica},
+            nombre_responsable=#{nombre_responsable},
+            id_estado=#{id_estado},
+            fec_registro=#{fec_registro},
+            fec_modificacion=#{fec_modificacion},
+            ult_usuario=#{ult_usuario}
+        WHERE id_unidad_encargada = #{id_unidad_encargada};
+    </update>
+    <update id="deleteUnidadEncargada">
+        UPDATE public.tunidad_encargada
+        SET id_estado='X'
+        WHERE id_unidad_encargada = #{id_unidad_encargada};
+    </update>
+    <select id="selectUnidadEncargada" resultType="com.moxos.uab.domain.entity.die.UnidadEncargada">
+        SELECT id_unidad_encargada, unidad_responsable, categoria_programatica, nombre_responsable, id_estado, fec_registro, fec_modificacion, ult_usuario
+        FROM public.tunidad_encargada;
+        where id_unidad_encargada=#{id_unidad_encargada};
+    </select>
+    <select id="getByid" resultType="com.moxos.uab.domain.entity.die.UnidadEncargada">
+        SELECT id_unidad_encargada, unidad_responsable, categoria_programatica, nombre_responsable, id_estado, fec_registro, fec_modificacion, ult_usuario
+        FROM public.tunidad_encargada;
+        where id_unidad_encargada=#{id_unidad_encargada} limit 1;
+    </select>
+</mapper>

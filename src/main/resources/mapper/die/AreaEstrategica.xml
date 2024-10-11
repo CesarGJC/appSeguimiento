@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.moxos.uab.persistence.die.AreaEstrategicaDao">
+    <insert id="saveAreaEstrategica">
+        INSERT INTO public.tareas_estrategia(area_estrategica, id_estado, fec_registro, fec_modificacion, ult_usuario)
+        VALUES (#{area_estrategica}, #{id_estado}, #{fec_registro}, #{fec_modificacion}, #{ult_usuario) };
+    </insert>
+    <update id="updateAreaEstrategica">
+        UPDATE public.tareas_estrategia
+        SET area_estrategica=#{area_estrategica},
+            id_estado=#{id_estado},
+            fec_registro=#{fec_registro},
+            fec_modificacion=#{fec_modificacion},
+            ult_usuario=#{ult_usuario}
+        WHERE id_area_estrategica=#{id_area_estrategica};
+    </update>
+    <update id="deleteAreaEstrategica">
+        UPDATE public.tareas_estrategia
+        SET id_estado='X'
+        WHERE id_area_estrategica=#{id_area_estrategica};
+    </update>
+    <select id="selectAreaEstrategica" resultType="com.moxos.uab.domain.entity.die.AreaEstrategica">
+        SELECT id_area_estrategica, area_estrategica, id_estado, fec_registro, fec_modificacion, ult_usuario
+        FROM public.tareas_estrategia
+        WHERE id_area_estrategica=#{id_area_estrategica} and id_estado='X';
+    </select>
+    <select id="getByid" resultType="com.moxos.uab.domain.entity.die.AreaEstrategica">
+        SELECT id_area_estrategica, area_estrategica, id_estado, fec_registro, fec_modificacion, ult_usuario
+        FROM public.tareas_estrategia
+        WHERE id_area_estrategica=#{id_area_estrategica} limit 1;
+    </select>
+    <select id="getAllAreaEstrategica" resultType="com.moxos.uab.domain.entity.die.AreaEstrategica">
+        SELECT id_area_estrategica, area_estrategica, id_estado, fec_registro, fec_modificacion, ult_usuario
+        FROM public.tareas_estrategia
+        WHERE id_area_estrategica=#{id_area_estrategica} and id_estado='X';
+    </select>
+</mapper>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.moxos.uab.persistence.siiga.FacultadesDao">
+
+    <resultMap id="facultad" type="com.moxos.uab.domain.entity.siiga.Facultades">
+        <result property="id_facultad" column="id_facultad"/>
+        <result property="id_universidad" column="id_universidad"/>
+        <result property="id_sede" column="id_sede"/>
+        <result property="id_estado" column="id_estado"/>
+        <result property="facultad" column="facultad"/>
+        <result property="codigo" column="codigo"/>
+        <result property="decano" column="decano"/>
+        <result property="direccion" column="direccion"/>
+        <result property="telefono" column="telefono"/>
+        <result property="fax" column="fax"/>
+        <result property="correo" column="correo"/>
+        <result property="fec_creacion" column="fec_creacion"/>
+    </resultMap>
+
+    <select id="getFclBuscarFacultad" resultMap="facultad">
+        SELECT *
+        FROM mi_fcl_buscar_facultad(#{id_facultad});
+    </select>
+
+    <select id="getUnvListarFacultades" resultMap="facultad">
+        SELECT *
+        FROM mi_unv_listar_facultades(#{id_universidad});
+    </select>
+    <resultMap id="listview" type="com.moxos.uab.domain.entity.siiga.ListViewItem">
+        <result property="id" column="id"/>
+        <result property="value" column="value"/>
+    </resultMap>
+</mapper>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.moxos.uab.persistence.die.RegistrosResultadosDao">
+    <insert id="saveRegistrosResultados">
+        INSERT INTO public.tregistro_resultados(gestion, programado, ejecutado, descripcion, respaldo_doc, id_responsable_meta, respaldo_img, id_estado, fec_registro, fec_modificacion, ult_usuario)
+        VALUES (#{gestion}, #{programado}, #{ejecutado}, #{descripcion}, #{respaldo_doc}, #{id_responsable_meta}, #{respaldo_img}, #{id_estado}, #{fec_registro}, #{fec_modificacion}, #{ult_usuario});
+    </insert>
+    <update id="updateRegistroResultados">
+        UPDATE public.tregistro_resultados
+        SET gestion=#{gestion},
+            programado=#{programado},
+            ejecutado=#{ejecutado},
+            descripcion=#{descripcion},
+            respaldo_doc=#{respaldo_doc},
+            id_responsable_meta=#{id_responsable_meta},
+            respaldo_img=#{respaldo_img},
+            id_estado=#{id_estado},
+            fec_registro=#{fec_registro},
+            fec_modificacion=#{fec_modificacion},
+            ult_usuario=#{ult_usuario}
+        WHERE id_registro_resultado=#{id_registro_resultado};
+    </update>
+    <update id="deleteRegistroResultados">
+        UPDATE public.tregistro_resultados
+        SET id_estado='X'
+        WHERE id_registro_resultado=#{id_registro_resultado};
+    </update>
+    <select id="selectRegistroResultados" resultType="com.moxos.uab.domain.entity.die.RegistrosResultados">
+        SELECT id_registro_resultado, gestion, programado, ejecutado, descripcion, respaldo_doc, id_responsable_meta, respaldo_img, id_estado, fec_registro, fec_modificacion, ult_usuario
+        FROM public.tregistro_resultados
+        WHERE id_registro_resultado=#{id_registro_resultado};
+    </select>
+    <select id="getByid" resultType="com.moxos.uab.domain.entity.die.RegistrosResultados">
+        SELECT id_registro_resultado, gestion, programado, ejecutado, descripcion, respaldo_doc, id_responsable_meta, respaldo_img, id_estado, fec_registro, fec_modificacion, ult_usuario
+        FROM public.tregistro_resultados
+        WHERE id_registro_resultado=#{id_registro_resultado} limit 1;
+    </select>
+</mapper>
