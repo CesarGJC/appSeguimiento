@@ -1,4 +1,4 @@
-package com.moxos.uab.config;
+package com.moxos.uab.config.handler;
 
 
 import com.moxos.uab.business.facade.IAuthenticationFacade;
@@ -36,14 +36,14 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
         Clientes cliente = this.mi.getBuscarConexion(userName);
         cliente.setImagen(mi.getImagen(path));
         request.getSession().setAttribute("__sess_cliente", cliente);
+        System.out.println("Cliente en sesión: " + request.getSession().getAttribute("__sess_cliente"));
         if (cliente.getId_rol() == 1) { // es Administrativo
             List<Roles> roles = this.mi.getListarRolesCliente(cliente.getId_usuario());
             if (roles.isEmpty()) {
                 response.sendRedirect(request.getContextPath() + "/login?error=3");
             }
             cliente.setRoles(roles);
-//            Roles aux = cliente.getRoles().getFirst();
-            Roles aux = cliente.getRoles().get(0);
+            Roles aux = cliente.getRoles().getFirst();
             cliente.setId_rol(aux.getId_rol());
             cliente.setRol(aux.getRol());
         }

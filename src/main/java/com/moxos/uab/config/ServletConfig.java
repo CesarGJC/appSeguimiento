@@ -1,5 +1,6 @@
 package com.moxos.uab.config;
 
+import com.moxos.uab.config.servlet.CaptchaGenServlet;
 import org.modelmapper.ModelMapper;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;

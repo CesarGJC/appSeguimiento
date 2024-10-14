@@ -1,4 +1,4 @@
-package com.moxos.uab.config;
+package com.moxos.uab.config.servlet;
 
 import com.moxos.uab.common.util.Utils;
 import jakarta.servlet.ServletException;
