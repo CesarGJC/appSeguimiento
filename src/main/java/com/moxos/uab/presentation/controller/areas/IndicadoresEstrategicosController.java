@@ -62,8 +62,8 @@ public class IndicadoresEstrategicosController {
     @GetMapping("/indicadores-estrategicos/update")
     public String editar(@ModelAttribute("model") IndicadoresEstrategicosRequest model, Model modelo) {
         IndicadoresEstrategicosRequest indicadoresEstrategicosRequest = politicasIndicadoresAreasFacade.getIndicadoresEstrategicosModel(model.getId_indicador_estrategico());
-        model.setAreasEstrategicas(politicasIndicadoresAreasFacade.getAreasEstrategicas());
-        model.setPoliticasDesarrollo(politicasIndicadoresAreasFacade.getPoliticasDesarrollo(model.getId_politica_desarrollo()));
+        indicadoresEstrategicosRequest.setAreasEstrategicas(politicasIndicadoresAreasFacade.getAreasEstrategicas());
+        indicadoresEstrategicosRequest.setPoliticasDesarrollo(politicasIndicadoresAreasFacade.getPoliticasDesarrollo(indicadoresEstrategicosRequest.getId_area_estrategica()));
         modelo.addAttribute("model", indicadoresEstrategicosRequest);
         return "IndicadoresEstrategicos/_Update";
     }
@@ -142,7 +142,6 @@ public class IndicadoresEstrategicosController {
     public String filtrar(@ModelAttribute("model") ParametrosPaginacionBusquedaRequest<Integer> model, Model modelo) {
         var paginacion = politicasIndicadoresAreasFacade.getIndicadoresEstrategicos(model);
         double cantidadpaginas = Math.ceil((double) paginacion.getTotaldeRegistros() / paginacion.getRegistrosporPagina());
-
         modelo.addAttribute("cantidadpaginas", cantidadpaginas);
         modelo.addAttribute("model", paginacion);
         return "IndicadoresEstrategicos/_Listar";

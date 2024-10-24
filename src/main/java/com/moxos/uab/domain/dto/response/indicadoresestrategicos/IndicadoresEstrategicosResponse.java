@@ -8,5 +8,6 @@ public class IndicadoresEstrategicosResponse {
     private int id_politica_desarrollo;
     private String indicador_estrategico;
     private String politica_desarrollo;
+    private int id_area_estrategica;
     private String area_estrategica;
 }

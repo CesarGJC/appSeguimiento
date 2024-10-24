@@ -10,9 +10,10 @@ public class IndicadoresEstrategicos extends Entidad {
     private int id_indicador_estrategico;
     private int id_politica_desarrollo;
     private String indicador_estrategico;
-
+    private int id_area_estrategica;
     private String area_estrategica;
     private String politica_desarrollo;
+
     private Integer pagina;
     private Integer nro_pagina;
     private String buscar;

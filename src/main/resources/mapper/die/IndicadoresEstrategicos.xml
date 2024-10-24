@@ -17,6 +17,7 @@
     <select id="getById" resultType="com.moxos.uab.domain.entity.die.IndicadoresEstrategicos">
         SELECT id_indicador_estrategico,
                tae.area_estrategica,
+               tae.id_area_estrategica,
                te.politica_desarrollo,
                td.id_politica_desarrollo,
                indicador_estrategico
@@ -69,7 +70,40 @@
     <select id="getCantidadIndicadoresEstrategicosByIndicadores" resultType="java.lang.Integer">
         SELECT COUNT(id_indicador_estrategico)
         FROM public.tindicadores_estrategicos td
-                 INNER JOIN public.tpoliticas_desarrollo te ON td.id_politica_desarrollo=te.id_politica_desarrollo
-        WHERE td.id_estado='A' AND upper(te.indicador_estrategico) like ${buscar}
+        INNER JOIN public.tpoliticas_desarrollo te ON td.id_politica_desarrollo=te.id_politica_desarrollo
+        WHERE td.id_estado='A' AND upper(td.indicador_estrategico) like ${buscar}
     </select>
+    <select id="getIndicadoresEstrategicosByArea" resultType="com.moxos.uab.domain.entity.die.IndicadoresEstrategicos">
+        SELECT
+            id_indicador_estrategico,
+            tae.area_estrategica,
+            te.politica_desarrollo,
+            td.id_politica_desarrollo,
+            indicador_estrategico
+        FROM
+            tindicadores_estrategicos td
+                INNER JOIN
+            public.tpoliticas_desarrollo te
+            ON td.id_politica_desarrollo = te.id_politica_desarrollo
+                INNER JOIN
+            public.tareas_estrategia tae
+            ON tae.id_area_estrategica = te.id_area_estrategica
+        WHERE
+            td.id_estado = 'A'
+          AND upper(tae.area_estrategica) LIKE upper(${buscar})
+        ORDER BY
+            te.politica_desarrollo
+            LIMIT ${pagina}
+        OFFSET ${nro_pagina};
+    </select>
+
+    <select id="getCantidadIndicadoresEstrategicosByArea" resultType="java.lang.Integer">
+        SELECT COUNT(td.id_indicador_estrategico)
+        FROM public.tindicadores_estrategicos td
+                 INNER JOIN public.tpoliticas_desarrollo te ON td.id_politica_desarrollo = te.id_politica_desarrollo
+                 INNER JOIN public.tareas_estrategia tae ON tae.id_area_estrategica = te.id_area_estrategica
+        WHERE td.id_estado = 'A'
+          AND upper(tae.area_estrategica) LIKE upper(#{buscar})
+    </select>
+
 </mapper>

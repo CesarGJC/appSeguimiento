@@ -26,4 +26,10 @@ public interface IndicadoresEstrategicosDao {
     List<IndicadoresEstrategicos> getIndicadoresEstrategicosByIndicadores(IndicadoresEstrategicos indicadoresEstrategicos) throws DataAccessException;
 
     Integer getCantidadIndicadoresEstrategicosByIndicadores(IndicadoresEstrategicos indicadoresEstrategicos) throws DataAccessException;
+
+    List<IndicadoresEstrategicos> getIndicadoresEstrategicosByArea(IndicadoresEstrategicos indicadoresEstrategicos) throws DataAccessException;
+
+    Integer getCantidadIndicadoresEstrategicosByArea(IndicadoresEstrategicos indicadoresEstrategicos) throws DataAccessException;
+
+    List<IndicadoresEstrategicos> getAllIndicadoresEstrategicosPorPolitica(Integer id_politica_desarrollo);
 }

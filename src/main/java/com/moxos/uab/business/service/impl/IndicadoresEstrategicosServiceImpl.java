@@ -69,7 +69,18 @@ public class IndicadoresEstrategicosServiceImpl implements IIndicadoresEstrategi
         }
     }
 
-    @Override
+//    @Override
+//    public Response<List<ListView>> listIndicadoresEstrategicosPorPolitica(Integer idPoliticaDesarrollo) {
+//        try{
+//            List<ListView> listViews=new ArrayList<>();
+//            for (var item:politicasDesarrolloDao.getAllPoliticasDesarrolloPorArea(idAreaEstrategica))
+//                listViews.add(new ListView(String.valueOf(item.getId_politica_desarrollo()), item.getPolitica_desarrollo()));
+//            return new Response<>(true,"",listViews);
+//        }catch (Exception e){
+//            return new Response<>(false,e.getMessage(),null);
+//        }
+//    }
+//    @Override
     public Response<IndicadoresEstrategicosRequest> getById(int id_indicador_estrategico) {
         try{
             IndicadoresEstrategicosRequest indicadoresEstrategicos = modelMapper.map(indicadoresEstrategicosDao.getById(id_indicador_estrategico),IndicadoresEstrategicosRequest.class);
@@ -94,6 +105,9 @@ public class IndicadoresEstrategicosServiceImpl implements IIndicadoresEstrategi
                 case POLITICAS_DESARROLO:
                     politicasDesarrollo = indicadoresEstrategicosDao.getIndicadoresEstrategicosByPolitica(indicadoresEstrategicos).stream().map(p -> modelMapper.map(p, IndicadoresEstrategicosResponse.class)).toList();
                     break;
+                case ARES_ESTRATEGICA:
+                    politicasDesarrollo = indicadoresEstrategicosDao.getIndicadoresEstrategicosByArea(indicadoresEstrategicos).stream().map(p -> modelMapper.map(p, IndicadoresEstrategicosResponse.class)).toList();
+                    break;
                 default:
                     break;
             }
@@ -115,6 +129,9 @@ public class IndicadoresEstrategicosServiceImpl implements IIndicadoresEstrategi
                     break;
                 case POLITICAS_DESARROLO:
                     cantidad = indicadoresEstrategicosDao.getCantidadIndicadoresEstrategicosByPolitica(indicadoresEstrategicos);
+                    break;
+                case ARES_ESTRATEGICA:
+                    cantidad = indicadoresEstrategicosDao.getCantidadIndicadoresEstrategicosByArea(indicadoresEstrategicos);
                     break;
                 default:
                     break;
