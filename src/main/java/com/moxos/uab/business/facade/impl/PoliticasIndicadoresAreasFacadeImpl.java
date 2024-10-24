@@ -136,20 +136,14 @@ public class PoliticasIndicadoresAreasFacadeImpl implements IPoliticasIndicadore
     }
 
     @Override
-    public List<ListView> getPoliticasDesarrollo(Integer idAreaEstrategica) {
-        return List.of();
+    public List<ListView> getPoliticasDesarrollo(int idAreaEstrategica) {
+        return politicasDesarrolloService.listPoliticasDesarrolloPorArea(idAreaEstrategica).getResult();
     }
 
     @Override
     public List<ListView> getIndicadoresEstrategicos() {
         return List.of();
     }
-
-    @Override
-    public List<ListView> getIndicadoresEstrategicos(Integer idPoliticasDesarrollo) {
-        return List.of();
-    }
-
 
     @Override
     public Response<PoliticasDesarrolloResponse> savePoliticasDesarrollo(PoliticasDesarrolloRequest model) {

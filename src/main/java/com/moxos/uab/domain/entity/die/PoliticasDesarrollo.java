@@ -10,8 +10,8 @@ public class PoliticasDesarrollo extends Entidad {
     private int id_politica_desarrollo;
     private int id_area_estrategica;
     private String politica_desarrollo;
-
     private String area_estrategica;
+
     private Integer pagina;
     private Integer nro_pagina;
     private String buscar;

@@ -27,13 +27,13 @@ public interface IPoliticasIndicadoresAreasFacade {
 
     PoliticasDesarrolloRequest getPoliticasDesarrolloModel(int idPoliticaDesarrollo);
 
+    List<ListView> getPoliticasDesarrollo();
+
     List<ListView> getAreasEstrategicas();
 
-    List<ListView> getPoliticasDesarrollo(Integer idAreaEstrategica);
+    List<ListView> getPoliticasDesarrollo(int idAreaEstrategica);
 
     List<ListView> getIndicadoresEstrategicos();
-
-    List<ListView> getIndicadoresEstrategicos(Integer idPoliticasDesarrollo);
 
     Response<PoliticasDesarrolloResponse> savePoliticasDesarrollo(PoliticasDesarrolloRequest model);
 
@@ -47,5 +47,5 @@ public interface IPoliticasIndicadoresAreasFacade {
 
     GeneralResponse deleteIndicadoresEstrategicos(IndicadoresEstrategicosRequest model);
 
-    List<ListView> getPoliticasDesarrollo();
+
 }

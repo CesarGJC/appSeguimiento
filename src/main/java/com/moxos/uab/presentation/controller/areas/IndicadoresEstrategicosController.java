@@ -62,10 +62,8 @@ public class IndicadoresEstrategicosController {
     @GetMapping("/indicadores-estrategicos/update")
     public String editar(@ModelAttribute("model") IndicadoresEstrategicosRequest model, Model modelo) {
         IndicadoresEstrategicosRequest indicadoresEstrategicosRequest = politicasIndicadoresAreasFacade.getIndicadoresEstrategicosModel(model.getId_indicador_estrategico());
-        indicadoresEstrategicosRequest.setPoliticasDesarrollo(politicasIndicadoresAreasFacade.getPoliticasDesarrollo(model.getId_indicador_estrategico()));
-        indicadoresEstrategicosRequest.setAreasEstrategicas(politicasIndicadoresAreasFacade.getAreasEstrategicas());
-//        model.setAreasEstrategicas(politicasIndicadoresAreasFacade.getAreasEstrategicas());
-//        model.setPoliticasDesarrollo(politicasIndicadoresAreasFacade.getPoliticasDesarrollo(model.getId_politica_desarrollo()));
+        model.setAreasEstrategicas(politicasIndicadoresAreasFacade.getAreasEstrategicas());
+        model.setPoliticasDesarrollo(politicasIndicadoresAreasFacade.getPoliticasDesarrollo(model.getId_politica_desarrollo()));
         modelo.addAttribute("model", indicadoresEstrategicosRequest);
         return "IndicadoresEstrategicos/_Update";
     }
