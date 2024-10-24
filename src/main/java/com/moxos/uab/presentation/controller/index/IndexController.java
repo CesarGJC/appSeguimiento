@@ -5,11 +5,14 @@ import com.moxos.uab.domain.entity.siiga.Accesos;
 import com.moxos.uab.domain.entity.siiga.Clientes;
 import com.moxos.uab.domain.entity.siiga.Roles;
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -37,9 +40,14 @@ public class IndexController {
         modelo.addAttribute("snombre", getUsuario().getNombres().substring(0, 10) + "..");
         return "Menu/Menu";
     }
-
-    @GetMapping("/elegir-rol")
-    public String elegirRol(Model modelo) {
+    @RequestMapping("/main")
+    public String main(Model modelo) {
+        modelo.addAttribute("snombre", this.getUsuario().getNombres());
+        return "Menu/Main";
+    }
+    @RequestMapping("/elegir-rol")
+    public String elegirRol(Model modelo, Authentication authentication) {
+        SecurityContextHolder.getContext().setAuthentication(authentication);
         modelo.addAttribute("cliente", this.getUsuario());
         return "Menu/ElegirRol";
     }

@@ -17,7 +17,7 @@
     <a class="app-sidebar__toggle" href="#" data-toggle="sidebar" aria-label="Hide Sidebar"></a>
     <ul class="app-nav">
         <li class="app-search">
-            <form method="post" id="formcambiarol" action="${pageContext.request.contextPath}/cambiarRol">
+            <form method="post" id="formcambiarol" action="${pageContext.request.contextPath}/cambiar-rol">
                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                 <input type="hidden" name="id_rol" id="id_rol" value="${_csrf.token}"/>
             </form>
@@ -57,7 +57,7 @@
                                         src="${simagen}" alt="Docente">
         <div>
             <p class="app-sidebar__user-name" style="">${snombre}</p>
-            <p class="app-sidebar__user-designation">Jefatura</p>
+            <p class="app-sidebar__user-designation">Seguimiento</p>
         </div>
     </div>
     <ul class="app-menu">

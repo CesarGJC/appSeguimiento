@@ -87,7 +87,7 @@ let cambiarEstado = (input) => {
 }
 cambiarEstadoAutoridad = (input) => {
     if (!document.getElementById('autoridades').checked) {
-        alertMessage('No puede seleccionr el tipo de autoridad si selecciona que es una autoridad administrativa o Dedicacion exclusiva');
+        alertMessage('No puede seleccionar el tipo de autoridad si selecciona que es una autoridad administrativa o Dedicacion exclusiva');
         input.value = 1;
         return;
     }
@@ -95,7 +95,7 @@ cambiarEstadoAutoridad = (input) => {
 let cambiarEstadoDesignacion = (input) => {
     if (document.getElementById('autoridades').checked) {
         if (parseInt(input.value) === 1) {
-            alertMessage('No puede seleccionr tiempo completo si es a autoridad o dedicacion exclusiva');
+            alertMessage('No puede seleccionar tiempo completo si es una autoridad o dedicacion exclusiva');
             input.value = 3;
             return;
         }
@@ -107,7 +107,7 @@ let cambiarEstadoDesignacion = (input) => {
 }
 let cambiarEstadoFuncion = (input) => {
     if (document.getElementById('autoridades').checked) {
-        alertMessage('No puede seleccionar funcion administrativa si es a autoridad o dedicacion exclusiva');
+        alertMessage('No puede seleccionar funcion administrativa si es una autoridad o dedicacion exclusiva');
         choiceFuncion.setChoiceByValue('0');
         return;
     }

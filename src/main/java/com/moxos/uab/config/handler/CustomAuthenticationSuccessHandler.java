@@ -6,10 +6,14 @@ import com.moxos.uab.domain.entity.siiga.*;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.security.web.DefaultRedirectStrategy;
+import org.springframework.security.web.RedirectStrategy;
+import org.springframework.security.web.WebAttributes;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 
@@ -23,6 +27,7 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
     private final IAuthenticationFacade mi;
     @Value("${app.upload.path}")
     private String path;
+    private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
     public CustomAuthenticationSuccessHandler(IAuthenticationFacade mi) {
         this.mi = mi;
@@ -36,7 +41,6 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
         Clientes cliente = this.mi.getBuscarConexion(userName);
         cliente.setImagen(mi.getImagen(path));
         request.getSession().setAttribute("__sess_cliente", cliente);
-        System.out.println("Cliente en sesión: " + request.getSession().getAttribute("__sess_cliente"));
         if (cliente.getId_rol() == 1) { // es Administrativo
             List<Roles> roles = this.mi.getListarRolesCliente(cliente.getId_usuario());
             if (roles.isEmpty()) {
@@ -48,7 +52,7 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
             cliente.setRol(aux.getRol());
         }
         if (cliente.getRoles().size() > 1) { // tiene mas de 1 rol
-            response.sendRedirect(request.getContextPath() + "/elegir-rol");
+            request.getRequestDispatcher("/elegir-rol").forward(request, response);
         } else {
             mi.setParametrosClientesUsuario(cliente);
             Accesos acceso = mi.asignarAccesos(cliente);
@@ -57,8 +61,24 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
             if (cliente.getAlmacenes().size() > 1) { // tiene mas de 1 rol
                 response.sendRedirect(request.getContextPath() + "/elegirAlmacen");
             }
-            response.sendRedirect(request.getContextPath() + "/index");
+            handle(request, response, authentication);
+            clearAuthenticationAttributes(request);
+
         }
     }
+    protected void handle(  HttpServletRequest request, HttpServletResponse response,  Authentication authentication ) throws IOException {
+        String targetUrl = "/index";
+        if (response.isCommitted()) {
+            return;
+        }
+        redirectStrategy.sendRedirect(request, response, targetUrl);
+    }
 
+    protected void clearAuthenticationAttributes(HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        if (session == null) {
+            return;
+        }
+        session.removeAttribute(WebAttributes.AUTHENTICATION_EXCEPTION);
+    }
 }

@@ -1,5 +1,6 @@
 package com.moxos.uab.business.service;
 
+import com.moxos.uab.common.enums.SearchPoliticas;
 import com.moxos.uab.domain.dto.request.politicasdesarrollo.PoliticasDesarrolloRequest;
 import com.moxos.uab.domain.dto.response.GeneralResponse;
 import com.moxos.uab.domain.dto.response.Response;
@@ -9,9 +10,7 @@ import com.moxos.uab.domain.dto.response.view.ListView;
 import java.util.List;
 
 public interface IPoliticasDesarrolloService {
-    GeneralResponse savePoliticasDesarrollo(PoliticasDesarrolloRequest pd);
-
-    GeneralResponse updatePoliticasDesarrollo(PoliticasDesarrolloRequest pd);
+    Response<PoliticasDesarrolloResponse> savePoliticasDesarrollo(PoliticasDesarrolloRequest pd);
 
     GeneralResponse deletePoliticasDesarrollo(PoliticasDesarrolloRequest pd);
 
@@ -19,5 +18,11 @@ public interface IPoliticasDesarrolloService {
 
     Response<List<ListView>> listPoliticasDesarrollo();
 
+    Response<List<ListView>> listPoliticasDesarrolloPorArea(Integer idAreaEstrategica);
+
     Response<PoliticasDesarrolloRequest> getByid(int id_politica_desarrollo);
+
+    Response<List<PoliticasDesarrolloResponse>> listarPoliticasDesarrolloByTipo(String buscar, SearchPoliticas searchAreas, int pagina, int nroPagina);
+
+    Response<Integer> getCantidadByTipo(String buscar, SearchPoliticas searchAreas);
 }

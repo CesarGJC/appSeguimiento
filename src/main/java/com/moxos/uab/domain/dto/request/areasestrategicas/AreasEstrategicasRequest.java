@@ -6,9 +6,12 @@ import lombok.Data;
 
 @Data
 public class AreasEstrategicasRequest {
-    private int id_area_estrategica;
+    private int id_area_estrategica = 0;
     @NotNull(message = "Debe la descripcion del area estrategica")
     @NotBlank(message = "Debe la descripcion del area estrategica")
     private String area_estrategica;
-    private int ult_usuario;
+    @NotNull(message = "Debe ingresar la gestion del area estrategica segun el PEI")
+    @NotBlank(message = "Debe ingresar la gestion del area estrategica segun el PEI")
+    private String gestion;
+    private Integer ult_usuario;
 }

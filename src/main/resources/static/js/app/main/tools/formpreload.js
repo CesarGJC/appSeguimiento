@@ -4,7 +4,7 @@ loader.setAttribute("id", "loader");
 document.querySelector('main').insertAdjacentElement("afterend", loader);
 let loadercontent = new Loader(loader, {
     textAction: 'Enviando...',
-    UrlImage: '/jefatura/static/image/logominiatura.png'
+    UrlImage: '/seguimiento/static/image/logominiatura.png'
 });
 document.querySelectorAll('a.enlace').forEach(function (enlace){
     enlace.addEventListener("click", function(event) {

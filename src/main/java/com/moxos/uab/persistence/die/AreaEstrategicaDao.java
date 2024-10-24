@@ -8,9 +8,7 @@ import java.util.List;
 
 @Mapper
 public interface AreaEstrategicaDao {
-    void saveAreaEstrategica(AreaEstrategica areaEstrategica) throws DataAccessException;
-
-    void updateAreaEstrategica(AreaEstrategica areaEstrategica) throws DataAccessException;
+    Integer saveAreaEstrategica(AreaEstrategica areaEstrategica) throws DataAccessException;
 
     void deleteAreaEstrategica(AreaEstrategica areaEstrategica) throws DataAccessException;
 
@@ -18,5 +16,15 @@ public interface AreaEstrategicaDao {
 
     List<AreaEstrategica> getAllAreaEstrategica() throws DataAccessException;
 
+    List<AreaEstrategica> getAllAreaEstrategicaPorGestion(String gestion) throws DataAccessException;
+
     AreaEstrategica getByid(int id_area_estrategica) throws DataAccessException;
+
+    List<AreaEstrategica> getAreasEstrategicasByArea(AreaEstrategica areaEstrategica) throws DataAccessException;
+
+    Integer getCantidadAreasEstrategicasByArea(AreaEstrategica areaEstrategica) throws DataAccessException;
+
+    List<AreaEstrategica> getAreasEstrategicasByGestion(AreaEstrategica areaEstrategica) throws DataAccessException;
+
+    Integer getCantidadAreasEstrategicasByGestion(AreaEstrategica areaEstrategica) throws DataAccessException;
 }

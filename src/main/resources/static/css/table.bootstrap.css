@@ -1,0 +1,89 @@
+.table-main-container {
+    position: relative;
+}
+.table-main-container div.table-title {
+    margin-top: 30px;
+    position: relative;
+    text-align: left;
+    background-color: #305496;
+    padding-left: 10px;
+    font-family: "Segoe UI Semilight", "Open Sans", Verdana, Arial, Helvetica,
+    sans-serif;
+    font-weight: 300;
+    font-size: 19px;
+    line-height: 34px;
+    color: #fff;
+}
+.table-column-header thead th {
+    vertical-align: middle;
+    text-align: left;
+    background-color: #305496;
+    border-top: 1px solid #898383;
+    cursor: pointer;
+    color: #fff;
+}
+.table-column-header thead th:hover {
+    background: linear-gradient(
+        to top,
+#506794,
+#31579e
+); /* Cambiar a un degradado de naranja al pasar el ratón */
+    cursor: pointer; /* Cambiar el cursor a una mano */
+}
+.table-column-header .resizable {
+    position: relative;
+}
+.table-column-header .resizable:after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 5px;
+    height: 100%;
+    cursor: col-resize;
+    background-color: transparent;
+}
+.table-column-header .column-header-text {
+    margin-top: 2px;
+    display: inline-block;
+}
+.column-header-sortable {
+    background: url("../image/column-sortable.png") no-repeat right;
+}
+.column-header-sorted-asc {
+    background: url("../image/column-asc.png") no-repeat right;
+}
+.column-header-sorted-desc {
+    background: url("../image/column-desc.png") no-repeat right;
+}
+.fade-in-tr {
+    opacity: 0;
+    transition: opacity 1s ease-in;
+}
+.fade-in-tr.visible {
+    opacity: 1;
+}
+@keyframes highlight {
+    from {
+        background-color: #a7ec7f;
+    }
+    to {
+        background-color: white;
+    }
+}
+
+.highlight-row {
+    animation: highlight 1s forwards; /* Cambia 1s por el tiempo que desees para la animación */
+}
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
+
+.fade-out {
+    animation: fadeOut 0.5s forwards; /* 0.5s es el tiempo de la animación */
+}

@@ -1,20 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.moxos.uab.persistence.die.PoliticasDesarrolloDao">
-    <insert id="savePoliticasDesarrollo">
-        INSERT INTO public.tpoliticas_desarrollo(id_area_estrategica, politica_desarrollo, id_estado, fec_registro, fec_modificacion, ult_usuario)
-        VALUES (#{id_area_estrategica}, #{politica_desarrollo}, #{id_estado}, #{fec_registro}, #{fec_modificacion}, #{ult_usuario});
-    </insert>
-    <update id="updatePoliticasDesarrollo">
-        UPDATE public.tpoliticas_desarrollo
-        SET id_area_estrategica=#{id_area_estrategica},
-            politica_desarrollo=#{politica_desarrollo},
-            id_estado=#{id_estado},
-            fec_registro=#{fec_registro},
-            fec_modificacion=#{fec_modificacion},
-            ult_usuario=#{ult_usuario}
-        WHERE id_politica_desarrollo=#{id_politica_desarrollo};
-    </update>
+    <select id="savePoliticasDesarrollo" resultType="java.lang.Integer">
+        select * from create_politicas_desarrollo(#{id_politica_desarrollo}, #{id_area_estrategica},  #{politica_desarrollo}, #{ult_usuario});
+    </select>
     <update id="deletePoliticasDesarrollo">
         UPDATE public.tpoliticas_desarrollo
         SET id_estado='X'
@@ -23,16 +12,51 @@
     <select id="selectPoliticasDesarrollo" resultType="com.moxos.uab.domain.entity.die.PoliticasDesarrollo">
         SELECT id_politica_desarrollo, id_area_estrategica, politica_desarrollo, id_estado, fec_registro, fec_modificacion, ult_usuario
         FROM public.tpoliticas_desarrollo
-        WHERE id_politica_desarrollo=#{id_politica_desarrollo} and id_estado='X';
+        WHERE id_politica_desarrollo=#{id_politica_desarrollo} and id_estado='A';
     </select>
     <select id="getByid" resultType="com.moxos.uab.domain.entity.die.PoliticasDesarrollo">
-        SELECT id_politica_desarrollo, id_area_estrategica, politica_desarrollo, id_estado, fec_registro, fec_modificacion, ult_usuario
-        FROM public.tpoliticas_desarrollo
+        SELECT id_politica_desarrollo, te.id_area_estrategica,te.area_estrategica , politica_desarrollo, td.id_estado, td.fec_registro, td.fec_modificacion, td.ult_usuario
+        FROM tpoliticas_desarrollo td
+                 INNER JOIN public.tareas_estrategia te ON td.id_area_estrategica=te.id_area_estrategica
         WHERE id_politica_desarrollo=#{id_politica_desarrollo} limit 1;
     </select>
     <select id="getAllPoliticasDesarrollo" resultType="com.moxos.uab.domain.entity.die.PoliticasDesarrollo">
         SELECT id_politica_desarrollo, id_area_estrategica, politica_desarrollo, id_estado, fec_registro, fec_modificacion, ult_usuario
         FROM public.tpoliticas_desarrollo
-        WHERE id_politica_desarrollo=#{id_politica_desarrollo} and id_estado='X';
+        WHERE id_politica_desarrollo=#{id_politica_desarrollo} and id_estado='A';
+    </select>
+    <select id="getPoliticasDesarrolloByArea" resultType="com.moxos.uab.domain.entity.die.PoliticasDesarrollo">
+        SELECT id_politica_desarrollo,te.area_estrategica , politica_desarrollo
+        FROM public.tpoliticas_desarrollo td
+                 INNER JOIN public.tareas_estrategia te ON td.id_area_estrategica=te.id_area_estrategica
+        WHERE td.id_estado='A' AND upper(te.area_estrategica) like ${buscar}
+        ORDER BY te.area_estrategica
+            LIMIT ${pagina} OFFSET ${nro_pagina};
+    </select>
+    <select id="getCantidadPoliticasDesarrolloByArea" resultType="java.lang.Integer">
+        SELECT COUNT(id_politica_desarrollo)
+        FROM public.tpoliticas_desarrollo td
+                 INNER JOIN public.tareas_estrategia te ON td.id_area_estrategica=te.id_area_estrategica
+        WHERE td.id_estado='A' AND upper(te.area_estrategica) like ${buscar}
+    </select>
+    <select id="getPoliticasDesarrolloByPolitica" resultType="com.moxos.uab.domain.entity.die.PoliticasDesarrollo">
+        SELECT id_politica_desarrollo,te.area_estrategica , politica_desarrollo
+        FROM public.tpoliticas_desarrollo td
+                 INNER JOIN public.tareas_estrategia te ON td.id_area_estrategica=te.id_area_estrategica
+        WHERE td.id_estado='A' AND upper(politica_desarrollo) like ${buscar}
+        ORDER BY te.area_estrategica
+            LIMIT ${pagina} OFFSET ${nro_pagina};
+    </select>
+    <select id="getCantidadPoliticasDesarrolloByPolitica" resultType="java.lang.Integer">
+        SELECT COUNT(id_politica_desarrollo)
+        FROM public.tpoliticas_desarrollo td
+                 INNER JOIN public.tareas_estrategia te ON td.id_area_estrategica=te.id_area_estrategica
+        WHERE td.id_estado='A'AND upper(politica_desarrollo) like ${buscar}
+    </select>
+    <select id="getAllPoliticasDesarrolloPorArea" resultType="com.moxos.uab.domain.entity.die.PoliticasDesarrollo">
+        SELECT id_politica_desarrollo,politica_desarrollo
+        FROM public.tpoliticas_desarrollo
+        WHERE id_estado='A' AND id_area_estrategica=#{id_area_estrategica}
+
     </select>
 </mapper>
