@@ -105,5 +105,9 @@
         WHERE td.id_estado = 'A'
           AND upper(tae.area_estrategica) LIKE upper(#{buscar})
     </select>
-
+    <select id="getAllIndicadoresEstrategicosPorPolitica" resultType="com.moxos.uab.domain.entity.die.IndicadoresEstrategicos">
+        SELECT id_indicador_estrategico,indicador_estrategico
+        FROM public.tindicadores_estrategicos
+        WHERE id_estado='A' AND id_politica_desarrollo=#{id_politica_desarrollo}
+    </select>
 </mapper>

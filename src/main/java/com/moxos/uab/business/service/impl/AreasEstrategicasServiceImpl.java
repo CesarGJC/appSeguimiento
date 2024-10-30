@@ -64,7 +64,6 @@ public class AreasEstrategicasServiceImpl implements IAreasEstrategicasService {
             List<ListView> listViews = new ArrayList<>();
             for (var item : areaEstrategicaDao.getAllAreaEstrategicaPorGestion(gestion))
                 listViews.add(new ListView(String.valueOf(item.getId_area_estrategica()), item.getArea_estrategica()));
-
             return new Response<>(true, "", listViews);
         } catch (Exception e) {
             return new Response<>(false, e.getMessage(), null);

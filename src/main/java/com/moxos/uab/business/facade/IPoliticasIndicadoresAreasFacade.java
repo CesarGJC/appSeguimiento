@@ -1,6 +1,7 @@
 package com.moxos.uab.business.facade;
 
 import com.moxos.uab.domain.dto.request.areasestrategicas.AreasEstrategicasRequest;
+import com.moxos.uab.domain.dto.request.catalogoindicadores.CatalogoIndicadoresRequest;
 import com.moxos.uab.domain.dto.request.general.IndexViewModelFilter;
 import com.moxos.uab.domain.dto.request.general.ParametrosPaginacionBusquedaRequest;
 import com.moxos.uab.domain.dto.request.indicadoresestrategicos.IndicadoresEstrategicosRequest;
@@ -8,9 +9,11 @@ import com.moxos.uab.domain.dto.request.politicasdesarrollo.PoliticasDesarrolloR
 import com.moxos.uab.domain.dto.response.GeneralResponse;
 import com.moxos.uab.domain.dto.response.Response;
 import com.moxos.uab.domain.dto.response.areasestrategicas.AreaEstrategicaResponse;
+import com.moxos.uab.domain.dto.response.catalogoindicadores.CatalogoIndicadoresResponse;
 import com.moxos.uab.domain.dto.response.indicadoresestrategicos.IndicadoresEstrategicosResponse;
 import com.moxos.uab.domain.dto.response.politicasdesarrollo.PoliticasDesarrolloResponse;
 import com.moxos.uab.domain.dto.response.view.ListView;
+import com.moxos.uab.domain.entity.die.CatalogoIndicadores;
 
 import java.util.List;
 
@@ -33,7 +36,9 @@ public interface IPoliticasIndicadoresAreasFacade {
 
     List<ListView> getPoliticasDesarrollo(int idAreaEstrategica);
 
-    List<ListView> getIndicadoresEstrategicos();
+    List<ListView> getIndicadoresEstrategicos(int idPoliticaDesarrollo);
+
+    List<ListView> getCatalogoIndicadores(int idIndicadorEstrategico);
 
     Response<PoliticasDesarrolloResponse> savePoliticasDesarrollo(PoliticasDesarrolloRequest model);
 
@@ -47,5 +52,11 @@ public interface IPoliticasIndicadoresAreasFacade {
 
     GeneralResponse deleteIndicadoresEstrategicos(IndicadoresEstrategicosRequest model);
 
+    IndexViewModelFilter<CatalogoIndicadoresResponse, Integer> getCatalogosIndicadores(ParametrosPaginacionBusquedaRequest<Integer> busqueda);
 
+    CatalogoIndicadoresRequest getCatalogoIndicadoresModel(int idCatalogoIndicadores);
+
+    Response<CatalogoIndicadoresResponse> saveCatalogoIndicadores(CatalogoIndicadoresRequest model);
+
+    GeneralResponse deleteCatalogoIndicadores(CatalogoIndicadoresRequest model);
 }

@@ -11,13 +11,16 @@ import com.moxos.uab.domain.dto.response.view.ListView;
 import java.util.List;
 
 public interface IIndicadoresEstrategicosService {
+
     Response<IndicadoresEstrategicosResponse> saveIndicadoresEstrategicos(IndicadoresEstrategicosRequest indicadoresEstrategicos);
 
     GeneralResponse deleteIndicadoresEstrategicos(IndicadoresEstrategicosRequest indicadoresEstrategicos);
 
     Response<List<IndicadoresEstrategicosResponse>> selectIndicadoresEstrategicos() ;
 
-    Response<List<ListView>> listIndicadoresEstrategicos(); ;
+    Response<List<ListView>> listIndicadoresEstrategicos();
+
+    Response<List<ListView>> listIndicadoresEstrategicosPorPolitica(Integer idPoliticaDesarrollo);
 
     Response<IndicadoresEstrategicosRequest> getById(int id_indicador_estrategico) ;
 

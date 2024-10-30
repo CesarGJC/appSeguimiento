@@ -57,6 +57,10 @@
         SELECT id_politica_desarrollo,politica_desarrollo
         FROM public.tpoliticas_desarrollo
         WHERE id_estado='A' AND id_area_estrategica=#{id_area_estrategica}
-
+    </select>
+    <select id="getAllPoliticasDesarrolloA" resultType="com.moxos.uab.domain.entity.die.PoliticasDesarrollo">
+        SELECT id_politica_desarrollo,politica_desarrollo
+        FROM public.tpoliticas_desarrollo
+        WHERE id_estado='A'
     </select>
 </mapper>

@@ -69,18 +69,19 @@ public class IndicadoresEstrategicosServiceImpl implements IIndicadoresEstrategi
         }
     }
 
-//    @Override
-//    public Response<List<ListView>> listIndicadoresEstrategicosPorPolitica(Integer idPoliticaDesarrollo) {
-//        try{
-//            List<ListView> listViews=new ArrayList<>();
-//            for (var item:politicasDesarrolloDao.getAllPoliticasDesarrolloPorArea(idAreaEstrategica))
-//                listViews.add(new ListView(String.valueOf(item.getId_politica_desarrollo()), item.getPolitica_desarrollo()));
-//            return new Response<>(true,"",listViews);
-//        }catch (Exception e){
-//            return new Response<>(false,e.getMessage(),null);
-//        }
-//    }
-//    @Override
+    @Override
+    public Response<List<ListView>> listIndicadoresEstrategicosPorPolitica(Integer idPoliticaDesarrollo) {
+        try{
+            List<ListView> listViews=new ArrayList<>();
+            for (var item:indicadoresEstrategicosDao.getAllIndicadoresEstrategicosPorPolitica(idPoliticaDesarrollo))
+                listViews.add(new ListView(String.valueOf(item.getId_indicador_estrategico()), item.getIndicador_estrategico()));
+            return new Response<>(true,"",listViews);
+        }catch (Exception e){
+            return new Response<>(false,e.getMessage(),null);
+        }
+    }
+
+    @Override
     public Response<IndicadoresEstrategicosRequest> getById(int id_indicador_estrategico) {
         try{
             IndicadoresEstrategicosRequest indicadoresEstrategicos = modelMapper.map(indicadoresEstrategicosDao.getById(id_indicador_estrategico),IndicadoresEstrategicosRequest.class);

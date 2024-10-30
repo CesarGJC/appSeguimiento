@@ -1,6 +1,5 @@
 package com.moxos.uab.persistence.die;
 
-import com.moxos.uab.domain.entity.die.AreaEstrategica;
 import com.moxos.uab.domain.entity.die.PoliticasDesarrollo;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.dao.DataAccessException;
@@ -27,5 +26,9 @@ public interface PoliticasDesarrolloDao {
     Integer getCantidadPoliticasDesarrolloByPolitica(PoliticasDesarrollo politicasDesarrollo) throws DataAccessException;
 
     List<PoliticasDesarrollo> getAllPoliticasDesarrolloPorArea(Integer id_area_estrategica);
+
+    List<PoliticasDesarrollo> getAllPoliticasDesarrolloA() throws DataAccessException;
+
+
 }
 

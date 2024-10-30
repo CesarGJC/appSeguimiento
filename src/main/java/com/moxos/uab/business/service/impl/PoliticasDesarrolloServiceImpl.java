@@ -132,4 +132,16 @@ public class PoliticasDesarrolloServiceImpl implements IPoliticasDesarrolloServi
             return new Response<>(false, e.getMessage(), null);
         }
     }
+
+    @Override
+    public Response<List<ListView>> getAllPoliticasDesarrolloA() {
+        try{
+            List<ListView> listViews=new ArrayList<>();
+            for (var item:politicasDesarrolloDao.getAllPoliticasDesarrolloA())
+                listViews.add(new ListView(String.valueOf(item.getId_politica_desarrollo()), item.getPolitica_desarrollo()));
+            return new Response<>(true,"",listViews);
+        }catch (Exception e){
+            return new Response<>(false,e.getMessage(),null);
+        }
+    }
 }

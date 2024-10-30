@@ -93,7 +93,7 @@ public class IndicadoresEstrategicosController {
         model.setId_area_estrategica(-1);
         model.setAreasEstrategicas(politicasIndicadoresAreasFacade.getAreasEstrategicas());
         model.setId_politica_desarrollo(-1);
-        model.setPoliticasDesarrollo(politicasIndicadoresAreasFacade.getPoliticasDesarrollo(model.getId_area_estrategica()));
+        model.setPoliticasDesarrollo(politicasIndicadoresAreasFacade.getPoliticasDesarrollo(model.getId_area_estrategica()));;
         modelo.addAttribute("model", model);
         return "IndicadoresEstrategicos/_New";
     }

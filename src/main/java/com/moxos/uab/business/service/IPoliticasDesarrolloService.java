@@ -27,5 +27,5 @@ public interface IPoliticasDesarrolloService {
 
     Response<Integer> getCantidadByTipo(String buscar, SearchPoliticas searchAreas);
 
-
+    Response<List<ListView>>getAllPoliticasDesarrolloA();
 }
