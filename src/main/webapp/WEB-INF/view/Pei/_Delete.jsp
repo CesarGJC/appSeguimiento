@@ -11,12 +11,12 @@
 </div>
 <div class="row">
     <div class="col-md mb-3 mt-3">
-        <form:form data-form="true" method="post" modelAttribute="model"  action="${pageContext.request.contextPath}/areas-estrategicas/delete">
-            <form:hidden path="id_area_estrategica"/>
+        <form:form data-form="true" method="post" modelAttribute="model"  action="${pageContext.request.contextPath}/pei/delete">
+            <form:hidden path="id_plan_pei"/>
             <div class="row">
-                <label class="control-label col-md-3">Area estrategica</label>
+                <label class="control-label col-md-3">Plan Pie</label>
                 <div class="col-md-9">
-                    <c:out value="${model.area_estrategica}"/>
+                    <c:out value="${model.descripcion}"/>
                 </div>
             </div>
             <div class="row">
@@ -24,12 +24,7 @@
                 <div class="col-md-9">
                     <c:out value="${model.gestion}"/>
                 </div>
-            </div> <div class="row">
-            <label class="control-label col-md-3">Codigo</label>
-            <div class="col-md-9">
-                <c:out value="${model.codigo}"/>
             </div>
-        </div>
         </form:form>
     </div>
 </div>

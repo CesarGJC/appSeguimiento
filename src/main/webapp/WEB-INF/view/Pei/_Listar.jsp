@@ -9,13 +9,10 @@
             <thead>
             <tr>
                 <th data-resize="true" data-filter="true"
-                    data-type="text" data-row-sort="0">DESCRIPCION
+                    data-type="text" data-row-sort="0">GESTION
                 </th>
                 <th data-resize="true" data-filter="true"
-                    data-type="text" data-row-sort="1">GESTION
-                </th>
-                <th data-resize="true" data-filter="true"
-                    data-type="text" data-row-sort="2">CODIGO
+                    data-type="text" data-row-sort="1">DESCRIPCION
                 </th>
                 <th></th>
             </tr>
@@ -23,24 +20,23 @@
             <tbody>
             <c:forEach items="${model.lista}" var="item">
                 <tr>
-                    <td data-label="DESCRIPCION">${item.area_estrategica}</td>
                     <td data-label="GESTION">${item.gestion}</td>
-                    <td data-label="CODIGO">${item.codigo}</td>
-                    <td data-label="OPERACION" id="td${item.id_area_estrategica}">
+                    <td data-label="DESCRIPCION">${item.descripcion}</td>
+                    <td data-label="OPERACION" id="td${item.id_plan_pei}">
                         <div class="dropdown">
                             <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton1"
                                     data-bs-toggle="dropdown" aria-expanded="false">
                             </button>
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                                 <li><a data-update="true"
-                                       data-atributes='"id_area_estrategica": ${item.id_area_estrategica}'
-                                       data-id="${item.id_area_estrategica}"
+                                       data-atributes='"id_plan_pei": ${item.id_plan_pei}'
+                                       data-id="${item.id_plan_pei}"
                                        href="#"
                                        class="dropdown-item">Modificar</a></li>
                                 <li>
                                     <a class="dropdown-item" data-delete="true"
-                                       data-atributes='"id_area_estrategica": ${item.id_area_estrategica}'
-                                       data-id="${item.id_area_estrategica}"
+                                       data-atributes='"id_plan_pei": ${item.id_plan_pei}'
+                                       data-id="${item.id_plan_pei}"
                                        href="#">Eliminar</a>
                                 </li>
                             </ul>
@@ -54,7 +50,7 @@
 </div>
 <div class="row">
     <div class="col-xl-2">
-        <select class="form-select" id="mostrar" name="mostrar" onchange="cargarElementoAreas(1)">
+        <select class="form-select" id="mostrar" name="mostrar" onchange="cargarElementoPei(1)">
             <c:forEach items="${model.mostrarElementos}" var="item">
                 <option value="${item.id}" <c:if
                         test="${item.id eq model.mostrar}"> selected </c:if>>${item.value}</option>
@@ -67,31 +63,31 @@
                 <c:choose>
                     <c:when test="${model.paginaActual == 1}">
                         <li class="page-item disabled">
-                            <a class="page-link" href="javascript:cargarElementoAreas(1);">Anterior</a>
+                            <a class="page-link" href="javascript:cargarElementoPei(1);">Anterior</a>
                         </li>
                     </c:when>
                     <c:otherwise>
                         <li class="page-item disabled">
                             <a class="page-link"
-                               href="javascript:cargarElementoAreas(${model.paginaActual-1});">Anterior</a>
+                               href="javascript:cargarElementoPei(${model.paginaActual-1});">Anterior</a>
                         </li>
                     </c:otherwise>
                 </c:choose>
                 <c:choose>
                     <c:when test="${model.paginaActual == cantidadpaginas}">
                         <li class="page-item disabled">
-                            <a class="page-link" href="javascript:cargarElementoAreas(${cantidadpaginas});">Siguiente</a>
+                            <a class="page-link" href="javascript:cargarElementoPei(${cantidadpaginas});">Siguiente</a>
                         </li>
                     </c:when>
                     <c:otherwise>
                         <li class="page-item disabled">
                             <a class="page-link"
-                               href="javascript:cargarElementoAreas(${model.paginaActual+1});">Siguiente</a>
+                               href="javascript:cargarElementoPei(${model.paginaActual+1});">Siguiente</a>
                         </li>
                     </c:otherwise>
                 </c:choose>
                 <li class="page-item">
-                    <a class="page-link" href="javascript:cargarElementoAreas(1);">Primero</a>
+                    <a class="page-link" href="javascript:cargarElementoPei(1);">Primero</a>
                 </li>
                 <c:set var="inicial" value="1"/>
                 <c:set var="radio" value="3"/>
@@ -113,18 +109,18 @@
                     <c:choose>
                         <c:when test="${i == model.paginaActual}">
                             <li class="page-item active" aria-current="page">
-                                <a class="page-link" href="javascript:cargarElementoAreas(${i});">${i}</a>
+                                <a class="page-link" href="javascript:cargarElementoPei(${i});">${i}</a>
                             </li>
                         </c:when>
                         <c:otherwise>
                             <li class="page-item" aria-current="page">
-                                <a class="page-link" href="javascript:cargarElementoAreas(${i});">${i}</a>
+                                <a class="page-link" href="javascript:cargarElementoPei(${i});">${i}</a>
                             </li>
                         </c:otherwise>
                     </c:choose>
                 </c:forEach>
                 <li class="page-item">
-                    <a class="page-link" href="javascript:cargarElementoAreas(${cantidadpaginas});">Ultimo</a>
+                    <a class="page-link" href="javascript:cargarElementoPei(${cantidadpaginas});">Ultimo</a>
                 </li>
             </ul>
         </nav>

@@ -13,5 +13,8 @@ public class AreasEstrategicasRequest {
     @NotNull(message = "Debe ingresar la gestion del area estrategica segun el PEI")
     @NotBlank(message = "Debe ingresar la gestion del area estrategica segun el PEI")
     private String gestion;
+    @NotNull(message = "Debe ingresar el Codigo del area estrategica segun el PEI")
+    @NotBlank(message = "Debe ingresar el Codigo del area estrategica segun el PEI")
+    private String codigo;
     private Integer ult_usuario;
 }

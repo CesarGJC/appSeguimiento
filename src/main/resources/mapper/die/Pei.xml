@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.moxos.uab.persistence.die.PeiDao">
+    <select id="savePei" resultType="java.lang.Integer">
+        select *
+        from create_plan_pei(#{gestion},#{descripcion}, #{ult_usuario})
+    </select>
+    <update id="deletePei">
+        UPDATE plan_pei
+        SET id_estado='X'
+        WHERE id_plan_pei=#{id_plan_pei};
+    </update>
+    <select id="getByid" resultType="com.moxos.uab.domain.entity.die.Pei">
+        SELECT id_plan_pei, gestion, descripcion, id_estado
+        FROM plan_pei
+        WHERE id_plan_pei=#{id_plan_pei} limit 1;
+    </select>
+    <select id="getAllPei" resultType="com.moxos.uab.domain.entity.die.Pei">
+        SELECT id_plan_pei, gestion, descripcion, id_estado
+        FROM plan_pei
+        WHERE id_plan_pei=#{id_plan_pei} and id_estado='A';
+    </select>
+    <select id="getPeiByPei" resultType="com.moxos.uab.domain.entity.die.Pei">
+        SELECT id_plan_pei, gestion, descripcion, id_estado
+        FROM plan_pei
+        where  upper(descripcion) like ${buscar} and id_estado='A'
+        ORDER BY descripcion
+            LIMIT ${pagina} OFFSET ${nro_pagina};
+    </select>
+    <select id="getCantidadPeiByPei" resultType="java.lang.Integer">
+        SELECT id_plan_pei, gestion, descripcion, id_estado
+        FROM plan_pei
+        where  upper(descripcion) like ${buscar} and id_estado='A'
+    </select>
+    <select id="getPeiByGestion" resultType="com.moxos.uab.domain.entity.die.Pei">
+        SELECT id_plan_pei, gestion, descripcion, id_estado
+        FROM plan_pei
+        where  upper(gestion) like ${buscar} and id_estado='A'
+        ORDER BY gestion
+            LIMIT ${pagina} OFFSET ${nro_pagina};
+    </select>
+    <select id="getCantidadPeiByGestion" resultType="java.lang.Integer">
+        SELECT id_plan_pei, gestion, descripcion, id_estado
+        FROM plan_pei
+        where  upper(gestion) like ${buscar} and id_estado='A'
+    </select>
+    <select id="getAllPeiByGestion" resultType="com.moxos.uab.domain.entity.die.Pei">
+        SELECT id_plan_pei, gestion, descripcion, id_estado
+        FROM plan_pei
+        WHERE gestion=#{gestion} and id_estado='A';
+    </select>
+</mapper>

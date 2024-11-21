@@ -18,6 +18,8 @@ public interface AreaEstrategicaDao {
 
     List<AreaEstrategica> getAllAreaEstrategicaPorGestion(String gestion) throws DataAccessException;
 
+    List<AreaEstrategica> getAllAreaEstrategicaPorCodigo(String codigo) throws DataAccessException;
+
     AreaEstrategica getByid(int id_area_estrategica) throws DataAccessException;
 
     List<AreaEstrategica> getAreasEstrategicasByArea(AreaEstrategica areaEstrategica) throws DataAccessException;
@@ -27,4 +29,8 @@ public interface AreaEstrategicaDao {
     List<AreaEstrategica> getAreasEstrategicasByGestion(AreaEstrategica areaEstrategica) throws DataAccessException;
 
     Integer getCantidadAreasEstrategicasByGestion(AreaEstrategica areaEstrategica) throws DataAccessException;
+
+    List<AreaEstrategica> getAreasEstrategicasByCodigo(AreaEstrategica areaEstrategica) throws DataAccessException;
+
+    Integer getCantidadAreasEstrategicasByCodigo(AreaEstrategica areaEstrategica) throws DataAccessException;
 }

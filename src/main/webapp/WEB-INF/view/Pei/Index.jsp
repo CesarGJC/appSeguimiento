@@ -7,24 +7,25 @@
 <html lang="es">
 <head>
     <%@ include file="../_css.jsp" %>
+    <link href="<c:url value="/static/css/table.bootstrap.css?v=6" />" rel="stylesheet">
 </head>
 <body class="app sidebar-mini">
 <main class="app-content3">
     <div class="app-title">
         <div>
-            <h1><i class="fa fa-th-list"></i> Detalle de Catalogo Indicadores</h1>
+            <h1><i class="fa fa-th-list"></i> Detalle de los Planes Pei</h1>
         </div>
     </div>
     <div class="row">
         <div class="col-sm-12">
             <div class="tile border border-primary">
                 <div class="tile-title-w-btn">
-                    <h3 class="title">Catalogo Indiadores</h3>
+                    <h3 class="title">Planes Pei</h3>
 
                 </div>
                 <div class="tile-body">
                     <button id="addButton" type="button"
-                            data-atributes='"id_catalogo_indicador": 0'></button>
+                            data-atributes='"id_plan_pei": 0'></button>
                     <div class="row d-flex flex-row-reverse mb-3">
 
                         <div class="col-md-4">
@@ -35,7 +36,7 @@
                                        type="search" placeholder="Buscar.."
                                        aria-describedby="btnBuscar">
                                 <button class="btn btn-primary border-start-0 border-bottom-0 border ms-n5"
-                                        type="button" onclick="cargarElementoCatalogos(${model.pagina})"><i
+                                        type="button" onclick="cargarElementoPei(${model.pagina})"><i
                                         class="fa fa-search"></i>
                                 </button>
                             </div>
@@ -52,12 +53,12 @@
                     </div>
                     <div class="row">
                         <div id="table-container" data-toolbar="true" data-add="true"
-                             data-url-add="${pageContext.request.contextPath}/catalogo-indicadores/new"
-                             data-url-data="${pageContext.request.contextPath}/catalogo-indicadores/listar-filtrar"
-                             data-url-update="${pageContext.request.contextPath}/catalogo-indicadores/update"
-                             data-url-delete="${pageContext.request.contextPath}/catalogo-indicadores/delete"
+                             data-url-add="${pageContext.request.contextPath}/pei/new"
+                             data-url-data="${pageContext.request.contextPath}/pei/listar-filtrar"
+                             data-url-update="${pageContext.request.contextPath}/pei/update"
+                             data-url-delete="${pageContext.request.contextPath}/pei/delete"
                              class="table-main-container col-xl">
-                            <jsp:include page="${request.contextPath}/catalogo-indicadores/listar">
+                            <jsp:include page="${request.contextPath}/pei/listar">
                                 <jsp:param name="pagina" value="${model.pagina}"/>
                                 <jsp:param name="mostrar" value="${model.mostrar}"/>
                                 <jsp:param name="option" value="${model.option}"/>
@@ -84,14 +85,14 @@
 <script>
     let comboboxArea;
     let table = new TableBoostrap(document.getElementById('table-container'), {
-        title: "Lista de Indicadores Estrategicos",
+        title: "Lista de los Planes Estrategicos Institucionales",
         add: document.getElementById('addButton'),
         loadContent: () => {
             comboboxArea = new ComboBoxBoostrap('.filter', {});
         }
     });
 
-    function cargarElementoCatalogos(pagina) {
+    function cargarElementoPei(pagina) {
         let params = {
             pagina: pagina,
             mostrar: document.getElementById("mostrar").value,
@@ -103,7 +104,7 @@
 
     function filtrarResultados(pagina) {
         if (event.keyCode === 13) {
-            cargarElementoAreas(pagina);
+            cargarElementoPei(pagina);
         }
     }
 

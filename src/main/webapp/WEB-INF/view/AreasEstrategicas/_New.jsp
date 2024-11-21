@@ -16,4 +16,9 @@
         <form:input path="gestion" cssClass="form-control"/>
         <form:errors cssClass="invalid" path="gestion"/>
     </div>
+    <div class="mb-3">
+        <label class="form-label" for="codigo">Codigo</label>
+        <form:input path="codigo" cssClass="form-control"/>
+        <form:errors cssClass="invalid" path="codigo"/>
+    </div>
 </form:form>

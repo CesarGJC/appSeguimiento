@@ -43,6 +43,7 @@ public class AreasEstrategicasController {
         List<SelectListItemDto> opcionesElementos = new ArrayList<>();
         opcionesElementos.add(new SelectListItemDto("0", "DESCRIPCION"));
         opcionesElementos.add(new SelectListItemDto("1", "GESTION"));
+        opcionesElementos.add(new SelectListItemDto("2", "CODIGO"));
         modelo.addAttribute("opciones", opcionesElementos);
         modelo.addAttribute("model", model);
         return "AreasEstrategicas/Index";

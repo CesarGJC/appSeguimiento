@@ -9,6 +9,8 @@ import com.moxos.uab.domain.dto.response.indicadoresestrategicos.IndicadoresEstr
 import com.moxos.uab.domain.dto.response.view.ListView;
 import com.moxos.uab.domain.entity.die.IndicadoresEstrategicos;
 import com.moxos.uab.persistence.die.IndicadoresEstrategicosDao;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +20,7 @@ import java.util.List;
 public class IndicadoresEstrategicosServiceImpl implements IIndicadoresEstrategicosService {
     private ModelMapper modelMapper;
     private final IndicadoresEstrategicosDao indicadoresEstrategicosDao;
+    private static final Logger logger = LogManager.getLogger(IndicadoresEstrategicosServiceImpl.class);
 
     public IndicadoresEstrategicosServiceImpl(IndicadoresEstrategicosDao indicadoresEstrategicosDao, ModelMapper modelMapper) {
         this.indicadoresEstrategicosDao = indicadoresEstrategicosDao;
@@ -32,6 +35,7 @@ public class IndicadoresEstrategicosServiceImpl implements IIndicadoresEstrategi
             IndicadoresEstrategicosResponse indicadoresEstrategicosResponse=modelMapper.map(indicadoresEstrategicosDao.getById(id),IndicadoresEstrategicosResponse.class);
             return new Response<>(true,"",indicadoresEstrategicosResponse);
         }catch (Exception e){
+            logger.error(e.getMessage());
             return new Response<>(false,e.getMessage(),null);
         }
     }

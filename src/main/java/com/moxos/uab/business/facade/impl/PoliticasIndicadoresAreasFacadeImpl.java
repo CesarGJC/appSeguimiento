@@ -2,10 +2,7 @@ package com.moxos.uab.business.facade.impl;
 
 import com.moxos.uab.business.facade.IPoliticasIndicadoresAreasFacade;
 import com.moxos.uab.business.service.*;
-import com.moxos.uab.common.enums.SearchAreas;
-import com.moxos.uab.common.enums.SearchCatalogo;
-import com.moxos.uab.common.enums.SearchIndicadores;
-import com.moxos.uab.common.enums.SearchPoliticas;
+import com.moxos.uab.common.enums.*;
 import com.moxos.uab.common.util.RequestUtils;
 import com.moxos.uab.domain.dto.request.areasestrategicas.AreasEstrategicasRequest;
 import com.moxos.uab.domain.dto.request.catalogoindicadores.CatalogoIndicadoresRequest;
@@ -13,6 +10,7 @@ import com.moxos.uab.domain.dto.request.general.IndexViewModelFilter;
 import com.moxos.uab.domain.dto.request.general.ParametrosPaginacionBusquedaRequest;
 import com.moxos.uab.domain.dto.request.general.SelectListItemDto;
 import com.moxos.uab.domain.dto.request.indicadoresestrategicos.IndicadoresEstrategicosRequest;
+import com.moxos.uab.domain.dto.request.pei.PeiRequest;
 import com.moxos.uab.domain.dto.request.politicasdesarrollo.PoliticasDesarrolloRequest;
 import com.moxos.uab.domain.dto.response.GeneralResponse;
 import com.moxos.uab.domain.dto.response.Response;
@@ -20,6 +18,7 @@ import com.moxos.uab.domain.dto.response.areasestrategicas.AreaEstrategicaRespon
 import com.moxos.uab.domain.dto.response.catalogoindicadores.CatalogoIndicadoresResponse;
 import com.moxos.uab.domain.dto.response.configuration.ConfigurationResponse;
 import com.moxos.uab.domain.dto.response.indicadoresestrategicos.IndicadoresEstrategicosResponse;
+import com.moxos.uab.domain.dto.response.pei.PeiResponse;
 import com.moxos.uab.domain.dto.response.politicasdesarrollo.PoliticasDesarrolloResponse;
 import com.moxos.uab.domain.dto.response.view.ListView;
 import org.springframework.stereotype.Service;
@@ -33,13 +32,15 @@ public class PoliticasIndicadoresAreasFacadeImpl implements IPoliticasIndicadore
     private final IConfigurationService configurationService;
     private final IIndicadoresEstrategicosService indicadoresEstrategicosService;
     private final ICatalogoIndicadoresService catalogoIndicadoresService;
+    private final IPeiService peiService;
 
-    public PoliticasIndicadoresAreasFacadeImpl(IAreasEstrategicasService areasEstrategicasService, IPoliticasDesarrolloService politicasDesarrolloService, IConfigurationService configurationService, IIndicadoresEstrategicosService indicadoresEstrategicosService, ICatalogoIndicadoresService catalogoIndicadoresService) {
+    public PoliticasIndicadoresAreasFacadeImpl(IAreasEstrategicasService areasEstrategicasService, IPoliticasDesarrolloService politicasDesarrolloService, IConfigurationService configurationService, IIndicadoresEstrategicosService indicadoresEstrategicosService, ICatalogoIndicadoresService catalogoIndicadoresService, IPeiService peiService) {
         this.areasEstrategicasService = areasEstrategicasService;
         this.politicasDesarrolloService = politicasDesarrolloService;
         this.configurationService = configurationService;
         this.indicadoresEstrategicosService = indicadoresEstrategicosService;
         this.catalogoIndicadoresService = catalogoIndicadoresService;
+        this.peiService = peiService;
     }
 
     @Override
@@ -90,6 +91,61 @@ public class PoliticasIndicadoresAreasFacadeImpl implements IPoliticasIndicadore
     @Override
     public GeneralResponse deleteAreaEstrategica(AreasEstrategicasRequest model) {
         return areasEstrategicasService.deleteAreaEstrategica(model);
+    }
+
+    @Override
+    public IndexViewModelFilter<PeiResponse, Integer> getPei(ParametrosPaginacionBusquedaRequest<Integer> model) {
+        //Clase generica para la paginacion
+        IndexViewModelFilter<PeiResponse, Integer> filtro = new IndexViewModelFilter<>();
+
+        //Lista para mostrar el numero de elementos
+        List<SelectListItemDto> moxstrarelementos = RequestUtils.getCantidadDeElementos();
+
+        //Cantidad a mostrar por pagina
+        int cantidadderegistrosporpagina = model.getMostrar();
+
+        //Mostrar la pagina actual
+        int pagina = (model.getPagina() - 1) * cantidadderegistrosporpagina;
+
+        //Parametro de busqueda en elementos
+        String buscar = model.getBuscar() == null ? "'%%'" : "'%" + model.getBuscar().toUpperCase() + "%'";
+        Object opcion = model.getOption();
+        //Lista elementos a mostrar
+        Response<List<PeiResponse>> designados = peiService.listarPeiByTipo(buscar, SearchPei.values()[Integer.parseInt(opcion.toString())], cantidadderegistrosporpagina, pagina);
+        if (designados.isSuccess()) {
+            Response<Integer> totalregistros = peiService.getCantidadByTipo(buscar, SearchPei.values()[Integer.parseInt(opcion.toString())]);
+            filtro.setTotaldeRegistros(totalregistros.getResult());
+        } else {
+            filtro.setTotaldeRegistros(0);
+        }
+        filtro.setLista(designados.getResult());
+        filtro.setPaginaActual(model.getPagina());
+        filtro.setRegistrosporPagina(cantidadderegistrosporpagina);
+        filtro.setMostrarElementos(moxstrarelementos);
+        filtro.setMostrar(cantidadderegistrosporpagina);
+        filtro.setOpcion(opcion.toString());
+        return filtro;
+    }
+
+    @Override
+    public Response<PeiResponse> savePei(PeiRequest pei) {
+        Response<Integer> result = peiService.savePei(pei);
+        return peiService.getByid(result.getResult());
+    }
+
+    @Override
+    public PeiRequest getPeiModel(int idPei) {
+        return peiService.getByidPei(idPei).getResult();
+    }
+
+    @Override
+    public GeneralResponse deletePei(PeiRequest model) {
+        return peiService.deletePei(model);
+    }
+
+    @Override
+    public List<ListView> getPei() {
+        return List.of();
     }
 
     @Override

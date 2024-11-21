@@ -70,6 +70,8 @@ public class AreasEstrategicasServiceImpl implements IAreasEstrategicasService {
         }
     }
 
+
+
     @Override
     public Response<AreaEstrategicaResponse> getByid(int id_area_estrategica) {
         try {
@@ -95,6 +97,9 @@ public class AreasEstrategicasServiceImpl implements IAreasEstrategicasService {
                 case GESTION:
                     areaEstrategicas = areaEstrategicaDao.getAreasEstrategicasByGestion(areaEstrategica).stream().map(p -> modelMapper.map(p, AreaEstrategicaResponse.class)).toList();
                     break;
+                case CODIGO:
+                    areaEstrategicas = areaEstrategicaDao.getAreasEstrategicasByCodigo(areaEstrategica).stream().map(p -> modelMapper.map(p, AreaEstrategicaResponse.class)).toList();
+                    break;
                 default:
                     break;
             }
@@ -116,6 +121,9 @@ public class AreasEstrategicasServiceImpl implements IAreasEstrategicasService {
                     break;
                 case GESTION:
                     cantidad = areaEstrategicaDao.getCantidadAreasEstrategicasByGestion(areaEstrategica);
+                    break;
+                case CODIGO:
+                    cantidad = areaEstrategicaDao.getCantidadAreasEstrategicasByCodigo(areaEstrategica);
                     break;
                 default:
                     break;
