@@ -12,9 +12,12 @@ public class AreasEstrategicasRequest {
     private String area_estrategica;
     @NotNull(message = "Debe ingresar la gestion del area estrategica segun el PEI")
     @NotBlank(message = "Debe ingresar la gestion del area estrategica segun el PEI")
+    private Integer id_plan_pei;
+    @NotNull(message = "Inserte Mensaje de Validacion")
+    @NotBlank(message = "Inserte Mensaje de Validacion")
     private String gestion;
-    @NotNull(message = "Debe ingresar el Codigo del area estrategica segun el PEI")
-    @NotBlank(message = "Debe ingresar el Codigo del area estrategica segun el PEI")
-    private String codigo;
+    @NotNull(message = "Inserte Mensaje de Validacion")
+    @NotBlank(message = "Inserte Mensaje de Validacion")
+    private String descripcion;
     private Integer ult_usuario;
 }

@@ -3,7 +3,7 @@
 <mapper namespace="com.moxos.uab.persistence.die.PeiDao">
     <select id="savePei" resultType="java.lang.Integer">
         select *
-        from create_plan_pei(#{gestion},#{descripcion}, #{ult_usuario})
+        from create_plan_pei(#{id_plan_pei},#{gestion},#{descripcion}, #{ult_usuario})
     </select>
     <update id="deletePei">
         UPDATE plan_pei
@@ -28,7 +28,7 @@
             LIMIT ${pagina} OFFSET ${nro_pagina};
     </select>
     <select id="getCantidadPeiByPei" resultType="java.lang.Integer">
-        SELECT id_plan_pei, gestion, descripcion, id_estado
+        SELECT count(id_plan_pei)
         FROM plan_pei
         where  upper(descripcion) like ${buscar} and id_estado='A'
     </select>
@@ -40,7 +40,7 @@
             LIMIT ${pagina} OFFSET ${nro_pagina};
     </select>
     <select id="getCantidadPeiByGestion" resultType="java.lang.Integer">
-        SELECT id_plan_pei, gestion, descripcion, id_estado
+        SELECT count(id_plan_pei)
         FROM plan_pei
         where  upper(gestion) like ${buscar} and id_estado='A'
     </select>

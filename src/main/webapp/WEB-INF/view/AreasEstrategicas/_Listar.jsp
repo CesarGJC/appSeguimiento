@@ -12,10 +12,10 @@
                     data-type="text" data-row-sort="0">DESCRIPCION
                 </th>
                 <th data-resize="true" data-filter="true"
-                    data-type="text" data-row-sort="1">GESTION
+                    data-type="text" data-row-sort="1">PLAN PEI
                 </th>
                 <th data-resize="true" data-filter="true"
-                    data-type="text" data-row-sort="2">CODIGO
+                    data-type="text" data-row-sort="2">PLAN PEI
                 </th>
                 <th></th>
             </tr>
@@ -24,8 +24,8 @@
             <c:forEach items="${model.lista}" var="item">
                 <tr>
                     <td data-label="DESCRIPCION">${item.area_estrategica}</td>
-                    <td data-label="GESTION">${item.gestion}</td>
-                    <td data-label="CODIGO">${item.codigo}</td>
+                    <td data-label="PLAN PEI">${item.gestion}</td>
+                    <td data-label="PLAN PEI">${item.codigo}</td>
                     <td data-label="OPERACION" id="td${item.id_area_estrategica}">
                         <div class="dropdown">
                             <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton1"
@@ -43,6 +43,13 @@
                                        data-id="${item.id_area_estrategica}"
                                        href="#">Eliminar</a>
                                 </li>
+                                <li>
+                                    <a data-update="true"
+                                       data-atributes='"id_area_estrategica": ${item.id_area_estrategica}'
+                                       data-id="${item.id_area_estrategica}"
+                                       href="#"
+                                       class="dropdown-item">Periodos de Programacion</a></li>
+                                <li>
                             </ul>
                         </div>
                     </td>

@@ -6,6 +6,7 @@ import lombok.Data;
 public class AreaEstrategicaResponse {
     private int id_area_estrategica;
     private String area_estrategica;
+    private int id_plan_pei;
     private String gestion;
-    private String codigo;
+    private String descripcion;
 }

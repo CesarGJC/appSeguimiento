@@ -15,7 +15,8 @@ public class AreaEstrategica extends Entidad {
     private Date fec_modificacion;
     private int ult_usuario;
     private String id_estado;
+    private Integer id_plan_pei;
     private String gestion;
-    private String codigo;
+    private String descripcion;
     private String buscar;
 }

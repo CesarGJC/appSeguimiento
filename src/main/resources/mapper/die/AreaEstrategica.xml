@@ -3,8 +3,7 @@
 <mapper namespace="com.moxos.uab.persistence.die.AreaEstrategicaDao">
     <select id="saveAreaEstrategica" resultType="java.lang.Integer">
         select *
-        from create_areas_estrategicas(#{id_area_estrategica}, #{area_estrategica}, #{ult_usuario}, #{gestion},
-                                       #{codigo});
+        from create_areas_estrategicas(#{id_area_estrategica}, #{area_estrategica}, #{ult_usuario},{#id_plan_pei});
     </select>
     <update id="deleteAreaEstrategica">
         UPDATE public.tareas_estrategia

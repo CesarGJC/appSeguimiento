@@ -11,18 +11,18 @@
 </div>
 <div class="row">
     <div class="col-md mb-3 mt-3">
-        <form:form data-form="true" method="post" modelAttribute="model"  action="${pageContext.request.contextPath}/pei/delete">
-            <form:hidden path="id_plan_pei"/>
+        <form:form data-form="true" method="post" modelAttribute="model"  action="${pageContext.request.contextPath}/detalle-periodo-programacion/delete">
+            <form:hidden path="id_detalle_periodos_programacion"/>
             <div class="row">
-                <label class="control-label col-md-3">Gestion</label>
+                <label class="control-label col-md-3">DETALLE</label>
                 <div class="col-md-9">
-                    <c:out value="${model.gestion}"/>
+                    <c:out value="${model.descripcion}"/>
                 </div>
             </div>
             <div class="row">
-                <label class="control-label col-md-3">Plan Pie</label>
+                <label class="control-label col-md-3">PLAN PEI</label>
                 <div class="col-md-9">
-                    <c:out value="${model.descripcion}"/>
+                    <c:out value="${model.descripcion_plan}"/>
                 </div>
             </div>
         </form:form>
