@@ -6,6 +6,7 @@ import com.moxos.uab.business.service.impl.DetallePeriodoProgramacionServiceImpl
 import com.moxos.uab.common.enums.*;
 import com.moxos.uab.common.util.RequestUtils;
 import com.moxos.uab.domain.dto.request.DetallePeriodoProgramacion.DetallePeriodoProgramacionRequest;
+import com.moxos.uab.domain.dto.request.DetallePeriodoProgramacion.ParametroPeiRequest;
 import com.moxos.uab.domain.dto.request.areasestrategicas.AreasEstrategicasRequest;
 import com.moxos.uab.domain.dto.request.catalogoindicadores.CatalogoIndicadoresRequest;
 import com.moxos.uab.domain.dto.request.general.IndexViewModelFilter;
@@ -154,7 +155,8 @@ public class PoliticasIndicadoresAreasFacadeImpl implements IPoliticasIndicadore
     }
 
     @Override
-    public IndexViewModelFilter<DetallePeriodoProgramacionResponse, Integer> getDetallePeriodoProgramacion(ParametrosPaginacionBusquedaRequest<Integer> busqueda) {
+    public IndexViewModelFilter<DetallePeriodoProgramacionResponse, Integer> getDetallePeriodoProgramacion(ParametrosPaginacionBusquedaRequest<ParametroPeiRequest> busqueda) {
+
         //Clase generica para la paginacion
         IndexViewModelFilter<DetallePeriodoProgramacionResponse, Integer> filtro = new IndexViewModelFilter<>();
 
@@ -169,11 +171,11 @@ public class PoliticasIndicadoresAreasFacadeImpl implements IPoliticasIndicadore
 
         //Parametro de busqueda en elementos
         String buscar = busqueda.getBuscar() == null ? "'%%'" : "'%" + busqueda.getBuscar().toUpperCase() + "%'";
-        Object opcion = busqueda.getOption();
+        ParametroPeiRequest opcion = busqueda.getOption();
         //Lista elementos a mostrar
-        Response<List<DetallePeriodoProgramacionResponse>> designados = detallePeriodoProgramacionService.listarDetallePeriodoProgramacionByTipo(buscar, SearchDetallePeriodo.values()[Integer.parseInt(opcion.toString())], cantidadderegistrosporpagina, pagina);
+        Response<List<DetallePeriodoProgramacionResponse>> designados = detallePeriodoProgramacionService.listarDetallePeriodoProgramacionByTipo(buscar, SearchDetallePeriodo.values()[opcion.getOpcion()], cantidadderegistrosporpagina, pagina, opcion.getId());
         if (designados.isSuccess()) {
-            Response<Integer> totalregistros = detallePeriodoProgramacionService.getCantidadByTipo(buscar, SearchDetallePeriodo.values()[Integer.parseInt(opcion.toString())]);
+            Response<Integer> totalregistros = detallePeriodoProgramacionService.getCantidadByTipo(buscar, SearchDetallePeriodo.values()[opcion.getOpcion()], opcion.getId());
             filtro.setTotaldeRegistros(totalregistros.getResult());
         } else {
             filtro.setTotaldeRegistros(0);

@@ -21,7 +21,7 @@
       <c:forEach items="${model.lista}" var="item">
         <tr>
           <td data-label="DETALLES PERIODOS DE PROGRAMACION">${item.descripcion}</td>
-          <td data-label="PLAN PEI">${item.descripcion_plan}</td>
+          <td data-label="PLAN PEI">${item.plan_pei}</td>
           <td data-label="ACCION" id="td${item.id_detalle_periodos_programacion}">
             <div class="dropdown">
               <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton1"

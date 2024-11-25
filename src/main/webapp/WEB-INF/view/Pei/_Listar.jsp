@@ -39,6 +39,10 @@
                                        data-id="${item.id_plan_pei}"
                                        href="#">Eliminar</a>
                                 </li>
+                                <li><a
+                                        href="<c:url value="/detalle-periodo-programacion/index/${item.id_plan_pei}"/>"
+                                        class="dropdown-item">Agregar Detalle</a>
+                                </li>
                             </ul>
                         </div>
                     </td>

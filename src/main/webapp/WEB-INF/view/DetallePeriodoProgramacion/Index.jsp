@@ -13,19 +13,19 @@
 <main class="app-content3">
     <div class="app-title">
         <div>
-            <h1><i class="fa fa-th-list"></i> Detalle de Periodos de Programacion</h1>
+            <h1><i class="fa fa-th-list"></i> Plan ${plan.gestion}</h1>
+                    <p> ${plan.descripcion}</p>
         </div>
     </div>
     <div class="row">
         <div class="col-sm-12">
             <div class="tile border border-primary">
                 <div class="tile-title-w-btn">
-                    <h3 class="title">Detalle Periodo Programacion</h3>
-
+                    <h3 class="title">Detalle Periodos</h3>
                 </div>
                 <div class="tile-body">
                     <button id="addButton" type="button"
-                            data-atributes='"id_detalle_periodos_programacion": 0'></button>
+                            data-atributes='"id_plan_pei": ${model.option.id}'></button>
                     <div class="row d-flex flex-row-reverse mb-3">
 
                         <div class="col-md-4">
@@ -36,17 +36,18 @@
                                        type="search" placeholder="Buscar.."
                                        aria-describedby="btnBuscar">
                                 <button class="btn btn-primary border-start-0 border-bottom-0 border ms-n5"
-                                        type="button" onclick="cargarElementoDetallePeriodoProgramacion(${model.pagina})"><i
+                                        type="button"
+                                        onclick="cargarElementoDetallePeriodoProgramacion(${model.pagina})"><i
                                         class="fa fa-search"></i>
                                 </button>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="small fw-light">Buscar por</div>
-                            <select id="option" class="form-select">
+                            <select id="opcion" class="form-select">
                                 <c:forEach var="item" items="${opciones}">
                                     <option value="${item.id}"
-                                            <c:if test="${item.id == model.option}"> selected </c:if>>${item.value}</option>
+                                            <c:if test="${item.id == model.option.opcion}"> selected </c:if>>${item.value}</option>
                                 </c:forEach>
                             </select>
                         </div>
@@ -61,7 +62,8 @@
                             <jsp:include page="${request.contextPath}/detalle-periodo-programacion/listar">
                                 <jsp:param name="pagina" value="${model.pagina}"/>
                                 <jsp:param name="mostrar" value="${model.mostrar}"/>
-                                <jsp:param name="option" value="${model.option}"/>
+                                <jsp:param name="opcion" value="${model.option.opcion}"/>
+                                <jsp:param name="id" value="${model.option.id}"/>
                             </jsp:include>
                         </div>
                     </div>

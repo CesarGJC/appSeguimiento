@@ -19,9 +19,9 @@ public interface IDetallePeriodoProgramacionService {
 
     Response<DetallePeriodoProgramacionRequest> getByid(int id_detalle_periodos_programacion);
 
-    Response<List<DetallePeriodoProgramacionResponse>> listarDetallePeriodoProgramacionByTipo(String buscar, SearchDetallePeriodo searchPei, int pagina, int nroPagina);
+    Response<List<DetallePeriodoProgramacionResponse>> listarDetallePeriodoProgramacionByTipo(String buscar, SearchDetallePeriodo searchPei, int pagina, int nroPagina,int id);
 
-    Response<Integer> getCantidadByTipo(String buscar, SearchDetallePeriodo searchPei);
+    Response<Integer> getCantidadByTipo(String buscar, SearchDetallePeriodo searchPei,Integer id);
 
     Response<List<ListView>>getAllDetallePeriodoProgramacion();
 }

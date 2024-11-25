@@ -15,12 +15,17 @@
                    data-atributes='"id_plan_pei": ${item.id_plan_pei}'
                    data-id="${item.id_plan_pei}"
                    href="#"
-                   class="dropdown-item">Modificar</a></li>
+                   class="dropdown-item">Modificar</a>
+            </li>
             <li>
                 <a class="dropdown-item" data-delete="true"
                    data-atributes='"id_plan_pei": ${item.id_plan_pei}'
                    data-id="${item.id_plan_pei}"
-                   href="#">Eliminar</a>
+                   href="#">Eliminar Pei</a>
+            </li>
+            <li><a
+                   href="<c:url value="detalle-periodo-programacion/index"><c:param name="id_plan_pei" value="${item.id_plan_pei}"/></c:url>"
+                   class="dropdown-item">Agregar Detalle</a>
             </li>
         </ul>
     </div>

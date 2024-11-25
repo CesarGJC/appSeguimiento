@@ -7,5 +7,5 @@ public class DetallePeriodoProgramacionResponse {
     private Integer id_detalle_periodos_programacion;
     private Integer id_plan_pei;
     private String descripcion;
-    private String descripcion_plan;
+    private String plan_pei;
 }

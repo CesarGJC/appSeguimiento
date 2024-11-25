@@ -25,60 +25,63 @@ public class DetallePeriodoProgramacionServiceImpl implements IDetallePeriodoPro
     private final DetallePeriodoProgramacionDao detallePeriodoProgramacionDao;
 
 
-    public DetallePeriodoProgramacionServiceImpl(DetallePeriodoProgramacionDao detallePeriodoProgramacionDao,ModelMapper moodelMapper) {
+    public DetallePeriodoProgramacionServiceImpl(DetallePeriodoProgramacionDao detallePeriodoProgramacionDao, ModelMapper moodelMapper) {
         this.detallePeriodoProgramacionDao = detallePeriodoProgramacionDao;
         this.modelMapper = moodelMapper;
     }
 
     @Override
     public Response<DetallePeriodoProgramacionResponse> saveDetallePeriodoProgramacion(DetallePeriodoProgramacionRequest dpp) {
-        try{
-            Integer id= detallePeriodoProgramacionDao.saveDetallePeriodoProgramacion(modelMapper.map(dpp, DetallePeriodoProgramacion.class));
-            DetallePeriodoProgramacionResponse detallePeriodoProgramacionResponse=modelMapper.map(detallePeriodoProgramacionDao.getByid(id),DetallePeriodoProgramacionResponse.class);
-            return new Response<>(true, "",detallePeriodoProgramacionResponse);
-        }catch(Exception e){
-            return new Response<>(false, e.getMessage(),null);
+        try {
+            var detalle = modelMapper.map(dpp, DetallePeriodoProgramacion.class);
+            Integer id = detallePeriodoProgramacionDao.saveDetallePeriodoProgramacion(detalle);
+            var result=detallePeriodoProgramacionDao.getById(id);
+            DetallePeriodoProgramacionResponse detallePeriodoProgramacionResponse = modelMapper.map(result, DetallePeriodoProgramacionResponse.class);
+            return new Response<>(true, "", detallePeriodoProgramacionResponse);
+        } catch (Exception e) {
+            return new Response<>(false, e.getMessage(), null);
         }
     }
 
     @Override
     public GeneralResponse deleteDetallePeriodoProgramacion(DetallePeriodoProgramacionRequest dpp) {
-        try{
-            detallePeriodoProgramacionDao.deleteDetallePeriodoProgramacion(modelMapper.map(dpp,DetallePeriodoProgramacion.class));
+        try {
+            detallePeriodoProgramacionDao.deleteDetallePeriodoProgramacion(modelMapper.map(dpp, DetallePeriodoProgramacion.class));
             return new GeneralResponse(true, "");
-        }catch (Exception e){
+        } catch (Exception e) {
             return new GeneralResponse(false, e.getMessage());
         }
     }
 
     @Override
     public Response<List<ListView>> listDetallePeriodoProgramacionPorPei(Integer idPlanPei) {
-        try{
-            List<ListView> listViews=new ArrayList<>();
-            for (var item:detallePeriodoProgramacionDao.getAllDetallePeriodoProgramacionByPlan(idPlanPei))
+        try {
+            List<ListView> listViews = new ArrayList<>();
+            for (var item : detallePeriodoProgramacionDao.getAllDetallePeriodoProgramacionByPlan(idPlanPei))
                 listViews.add(new ListView(String.valueOf(item.getId_detalle_periodos_programacion()), item.getDescripcion()));
-            return new Response<>(true,"",listViews);
-        }catch (Exception e){
-            return new Response<>(false,e.getMessage(),null);
+            return new Response<>(true, "", listViews);
+        } catch (Exception e) {
+            return new Response<>(false, e.getMessage(), null);
         }
     }
 
     @Override
     public Response<DetallePeriodoProgramacionRequest> getByid(int id_detalle_periodos_programacion) {
-        try{
-            DetallePeriodoProgramacionRequest detallePeriodoProgramacionRequest=modelMapper.map(detallePeriodoProgramacionDao.getByid(id_detalle_periodos_programacion),DetallePeriodoProgramacionRequest.class);
-            return new Response<>(true,"",detallePeriodoProgramacionRequest);
-        }catch (Exception e){
-            return new Response<>(false,e.getMessage(),null);
+        try {
+            DetallePeriodoProgramacionRequest detallePeriodoProgramacionRequest = modelMapper.map(detallePeriodoProgramacionDao.getById(id_detalle_periodos_programacion), DetallePeriodoProgramacionRequest.class);
+            return new Response<>(true, "", detallePeriodoProgramacionRequest);
+        } catch (Exception e) {
+            return new Response<>(false, e.getMessage(), null);
         }
     }
 
     @Override
-    public Response<List<DetallePeriodoProgramacionResponse>> listarDetallePeriodoProgramacionByTipo(String buscar, SearchDetallePeriodo searchPei, int pagina, int nroPagina) {
+    public Response<List<DetallePeriodoProgramacionResponse>> listarDetallePeriodoProgramacionByTipo(String buscar, SearchDetallePeriodo searchPei, int pagina, int nroPagina, int id) {
         DetallePeriodoProgramacion detallePeriodoProgramacion = new DetallePeriodoProgramacion();
         detallePeriodoProgramacion.setPagina(pagina);
         detallePeriodoProgramacion.setNro_pagina(nroPagina);
         detallePeriodoProgramacion.setBuscar(buscar);
+        detallePeriodoProgramacion.setId_plan_pei(id);
         try {
             List<DetallePeriodoProgramacionResponse> detalleperiodoprogramacion = new ArrayList<>();
             switch (searchPei) {
@@ -97,10 +100,12 @@ public class DetallePeriodoProgramacionServiceImpl implements IDetallePeriodoPro
         }
     }
 
+
     @Override
-    public Response<Integer> getCantidadByTipo(String buscar, SearchDetallePeriodo searchPei) {
+    public Response<Integer> getCantidadByTipo(String buscar, SearchDetallePeriodo searchPei,Integer id) {
         DetallePeriodoProgramacion detallePeriodoProgramacion = new DetallePeriodoProgramacion();
         detallePeriodoProgramacion.setBuscar(buscar);
+        detallePeriodoProgramacion.setId_plan_pei(id);
         try {
             Integer cantidad = 0;
             switch (searchPei) {
@@ -121,13 +126,13 @@ public class DetallePeriodoProgramacionServiceImpl implements IDetallePeriodoPro
 
     @Override
     public Response<List<ListView>> getAllDetallePeriodoProgramacion() {
-        try{
-            List<ListView> listViews=new ArrayList<>();
-            for (var item:detallePeriodoProgramacionDao.getAllDetallePeriodoProgramacion())
+        try {
+            List<ListView> listViews = new ArrayList<>();
+            for (var item : detallePeriodoProgramacionDao.getAllDetallePeriodoProgramacion())
                 listViews.add(new ListView(String.valueOf(item.getId_detalle_periodos_programacion()), item.getDescripcion()));
-            return new Response<>(true,"",listViews);
-        }catch (Exception e){
-            return new Response<>(false,e.getMessage(),null);
+            return new Response<>(true, "", listViews);
+        } catch (Exception e) {
+            return new Response<>(false, e.getMessage(), null);
         }
     }
 }

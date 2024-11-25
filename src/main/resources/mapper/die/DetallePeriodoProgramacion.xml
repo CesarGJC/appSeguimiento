@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.moxos.uab.persistence.die.PeiDao">
+<mapper namespace="com.moxos.uab.persistence.die.DetallePeriodoProgramacionDao">
     <select id="saveDetallePeriodoProgramacion" resultType="java.lang.Integer">
         select *
         from create_detalle_periodos_programacion(#{id_detalle_periodos_programacion},#{id_plan_pei}, #{descripcion}, #{ult_usuario});
@@ -12,9 +12,9 @@
     </update>
     <select id="getById" resultType="com.moxos.uab.domain.entity.die.DetallePeriodoProgramacion">
         SELECT id_detalle_periodos_programacion,
-               te.descripcion,
+               te.descripcion As plan_pei,
                td.id_plan_pei,
-               descripcion
+               td.descripcion
         FROM detalle_periodos_programacion td
                  INNER JOIN public.plan_pei te ON td.id_plan_pei = te.id_plan_pei
         WHERE id_detalle_periodos_programacion = #{id_detalle_periodos_programacion} limit 1;
@@ -25,10 +25,12 @@
         WHERE id_indicador_estrategico=#{id_detalle_periodos_programacion} and id_estado='A';
     </select>
     <select id="getDetallePeriodoProgramacionByPlan" resultType="com.moxos.uab.domain.entity.die.DetallePeriodoProgramacion">
-        SELECT id_detalle_periodos_programacion,te.descripcion ,descripcion
+        SELECT id_detalle_periodos_programacion,
+               te.descripcion As plan_pei ,
+               td.descripcion
         FROM detalle_periodos_programacion td
                  INNER JOIN public.plan_pei te ON td.id_plan_pei=te.id_plan_pei
-        WHERE td.id_estado='A' AND upper(te.descripcion) like ${buscar}
+        WHERE td.id_plan_pei=#{id_plan_pei} AND td.id_estado='A' AND upper(te.descripcion) like ${buscar}
         ORDER BY te.descripcion
             LIMIT ${pagina} OFFSET ${nro_pagina};
     </select>
@@ -36,13 +38,15 @@
         SELECT COUNT(id_detalle_periodos_programacion)
         FROM detalle_periodos_programacion td
                  INNER JOIN public.plan_pei te ON td.id_plan_pei=te.id_plan_pei
-        WHERE td.id_estado='A' AND upper(te.descripcion) like ${buscar}
+        WHERE td.id_plan_pei=#{id_plan_pei} AND td.id_estado='A' AND upper(te.descripcion) like #{buscar}
     </select>
     <select id="getDetallePeriodoProgramacionByDetalle" resultType="com.moxos.uab.domain.entity.die.DetallePeriodoProgramacion">
-        SELECT id_detalle_periodos_programacion,te.descripcion ,descripcion
+        SELECT id_detalle_periodos_programacion,
+               te.descripcion As plan_pei ,
+               td.descripcion
         FROM detalle_periodos_programacion td
                  INNER JOIN public.plan_pei te ON td.id_plan_pei=te.id_plan_pei
-        WHERE td.id_estado='A' AND upper(descripcion) like ${buscar}
+        WHERE td.id_plan_pei=#{id_plan_pei} AND td.id_estado='A' AND upper(td.descripcion) like ${buscar}
         ORDER BY te.descripcion
             LIMIT ${pagina} OFFSET ${nro_pagina};
     </select>
@@ -50,7 +54,7 @@
         SELECT COUNT(id_detalle_periodos_programacion)
         FROM detalle_periodos_programacion td
                  INNER JOIN public.plan_pei te ON td.id_plan_pei=te.id_plan_pei
-        WHERE td.id_estado='A' AND upper(descripcion) like ${buscar}
+        WHERE td.id_plan_pei=#{id_plan_pei} AND td.id_estado='A' AND upper(td.descripcion) like ${buscar}
     </select>
     <select id="getAllDetallePeriodoProgramacionByPlan" resultType="com.moxos.uab.domain.entity.die.DetallePeriodoProgramacion">
         SELECT id_detalle_periodos_programacion,te.descripcion ,descripcion

@@ -14,7 +14,7 @@ public interface DetallePeriodoProgramacionDao {
 
     List<DetallePeriodoProgramacion> getAllDetallePeriodoProgramacion() throws DataAccessException;
 
-    DetallePeriodoProgramacion getByid(int id_detalle_periodos_programacion) throws DataAccessException;
+    DetallePeriodoProgramacion getById(int id_detalle_periodos_programacion) throws DataAccessException;
 
     List<DetallePeriodoProgramacion> getDetallePeriodoProgramacionByPlan(DetallePeriodoProgramacion dpp) throws DataAccessException;
 

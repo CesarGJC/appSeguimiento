@@ -9,9 +9,9 @@ import java.util.List;
 
 @Data
 public class DetallePeriodoProgramacionRequest {
-    private Integer id_detalle_periodos_programacion;
+    private Integer id_detalle_periodos_programacion = 0;
     private Integer id_plan_pei;
-    private List<ListView> descripcion_plan;
+    private String plan_pei;
     @NotNull(message = "Inserte Mensaje de Validacion")
     @NotBlank(message = "Inserte Mensaje de Validacion")
     private String descripcion;

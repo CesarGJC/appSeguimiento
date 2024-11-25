@@ -2,6 +2,7 @@ package com.moxos.uab.presentation.controller.areas;
 
 import com.moxos.uab.business.facade.IPoliticasIndicadoresAreasFacade;
 import com.moxos.uab.domain.dto.request.DetallePeriodoProgramacion.DetallePeriodoProgramacionRequest;
+import com.moxos.uab.domain.dto.request.DetallePeriodoProgramacion.ParametroPeiRequest;
 import com.moxos.uab.domain.dto.request.general.ParametrosPaginacionBusquedaRequest;
 import com.moxos.uab.domain.dto.request.general.SelectListItemDto;
 import com.moxos.uab.domain.dto.request.pei.PeiRequest;
@@ -15,9 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -29,28 +28,32 @@ public class DetallePeriodoProgramacionController {
 
     private final IPoliticasIndicadoresAreasFacade politicasIndicadoresAreasFacade;
 
-    public DetallePeriodoProgramacionController(IPoliticasIndicadoresAreasFacade politicasIndicadoresAreasFacade){
-        this.politicasIndicadoresAreasFacade=politicasIndicadoresAreasFacade;
+    public DetallePeriodoProgramacionController(IPoliticasIndicadoresAreasFacade politicasIndicadoresAreasFacade) {
+        this.politicasIndicadoresAreasFacade = politicasIndicadoresAreasFacade;
     }
+
     private Clientes getUsuario() {
         ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
         return (Clientes) attr.getRequest().getSession().getAttribute("__sess_cliente");
     }
 
-    @GetMapping("/detalle-periodo-programacion/index")
-    public String index(@ModelAttribute("model") ParametrosPaginacionBusquedaRequest<Integer> model, Model modelo) {
-        model.setOption(0);
+    @GetMapping("/detalle-periodo-programacion/index/{id}")
+    public String index(@PathVariable Integer id, @ModelAttribute("model") ParametrosPaginacionBusquedaRequest<ParametroPeiRequest> model, Model modelo) {
+        model.setOption(new ParametroPeiRequest(id, 0));
+        var planPei = politicasIndicadoresAreasFacade.getPeiModel(id);
         //Lista de opciones de busqueda
         List<SelectListItemDto> opcionesElementos = new ArrayList<>();
         opcionesElementos.add(new SelectListItemDto("0", "DESCRIPCION"));
-        opcionesElementos.add(new SelectListItemDto("1", "PLAN_PEI"));
+        opcionesElementos.add(new SelectListItemDto("1", "PLAN PEI"));
         modelo.addAttribute("opciones", opcionesElementos);
         modelo.addAttribute("model", model);
+        modelo.addAttribute("plan", planPei);
         return "DetallePeriodoProgramacion/Index";
     }
 
     @GetMapping("/detalle-periodo-programacion/listar")
-    public String listar(@ModelAttribute("model") ParametrosPaginacionBusquedaRequest<Integer> model, Model modelo) {
+    public String listar(@ModelAttribute("model") ParametrosPaginacionBusquedaRequest<ParametroPeiRequest> model, @ModelAttribute("parametros") ParametroPeiRequest parametros, Model modelo) {
+        model.setOption(parametros);
         var paginacion = politicasIndicadoresAreasFacade.getDetallePeriodoProgramacion(model);
         double cantidadpaginas = Math.ceil((double) paginacion.getTotaldeRegistros() / paginacion.getRegistrosporPagina());
 
