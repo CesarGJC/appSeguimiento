@@ -2,11 +2,11 @@ package com.moxos.uab.business.facade.impl;
 
 import com.moxos.uab.business.facade.IPoliticasIndicadoresAreasFacade;
 import com.moxos.uab.business.service.*;
-import com.moxos.uab.business.service.impl.DetallePeriodoProgramacionServiceImpl;
 import com.moxos.uab.common.enums.*;
 import com.moxos.uab.common.util.RequestUtils;
-import com.moxos.uab.domain.dto.request.DetallePeriodoProgramacion.DetallePeriodoProgramacionRequest;
-import com.moxos.uab.domain.dto.request.DetallePeriodoProgramacion.ParametroPeiRequest;
+import com.moxos.uab.domain.dto.request.categoriaindicador.CategoriaIndicadorRequest;
+import com.moxos.uab.domain.dto.request.detalleperiodoprogramacion.DetallePeriodoProgramacionRequest;
+import com.moxos.uab.domain.dto.request.detalleperiodoprogramacion.ParametroPeiRequest;
 import com.moxos.uab.domain.dto.request.areasestrategicas.AreasEstrategicasRequest;
 import com.moxos.uab.domain.dto.request.catalogoindicadores.CatalogoIndicadoresRequest;
 import com.moxos.uab.domain.dto.request.general.IndexViewModelFilter;
@@ -15,7 +15,8 @@ import com.moxos.uab.domain.dto.request.general.SelectListItemDto;
 import com.moxos.uab.domain.dto.request.indicadoresestrategicos.IndicadoresEstrategicosRequest;
 import com.moxos.uab.domain.dto.request.pei.PeiRequest;
 import com.moxos.uab.domain.dto.request.politicasdesarrollo.PoliticasDesarrolloRequest;
-import com.moxos.uab.domain.dto.response.DetallePeriodoProgramacion.DetallePeriodoProgramacionResponse;
+import com.moxos.uab.domain.dto.response.categoriaindicador.CategoriaIndicadorResponse;
+import com.moxos.uab.domain.dto.response.detalleperiodoprogramacion.DetallePeriodoProgramacionResponse;
 import com.moxos.uab.domain.dto.response.GeneralResponse;
 import com.moxos.uab.domain.dto.response.Response;
 import com.moxos.uab.domain.dto.response.areasestrategicas.AreaEstrategicaResponse;
@@ -38,8 +39,9 @@ public class PoliticasIndicadoresAreasFacadeImpl implements IPoliticasIndicadore
     private final ICatalogoIndicadoresService catalogoIndicadoresService;
     private final IPeiService peiService;
     private final IDetallePeriodoProgramacionService detallePeriodoProgramacionService;
+    private final ICategoriaIndicadorService categoriaIndicadorService;
 
-    public PoliticasIndicadoresAreasFacadeImpl(IAreasEstrategicasService areasEstrategicasService, IPoliticasDesarrolloService politicasDesarrolloService, IConfigurationService configurationService, IIndicadoresEstrategicosService indicadoresEstrategicosService, ICatalogoIndicadoresService catalogoIndicadoresService, IPeiService peiService, IDetallePeriodoProgramacionService detallePeriodoProgramacionService) {
+    public PoliticasIndicadoresAreasFacadeImpl(IAreasEstrategicasService areasEstrategicasService, IPoliticasDesarrolloService politicasDesarrolloService, IConfigurationService configurationService, IIndicadoresEstrategicosService indicadoresEstrategicosService, ICatalogoIndicadoresService catalogoIndicadoresService, IPeiService peiService, IDetallePeriodoProgramacionService detallePeriodoProgramacionService, ICategoriaIndicadorService categoriaIndicadorService) {
         this.areasEstrategicasService = areasEstrategicasService;
         this.politicasDesarrolloService = politicasDesarrolloService;
         this.configurationService = configurationService;
@@ -47,6 +49,7 @@ public class PoliticasIndicadoresAreasFacadeImpl implements IPoliticasIndicadore
         this.catalogoIndicadoresService = catalogoIndicadoresService;
         this.peiService = peiService;
         this.detallePeriodoProgramacionService = detallePeriodoProgramacionService;
+        this.categoriaIndicadorService = categoriaIndicadorService;
     }
 
     @Override
@@ -373,6 +376,61 @@ public class PoliticasIndicadoresAreasFacadeImpl implements IPoliticasIndicadore
     @Override
     public GeneralResponse deleteCatalogoIndicadores(CatalogoIndicadoresRequest model) {
         return catalogoIndicadoresService.deleteCatalogoIndicadores(model);
+    }
+
+    @Override
+    public IndexViewModelFilter<CategoriaIndicadorResponse, Integer> getCategoriaIndicador(ParametrosPaginacionBusquedaRequest<Integer> model) {
+        //Clase generica para la paginacion
+        IndexViewModelFilter<CategoriaIndicadorResponse, Integer> filtro = new IndexViewModelFilter<>();
+
+        //Lista para mostrar el numero de elementos
+        List<SelectListItemDto> moxstrarelementos = RequestUtils.getCantidadDeElementos();
+
+        //Cantidad a mostrar por pagina
+        int cantidadderegistrosporpagina = model.getMostrar();
+
+        //Mostrar la pagina actual
+        int pagina = (model.getPagina() - 1) * cantidadderegistrosporpagina;
+
+        //Parametro de busqueda en elementos
+        String buscar = model.getBuscar() == null ? "'%%'" : "'%" + model.getBuscar().toUpperCase() + "%'";
+        Object opcion = model.getOption();
+        //Lista elementos a mostrar
+        Response<List<CategoriaIndicadorResponse>> designados = categoriaIndicadorService.listarCategoriaIndicadorByTipo(buscar, SearchCategoriaIndicador.values()[Integer.parseInt(opcion.toString())], cantidadderegistrosporpagina, pagina);
+        if (designados.isSuccess()) {
+            Response<Integer> totalregistros = categoriaIndicadorService.getCantidadByTipo(buscar, SearchCategoriaIndicador.values()[Integer.parseInt(opcion.toString())]);
+            filtro.setTotaldeRegistros(totalregistros.getResult());
+        } else {
+            filtro.setTotaldeRegistros(0);
+        }
+        filtro.setLista(designados.getResult());
+        filtro.setPaginaActual(model.getPagina());
+        filtro.setRegistrosporPagina(cantidadderegistrosporpagina);
+        filtro.setMostrarElementos(moxstrarelementos);
+        filtro.setMostrar(cantidadderegistrosporpagina);
+        filtro.setOpcion(opcion.toString());
+        return filtro;
+    }
+
+    @Override
+    public Response<CategoriaIndicadorResponse> saveCategoriaIndicador(CategoriaIndicadorRequest categoriaIndicador) {
+        Response<Integer> result = categoriaIndicadorService.saveCategoriaIndicador(categoriaIndicador);
+        return categoriaIndicadorService.getByid(result.getResult());
+    }
+
+    @Override
+    public CategoriaIndicadorRequest getCategoriaIndicadorModel(int idCategoriaIndicador) {
+        return categoriaIndicadorService.getByidCategoriaIndicador(idCategoriaIndicador).getResult();
+    }
+
+    @Override
+    public GeneralResponse deleteCategoriaIndicador(CategoriaIndicadorRequest model) {
+        return categoriaIndicadorService.deleteCategoriaIndicador(model);
+    }
+
+    @Override
+    public List<ListView> getCategoriaIndicador() {
+        return List.of();
     }
 
     @Override

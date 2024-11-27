@@ -1,9 +1,8 @@
 package com.moxos.uab.business.service;
 
 import com.moxos.uab.common.enums.SearchDetallePeriodo;
-import com.moxos.uab.common.enums.SearchPoliticas;
-import com.moxos.uab.domain.dto.request.DetallePeriodoProgramacion.DetallePeriodoProgramacionRequest;
-import com.moxos.uab.domain.dto.response.DetallePeriodoProgramacion.DetallePeriodoProgramacionResponse;
+import com.moxos.uab.domain.dto.request.detalleperiodoprogramacion.DetallePeriodoProgramacionRequest;
+import com.moxos.uab.domain.dto.response.detalleperiodoprogramacion.DetallePeriodoProgramacionResponse;
 import com.moxos.uab.domain.dto.response.GeneralResponse;
 import com.moxos.uab.domain.dto.response.Response;
 import com.moxos.uab.domain.dto.response.view.ListView;

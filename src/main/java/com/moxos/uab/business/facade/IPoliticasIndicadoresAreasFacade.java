@@ -1,7 +1,8 @@
 package com.moxos.uab.business.facade;
 
-import com.moxos.uab.domain.dto.request.DetallePeriodoProgramacion.DetallePeriodoProgramacionRequest;
-import com.moxos.uab.domain.dto.request.DetallePeriodoProgramacion.ParametroPeiRequest;
+import com.moxos.uab.domain.dto.request.categoriaindicador.CategoriaIndicadorRequest;
+import com.moxos.uab.domain.dto.request.detalleperiodoprogramacion.DetallePeriodoProgramacionRequest;
+import com.moxos.uab.domain.dto.request.detalleperiodoprogramacion.ParametroPeiRequest;
 import com.moxos.uab.domain.dto.request.areasestrategicas.AreasEstrategicasRequest;
 import com.moxos.uab.domain.dto.request.catalogoindicadores.CatalogoIndicadoresRequest;
 import com.moxos.uab.domain.dto.request.general.IndexViewModelFilter;
@@ -9,7 +10,8 @@ import com.moxos.uab.domain.dto.request.general.ParametrosPaginacionBusquedaRequ
 import com.moxos.uab.domain.dto.request.indicadoresestrategicos.IndicadoresEstrategicosRequest;
 import com.moxos.uab.domain.dto.request.pei.PeiRequest;
 import com.moxos.uab.domain.dto.request.politicasdesarrollo.PoliticasDesarrolloRequest;
-import com.moxos.uab.domain.dto.response.DetallePeriodoProgramacion.DetallePeriodoProgramacionResponse;
+import com.moxos.uab.domain.dto.response.categoriaindicador.CategoriaIndicadorResponse;
+import com.moxos.uab.domain.dto.response.detalleperiodoprogramacion.DetallePeriodoProgramacionResponse;
 import com.moxos.uab.domain.dto.response.GeneralResponse;
 import com.moxos.uab.domain.dto.response.Response;
 import com.moxos.uab.domain.dto.response.areasestrategicas.AreaEstrategicaResponse;
@@ -18,7 +20,6 @@ import com.moxos.uab.domain.dto.response.indicadoresestrategicos.IndicadoresEstr
 import com.moxos.uab.domain.dto.response.pei.PeiResponse;
 import com.moxos.uab.domain.dto.response.politicasdesarrollo.PoliticasDesarrolloResponse;
 import com.moxos.uab.domain.dto.response.view.ListView;
-import com.moxos.uab.domain.entity.die.CatalogoIndicadores;
 
 import java.util.List;
 
@@ -82,4 +83,14 @@ public interface IPoliticasIndicadoresAreasFacade {
     Response<CatalogoIndicadoresResponse> saveCatalogoIndicadores(CatalogoIndicadoresRequest model);
 
     GeneralResponse deleteCatalogoIndicadores(CatalogoIndicadoresRequest model);
+
+    IndexViewModelFilter<CategoriaIndicadorResponse, Integer> getCategoriaIndicador(ParametrosPaginacionBusquedaRequest<Integer> busqueda);
+
+    Response<CategoriaIndicadorResponse> saveCategoriaIndicador(CategoriaIndicadorRequest categoriaIndicador);
+
+    CategoriaIndicadorRequest getCategoriaIndicadorModel(int idCategoriaIndicador);
+
+    GeneralResponse deleteCategoriaIndicador(CategoriaIndicadorRequest model);
+
+    List<ListView> getCategoriaIndicador();
 }

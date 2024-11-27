@@ -1,4 +1,4 @@
-package com.moxos.uab.domain.dto.request.DetallePeriodoProgramacion;
+package com.moxos.uab.domain.dto.request.detalleperiodoprogramacion;
 
 import lombok.Data;
 
