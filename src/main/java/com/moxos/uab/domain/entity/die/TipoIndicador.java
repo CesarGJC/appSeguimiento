@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 public class TipoIndicador extends Entidad {
-    private int id_tipo_indicador;
+    private Integer id_tipo_indicador;
     private String descripcion;
     private String abreviacion;
 

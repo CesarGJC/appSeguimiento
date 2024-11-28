@@ -33,7 +33,6 @@ public class TipoIndicadorController {
         ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
         return (Clientes) attr.getRequest().getSession().getAttribute("__sess_cliente");
     }
-
     @GetMapping("/tipo-indicador/index")
     public String index(@ModelAttribute("model") ParametrosPaginacionBusquedaRequest<Integer> model, Model modelo) {
         model.setOption(0);

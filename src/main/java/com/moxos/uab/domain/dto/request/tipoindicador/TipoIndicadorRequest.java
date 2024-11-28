@@ -6,9 +6,7 @@ import lombok.Data;
 
 @Data
 public class TipoIndicadorRequest {
-    private Integer id_tipo_indicador;
-    @NotNull(message = "Inserte Mensaje de Validacion")
-    @NotBlank(message = "Inserte Mensaje de Validacion")
+    private Integer id_tipo_indicador=0;
     private String descripcion;
     @NotNull(message = "Inserte Mensaje de Validacion")
     @NotBlank(message = "Inserte Mensaje de Validacion")

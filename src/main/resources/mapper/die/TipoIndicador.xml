@@ -35,13 +35,13 @@
     <select id="getTipoIndicadorByAbreviacion" resultType="com.moxos.uab.domain.entity.die.TipoIndicador">
         SELECT id_tipo_indicador, descripcion, abreviacion, id_estado
         FROM ttipo_indicador
-        where  upper(descripcion) like ${buscar} and id_estado='A'
+        where  upper(abreviacion) like ${buscar} and id_estado='A'
         ORDER BY descripcion
             LIMIT ${pagina} OFFSET ${nro_pagina};
     </select>
     <select id="getCantidadTipoIndicadorByAbreviacion" resultType="java.lang.Integer">
         SELECT count(id_tipo_indicador)
         FROM ttipo_indicador
-        where  upper(descripcion) like ${buscar} and id_estado='A'
+        where  upper(abreviacion) like ${buscar} and id_estado='A'
     </select>
 </mapper>

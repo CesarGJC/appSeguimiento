@@ -12,7 +12,7 @@ public interface TipoIndicadorDao {
 
     void deleteTipoIndicador(TipoIndicador tipoIndicador) throws DataAccessException;
 
-    TipoIndicador getByid(int id_categoria) throws DataAccessException;
+    TipoIndicador getByid(int id_tipo_indicador) throws DataAccessException;
 
     List<TipoIndicador> getTipoIndicadorByDescripcion(TipoIndicador tipoIndicador) throws DataAccessException;
 

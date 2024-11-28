@@ -4,7 +4,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <form:form data-form="true" modelAttribute="model" method="post"
-           action="${pageContext.request.contextPath}/tipo-indicador/New">
+           action="${pageContext.request.contextPath}/tipo-indicador/new">
     <form:hidden path="id_tipo_indicador"/>
     <div class="mb-3">
         <label class="form-label" for="descripcion">Tipo Indicador</label>

@@ -35,13 +35,13 @@
     <select id="getCategoriaiIndicadorByAbreviacion" resultType="com.moxos.uab.domain.entity.die.CategoriaIndicador">
         SELECT id_categoria, descripcion, abreviacion, id_estado
         FROM tcategoria_indicador
-        where  upper(descripcion) like ${buscar} and id_estado='A'
+        where  upper(abreviacion) like ${buscar} and id_estado='A'
         ORDER BY descripcion
             LIMIT ${pagina} OFFSET ${nro_pagina};
     </select>
     <select id="getCantidadCategoriaIndicadorByAbreviacion" resultType="java.lang.Integer">
         SELECT count(id_categoria)
         FROM tcategoria_indicador
-        where  upper(descripcion) like ${buscar} and id_estado='A'
+        where  upper(abreviacion) like ${buscar} and id_estado='A'
     </select>
 </mapper>

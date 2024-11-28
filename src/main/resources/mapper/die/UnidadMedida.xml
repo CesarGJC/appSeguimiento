@@ -35,13 +35,13 @@
     <select id="getUnidadMedidaByAbreviacion" resultType="com.moxos.uab.domain.entity.die.UnidadMedida">
         SELECT id_unidad_medida, descripcion, abreviacion, id_estado
         FROM tunidad_medida
-        where  upper(descripcion) like ${buscar} and id_estado='A'
+        where  upper(abreviacion) like ${buscar} and id_estado='A'
         ORDER BY descripcion
             LIMIT ${pagina} OFFSET ${nro_pagina};
     </select>
     <select id="getCantidadUnidadMedidaByAbreviacion" resultType="java.lang.Integer">
         SELECT count(id_unidad_medida)
         FROM tunidad_medida
-        where  upper(descripcion) like ${buscar} and id_estado='A'
+        where  upper(abreviacion) like ${buscar} and id_estado='A'
     </select>
 </mapper>
