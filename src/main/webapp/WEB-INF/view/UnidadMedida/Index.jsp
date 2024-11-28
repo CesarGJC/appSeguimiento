@@ -13,19 +13,19 @@
 <main class="app-content3">
     <div class="app-title">
         <div>
-            <h1><i class="fa fa-th-list"></i> Detalle de Categorias Indicadores</h1>
+            <h1><i class="fa fa-th-list"></i> Detalle Unidad Medida</h1>
         </div>
     </div>
     <div class="row">
         <div class="col-sm-12">
             <div class="tile border border-primary">
                 <div class="tile-title-w-btn">
-                    <h3 class="title">Categoria Indicadores</h3>
+                    <h3 class="title">Unidades de Medida</h3>
 
                 </div>
                 <div class="tile-body">
                     <button id="addButton" type="button"
-                            data-atributes='"id_categoria": 0'></button>
+                            data-atributes='"id_unidad_medida": 0'></button>
                     <div class="row d-flex flex-row-reverse mb-3">
 
                         <div class="col-md-4">
@@ -36,7 +36,7 @@
                                        type="search" placeholder="Buscar.."
                                        aria-describedby="btnBuscar">
                                 <button class="btn btn-primary border-start-0 border-bottom-0 border ms-n5"
-                                        type="button" onclick="cargarElementoCategoriaIndicador(${model.pagina})"><i
+                                        type="button" onclick="cargarElementoUnidadMedida(${model.pagina})"><i
                                         class="fa fa-search"></i>
                                 </button>
                             </div>
@@ -53,12 +53,12 @@
                     </div>
                     <div class="row">
                         <div id="table-container" data-toolbar="true" data-add="true"
-                             data-url-add="${pageContext.request.contextPath}/categoria-indicador/new"
-                             data-url-data="${pageContext.request.contextPath}/categoria-indicador/listar-filtrar"
-                             data-url-update="${pageContext.request.contextPath}/categoria-indicador/update"
-                             data-url-delete="${pageContext.request.contextPath}/categoria-indicador/delete"
+                             data-url-add="${pageContext.request.contextPath}/unidad-medida/new"
+                             data-url-data="${pageContext.request.contextPath}/unidad-medida/listar-filtrar"
+                             data-url-update="${pageContext.request.contextPath}/unidad-medida/update"
+                             data-url-delete="${pageContext.request.contextPath}/unidad-medida/delete"
                              class="table-main-container col-xl">
-                            <jsp:include page="${request.contextPath}/categoria-indicador/listar">
+                            <jsp:include page="${request.contextPath}/unidad-medida/listar">
                                 <jsp:param name="pagina" value="${model.pagina}"/>
                                 <jsp:param name="mostrar" value="${model.mostrar}"/>
                                 <jsp:param name="option" value="${model.option}"/>
@@ -85,14 +85,14 @@
 <script>
     let comboboxArea;
     let table = new TableBoostrap(document.getElementById('table-container'), {
-        title: "Lista de los Planes Estrategicos Institucionales",
+        title: "Lista de Tipos Indicadores",
         add: document.getElementById('addButton'),
         loadContent: () => {
             comboboxArea = new ComboBoxBoostrap('.filter', {});
         }
     });
 
-    function cargarElementoCategoriaIndicador(pagina) {
+    function cargarElementoUnidadMedida(pagina) {
         let params = {
             pagina: pagina,
             mostrar: document.getElementById("mostrar").value,
@@ -104,7 +104,7 @@
 
     function filtrarResultados(pagina) {
         if (event.keyCode === 13) {
-            cargarElementoCategoriaIndicador(pagina);
+            cargarElementoUnidadMedida(pagina);
         }
     }
 

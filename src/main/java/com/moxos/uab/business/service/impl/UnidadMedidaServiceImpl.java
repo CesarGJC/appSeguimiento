@@ -40,7 +40,7 @@ public class UnidadMedidaServiceImpl implements IUnidadMedidaService {
     }
 
     @Override
-    public GeneralResponse deleteTipoIndicador(UnidadMedidaRequest unidadMedidaRequest) {
+    public GeneralResponse deleteUnidadMedida(UnidadMedidaRequest unidadMedidaRequest) {
         try {
             unidadMedidaDao.deleteUnidadMedida(modelMapper.map(unidadMedidaRequest, UnidadMedida.class));
             return new GeneralResponse(true, "");
