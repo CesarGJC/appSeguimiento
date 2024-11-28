@@ -9,6 +9,7 @@ import com.moxos.uab.domain.dto.response.GeneralResponse;
 import com.moxos.uab.domain.dto.response.Response;
 import com.moxos.uab.domain.dto.response.categoriaindicador.CategoriaIndicadorResponse;
 import com.moxos.uab.domain.dto.response.pei.PeiResponse;
+import com.moxos.uab.domain.dto.response.view.ListView;
 import com.moxos.uab.domain.entity.die.CategoriaIndicador;
 import com.moxos.uab.domain.entity.die.Pei;
 import com.moxos.uab.persistence.die.CategoriaIndicadorDao;
@@ -112,5 +113,10 @@ public class CategoriaIndicadorServiceImpl implements ICategoriaIndicadorService
         } catch (Exception e) {
             return new Response<>(false, e.getMessage(), null);
         }
+    }
+
+    @Override
+    public List<ListView> getCategorias() {
+        return List.of();
     }
 }

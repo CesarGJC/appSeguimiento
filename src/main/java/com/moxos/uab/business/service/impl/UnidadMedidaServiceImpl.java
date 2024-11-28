@@ -9,6 +9,7 @@ import com.moxos.uab.domain.dto.response.GeneralResponse;
 import com.moxos.uab.domain.dto.response.Response;
 import com.moxos.uab.domain.dto.response.tipoindicador.TipoIndicadorResponse;
 import com.moxos.uab.domain.dto.response.unidadmedida.UnidadMedidaResponse;
+import com.moxos.uab.domain.dto.response.view.ListView;
 import com.moxos.uab.domain.entity.die.TipoIndicador;
 import com.moxos.uab.domain.entity.die.UnidadMedida;
 import com.moxos.uab.persistence.die.UnidadMedidaDao;
@@ -113,5 +114,10 @@ public class UnidadMedidaServiceImpl implements IUnidadMedidaService {
         } catch (Exception e) {
             return new Response<>(false, e.getMessage(), null);
         }
+    }
+
+    @Override
+    public List<ListView> getUnidadMedida() {
+        return List.of();
     }
 }

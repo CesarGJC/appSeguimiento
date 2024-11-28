@@ -6,6 +6,7 @@ import com.moxos.uab.domain.dto.request.tipoindicador.TipoIndicadorRequest;
 import com.moxos.uab.domain.dto.response.GeneralResponse;
 import com.moxos.uab.domain.dto.response.Response;
 import com.moxos.uab.domain.dto.response.tipoindicador.TipoIndicadorResponse;
+import com.moxos.uab.domain.dto.response.view.ListView;
 import com.moxos.uab.domain.entity.die.TipoIndicador;
 import com.moxos.uab.persistence.die.TipoIndicadorDao;
 import org.modelmapper.ModelMapper;
@@ -108,5 +109,10 @@ public class TipoIndicadorServiceImpl implements ITipoIndicadorService {
         } catch (Exception e) {
             return new Response<>(false, e.getMessage(), null);
         }
+    }
+
+    @Override
+    public List<ListView> getTiposIndicadores() {
+        return List.of();
     }
 }

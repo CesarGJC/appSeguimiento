@@ -6,6 +6,8 @@ import com.moxos.uab.domain.dto.request.categoriaindicador.CategoriaIndicadorReq
 import com.moxos.uab.domain.dto.response.GeneralResponse;
 import com.moxos.uab.domain.dto.response.Response;
 import com.moxos.uab.domain.dto.response.categoriaindicador.CategoriaIndicadorResponse;
+import com.moxos.uab.domain.dto.response.view.ListView;
+
 import java.util.List;
 
 public interface ICategoriaIndicadorService {
@@ -20,4 +22,6 @@ public interface ICategoriaIndicadorService {
     Response<Integer> getCantidadByTipo(String buscar, SearchCategoriaIndicador searchCategoriaIndicador);
 
     Response<CategoriaIndicadorRequest> getByidCategoriaIndicador(int id_categoria);
+
+    List<ListView> getCategorias();
 }
