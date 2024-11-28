@@ -9,4 +9,5 @@ public class UnidadEncargada  extends Entidad {
     private String unidad_responsable;
     private String categoria_programatica;
     private String nombre_responsable;
+
 }

@@ -10,6 +10,8 @@ import com.moxos.uab.domain.dto.request.general.ParametrosPaginacionBusquedaRequ
 import com.moxos.uab.domain.dto.request.indicadoresestrategicos.IndicadoresEstrategicosRequest;
 import com.moxos.uab.domain.dto.request.pei.PeiRequest;
 import com.moxos.uab.domain.dto.request.politicasdesarrollo.PoliticasDesarrolloRequest;
+import com.moxos.uab.domain.dto.request.tipoindicador.TipoIndicadorRequest;
+import com.moxos.uab.domain.dto.request.unidadmedida.UnidadMedidaRequest;
 import com.moxos.uab.domain.dto.response.categoriaindicador.CategoriaIndicadorResponse;
 import com.moxos.uab.domain.dto.response.detalleperiodoprogramacion.DetallePeriodoProgramacionResponse;
 import com.moxos.uab.domain.dto.response.GeneralResponse;
@@ -19,6 +21,8 @@ import com.moxos.uab.domain.dto.response.catalogoindicadores.CatalogoIndicadores
 import com.moxos.uab.domain.dto.response.indicadoresestrategicos.IndicadoresEstrategicosResponse;
 import com.moxos.uab.domain.dto.response.pei.PeiResponse;
 import com.moxos.uab.domain.dto.response.politicasdesarrollo.PoliticasDesarrolloResponse;
+import com.moxos.uab.domain.dto.response.tipoindicador.TipoIndicadorResponse;
+import com.moxos.uab.domain.dto.response.unidadmedida.UnidadMedidaResponse;
 import com.moxos.uab.domain.dto.response.view.ListView;
 
 import java.util.List;
@@ -93,4 +97,20 @@ public interface IPoliticasIndicadoresAreasFacade {
     GeneralResponse deleteCategoriaIndicador(CategoriaIndicadorRequest model);
 
     List<ListView> getCategoriaIndicador();
+
+    IndexViewModelFilter<TipoIndicadorResponse, Integer> getTipoIndicador(ParametrosPaginacionBusquedaRequest<Integer> busqueda);
+
+    Response<TipoIndicadorResponse> saveTipoIndicador(TipoIndicadorRequest tipoIndicadorRequest);
+
+    TipoIndicadorRequest getTipoIndicadorModel(int idTipoIndicador);
+
+    GeneralResponse deleteTipoIndicador(TipoIndicadorRequest model);
+
+    IndexViewModelFilter<UnidadMedidaResponse, Integer> getUnidadMedida(ParametrosPaginacionBusquedaRequest<Integer> busqueda);
+
+    Response<UnidadMedidaResponse> saveUnidadMedida(UnidadMedidaRequest unidadMedidaRequest);
+
+    UnidadMedidaRequest getUnidadMedidaModel(int idUnidadMedida);
+
+    GeneralResponse deleteUnidadMedida(UnidadMedidaRequest model);
 }

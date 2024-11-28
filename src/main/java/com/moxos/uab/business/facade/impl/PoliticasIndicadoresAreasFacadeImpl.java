@@ -15,6 +15,8 @@ import com.moxos.uab.domain.dto.request.general.SelectListItemDto;
 import com.moxos.uab.domain.dto.request.indicadoresestrategicos.IndicadoresEstrategicosRequest;
 import com.moxos.uab.domain.dto.request.pei.PeiRequest;
 import com.moxos.uab.domain.dto.request.politicasdesarrollo.PoliticasDesarrolloRequest;
+import com.moxos.uab.domain.dto.request.tipoindicador.TipoIndicadorRequest;
+import com.moxos.uab.domain.dto.request.unidadmedida.UnidadMedidaRequest;
 import com.moxos.uab.domain.dto.response.categoriaindicador.CategoriaIndicadorResponse;
 import com.moxos.uab.domain.dto.response.detalleperiodoprogramacion.DetallePeriodoProgramacionResponse;
 import com.moxos.uab.domain.dto.response.GeneralResponse;
@@ -25,6 +27,8 @@ import com.moxos.uab.domain.dto.response.configuration.ConfigurationResponse;
 import com.moxos.uab.domain.dto.response.indicadoresestrategicos.IndicadoresEstrategicosResponse;
 import com.moxos.uab.domain.dto.response.pei.PeiResponse;
 import com.moxos.uab.domain.dto.response.politicasdesarrollo.PoliticasDesarrolloResponse;
+import com.moxos.uab.domain.dto.response.tipoindicador.TipoIndicadorResponse;
+import com.moxos.uab.domain.dto.response.unidadmedida.UnidadMedidaResponse;
 import com.moxos.uab.domain.dto.response.view.ListView;
 import org.springframework.stereotype.Service;
 
@@ -40,8 +44,10 @@ public class PoliticasIndicadoresAreasFacadeImpl implements IPoliticasIndicadore
     private final IPeiService peiService;
     private final IDetallePeriodoProgramacionService detallePeriodoProgramacionService;
     private final ICategoriaIndicadorService categoriaIndicadorService;
+    private final ITipoIndicadorService tipoIndicadorService;
+    private final IUnidadMedidaService unidadMedidaService;
 
-    public PoliticasIndicadoresAreasFacadeImpl(IAreasEstrategicasService areasEstrategicasService, IPoliticasDesarrolloService politicasDesarrolloService, IConfigurationService configurationService, IIndicadoresEstrategicosService indicadoresEstrategicosService, ICatalogoIndicadoresService catalogoIndicadoresService, IPeiService peiService, IDetallePeriodoProgramacionService detallePeriodoProgramacionService, ICategoriaIndicadorService categoriaIndicadorService) {
+    public PoliticasIndicadoresAreasFacadeImpl(IAreasEstrategicasService areasEstrategicasService, IPoliticasDesarrolloService politicasDesarrolloService, IConfigurationService configurationService, IIndicadoresEstrategicosService indicadoresEstrategicosService, ICatalogoIndicadoresService catalogoIndicadoresService, IPeiService peiService, IDetallePeriodoProgramacionService detallePeriodoProgramacionService, ICategoriaIndicadorService categoriaIndicadorService, ITipoIndicadorService tipoIndicadorService, IUnidadMedidaService unidadMedidaService) {
         this.areasEstrategicasService = areasEstrategicasService;
         this.politicasDesarrolloService = politicasDesarrolloService;
         this.configurationService = configurationService;
@@ -50,6 +56,8 @@ public class PoliticasIndicadoresAreasFacadeImpl implements IPoliticasIndicadore
         this.peiService = peiService;
         this.detallePeriodoProgramacionService = detallePeriodoProgramacionService;
         this.categoriaIndicadorService = categoriaIndicadorService;
+        this.tipoIndicadorService = tipoIndicadorService;
+        this.unidadMedidaService = unidadMedidaService;
     }
 
     @Override
@@ -431,6 +439,106 @@ public class PoliticasIndicadoresAreasFacadeImpl implements IPoliticasIndicadore
     @Override
     public List<ListView> getCategoriaIndicador() {
         return List.of();
+    }
+
+    @Override
+    public IndexViewModelFilter<TipoIndicadorResponse, Integer> getTipoIndicador(ParametrosPaginacionBusquedaRequest<Integer> model) {
+        //Clase generica para la paginacion
+        IndexViewModelFilter<TipoIndicadorResponse, Integer> filtro = new IndexViewModelFilter<>();
+
+        //Lista para mostrar el numero de elementos
+        List<SelectListItemDto> moxstrarelementos = RequestUtils.getCantidadDeElementos();
+
+        //Cantidad a mostrar por pagina
+        int cantidadderegistrosporpagina = model.getMostrar();
+
+        //Mostrar la pagina actual
+        int pagina = (model.getPagina() - 1) * cantidadderegistrosporpagina;
+
+        //Parametro de busqueda en elementos
+        String buscar = model.getBuscar() == null ? "'%%'" : "'%" + model.getBuscar().toUpperCase() + "%'";
+        Object opcion = model.getOption();
+        //Lista elementos a mostrar
+        Response<List<TipoIndicadorResponse>> designados = tipoIndicadorService.listarTipoIndicadorByTipo(buscar, SearchTipoIndicador.values()[Integer.parseInt(opcion.toString())], cantidadderegistrosporpagina, pagina);
+        if (designados.isSuccess()) {
+            Response<Integer> totalregistros = tipoIndicadorService.getCantidadByTipo(buscar, SearchTipoIndicador.values()[Integer.parseInt(opcion.toString())]);
+            filtro.setTotaldeRegistros(totalregistros.getResult());
+        } else {
+            filtro.setTotaldeRegistros(0);
+        }
+        filtro.setLista(designados.getResult());
+        filtro.setPaginaActual(model.getPagina());
+        filtro.setRegistrosporPagina(cantidadderegistrosporpagina);
+        filtro.setMostrarElementos(moxstrarelementos);
+        filtro.setMostrar(cantidadderegistrosporpagina);
+        filtro.setOpcion(opcion.toString());
+        return filtro;
+    }
+
+    @Override
+    public Response<TipoIndicadorResponse> saveTipoIndicador(TipoIndicadorRequest tipoIndicadorRequest) {
+        Response<Integer> result = tipoIndicadorService.saveTipoIndicador(tipoIndicadorRequest);
+        return tipoIndicadorService.getByid(result.getResult());
+    }
+
+    @Override
+    public TipoIndicadorRequest getTipoIndicadorModel(int idTipoIndicador) {
+        return tipoIndicadorService.getByidTipoIndicador(idTipoIndicador).getResult();
+    }
+
+    @Override
+    public GeneralResponse deleteTipoIndicador(TipoIndicadorRequest model) {
+        return tipoIndicadorService.deleteTipoIndicador(model);
+    }
+
+    @Override
+    public IndexViewModelFilter<UnidadMedidaResponse, Integer> getUnidadMedida(ParametrosPaginacionBusquedaRequest<Integer> model) {
+        //Clase generica para la paginacion
+        IndexViewModelFilter<UnidadMedidaResponse, Integer> filtro = new IndexViewModelFilter<>();
+
+        //Lista para mostrar el numero de elementos
+        List<SelectListItemDto> moxstrarelementos = RequestUtils.getCantidadDeElementos();
+
+        //Cantidad a mostrar por pagina
+        int cantidadderegistrosporpagina = model.getMostrar();
+
+        //Mostrar la pagina actual
+        int pagina = (model.getPagina() - 1) * cantidadderegistrosporpagina;
+
+        //Parametro de busqueda en elementos
+        String buscar = model.getBuscar() == null ? "'%%'" : "'%" + model.getBuscar().toUpperCase() + "%'";
+        Object opcion = model.getOption();
+        //Lista elementos a mostrar
+        Response<List<UnidadMedidaResponse>> designados = unidadMedidaService.listarUnidadMedidaByTipo(buscar, SearchUnidadMedida.values()[Integer.parseInt(opcion.toString())], cantidadderegistrosporpagina, pagina);
+        if (designados.isSuccess()) {
+            Response<Integer> totalregistros = unidadMedidaService.getCantidadByTipo(buscar, SearchUnidadMedida.values()[Integer.parseInt(opcion.toString())]);
+            filtro.setTotaldeRegistros(totalregistros.getResult());
+        } else {
+            filtro.setTotaldeRegistros(0);
+        }
+        filtro.setLista(designados.getResult());
+        filtro.setPaginaActual(model.getPagina());
+        filtro.setRegistrosporPagina(cantidadderegistrosporpagina);
+        filtro.setMostrarElementos(moxstrarelementos);
+        filtro.setMostrar(cantidadderegistrosporpagina);
+        filtro.setOpcion(opcion.toString());
+        return filtro;
+    }
+
+    @Override
+    public Response<UnidadMedidaResponse> saveUnidadMedida(UnidadMedidaRequest unidadMedidaRequest) {
+        Response<Integer> result = unidadMedidaService.saveUnidadMedida(unidadMedidaRequest);
+        return unidadMedidaService.getByid(result.getResult());
+    }
+
+    @Override
+    public UnidadMedidaRequest getUnidadMedidaModel(int idUnidadMedida) {
+        return unidadMedidaService.getByidUnidadMedia(idUnidadMedida).getResult();
+    }
+
+    @Override
+    public GeneralResponse deleteUnidadMedida(UnidadMedidaRequest model) {
+        return unidadMedidaService.deleteUnidadMedida(model);
     }
 
     @Override
