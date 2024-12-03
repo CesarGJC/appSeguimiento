@@ -29,14 +29,14 @@
               </button>
               <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                 <li><a data-update="true"
-                       data-atributes='"id_politica_desarrollo": ${item.id_politica_desarrollo}'
-                       data-id="${item.id_politica_desarrollo}"
+                       data-atributes='"id_detalle_periodos_programacion": ${item.id_detalle_periodos_programacion}'
+                       data-id="${item.id_detalle_periodos_programacion}"
                        href="#"
                        class="dropdown-item">Modificar</a></li>
                 <li>
                   <a class="dropdown-item" data-delete="true"
-                     data-atributes='"id_politica_desarrollo": ${item.id_politica_desarrollo}'
-                     data-id="${item.id_politica_desarrollo}"
+                     data-atributes='"id_detalle_periodos_programacion": ${item.id_detalle_periodos_programacion}'
+                     data-id="${item.id_detalle_periodos_programacion}"
                      href="#">Eliminar</a>
                 </li>
               </ul>

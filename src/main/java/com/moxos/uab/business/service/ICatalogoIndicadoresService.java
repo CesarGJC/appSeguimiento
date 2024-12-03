@@ -22,7 +22,7 @@ public interface ICatalogoIndicadoresService {
 
     Response<CatalogoIndicadoresRequest> getByid(int id_catalogo_indicador);
 
-    Response<List<CatalogoIndicadoresResponse>> listarCatalogoIndicadoresByTipo(String buscar, SearchCatalogo SearchIndicadores , int pagina, int nroPagina);
+    Response<List<CatalogoIndicadoresResponse>> listarCatalogoIndicadoresByTipo(String buscar, SearchCatalogo SearchIndicadores, int pagina, int nroPagina, int id);
 
-    Response<Integer> getCantidadByTipo(String buscar, SearchCatalogo SearchIndicadores);
+    Response<Integer> getCantidadByTipo(String buscar, SearchCatalogo SearchIndicadores, int id);
 }

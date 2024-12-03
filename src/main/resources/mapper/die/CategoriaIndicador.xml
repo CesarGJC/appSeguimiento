@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.moxos.uab.persistence.die.CategoriaIndicadorDao">
+    <select id="saveCategoriaIndicador" resultType="java.lang.Integer">
+        select *
+        from create_categoria_indicador(#{id_categoria}, #{descripcion},#{abreviacion}, #{ult_usuario})
+    </select>
+    <update id="deleteCategoriaIndicador">
+        UPDATE tcategoria_indicador
+        SET id_estado='X'
+        WHERE id_categoria=#{id_categoria};
+    </update>
+    <select id="getByid" resultType="com.moxos.uab.domain.entity.die.CategoriaIndicador">
+        SELECT id_categoria, descripcion, abreviacion, id_estado
+        FROM tcategoria_indicador
+        WHERE id_categoria=#{id_categoria} limit 1;
+    </select>
+    <select id="getAllCategoriaIndicador" resultType="com.moxos.uab.domain.entity.die.CategoriaIndicador">
+        SELECT id_categoria, descripcion, abreviacion, id_estado
+        FROM tcategoria_indicador
+        WHERE id_estado='A';
+    </select>
+    <select id="getCategoriaiIndicadorByDescripcion" resultType="com.moxos.uab.domain.entity.die.CategoriaIndicador">
+        SELECT id_categoria, descripcion, abreviacion, id_estado
+        FROM tcategoria_indicador
+        where  upper(descripcion) like ${buscar} and id_estado='A'
+        ORDER BY descripcion
+            LIMIT ${pagina} OFFSET ${nro_pagina};
+    </select>
+    <select id="getCantidadCategoriaIndicadorByDescripcion" resultType="java.lang.Integer">
+        SELECT count(id_categoria)
+        FROM tcategoria_indicador
+        where  upper(descripcion) like ${buscar} and id_estado='A'
+    </select>
+    <select id="getCategoriaiIndicadorByAbreviacion" resultType="com.moxos.uab.domain.entity.die.CategoriaIndicador">
+        SELECT id_categoria, descripcion, abreviacion, id_estado
+        FROM tcategoria_indicador
+        where  upper(abreviacion) like ${buscar} and id_estado='A'
+        ORDER BY descripcion
+            LIMIT ${pagina} OFFSET ${nro_pagina};
+    </select>
+    <select id="getCantidadCategoriaIndicadorByAbreviacion" resultType="java.lang.Integer">
+        SELECT count(id_categoria)
+        FROM tcategoria_indicador
+        where  upper(abreviacion) like ${buscar} and id_estado='A'
+    </select>
+</mapper>

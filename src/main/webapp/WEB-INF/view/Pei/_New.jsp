@@ -7,13 +7,13 @@
            action="${pageContext.request.contextPath}/pei/new">
     <form:hidden path="id_plan_pei"/>
     <div class="mb-3">
-        <label class="form-label" for="gestion">Gestion</label>
-        <form:textarea path="gestion" cssClass="form-control"/>
-        <form:errors cssClass="invalid" path="gestion"/>
+        <label class="form-label" for="descripcion">Planes Pie</label>
+        <form:textarea path="descripcion" cssClass="form-control"/>
+        <form:errors cssClass="invalid" path="descripcion"/>
     </div>
     <div class="mb-3">
-        <label class="form-label" for="descripcion">Planes Pie</label>
-        <form:input path="descripcion" cssClass="form-control"/>
-        <form:errors cssClass="invalid" path="descripcion"/>
+        <label class="form-label" for="gestion">Gestion</label>
+        <form:input path="gestion" cssClass="form-control"/>
+        <form:errors cssClass="invalid" path="gestion"/>
     </div>
 </form:form>

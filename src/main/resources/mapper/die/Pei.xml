@@ -3,7 +3,7 @@
 <mapper namespace="com.moxos.uab.persistence.die.PeiDao">
     <select id="savePei" resultType="java.lang.Integer">
         select *
-        from create_plan_pei(#{id_plan_pei},#{gestion},#{descripcion}, #{ult_usuario})
+        from create_plan_pei(#{id_plan_pei}, #{gestion},#{descripcion}, #{ult_usuario})
     </select>
     <update id="deletePei">
         UPDATE plan_pei
@@ -18,7 +18,7 @@
     <select id="getAllPei" resultType="com.moxos.uab.domain.entity.die.Pei">
         SELECT id_plan_pei, gestion, descripcion, id_estado
         FROM plan_pei
-        WHERE id_plan_pei=#{id_plan_pei} and id_estado='A';
+        WHERE   id_estado='A';
     </select>
     <select id="getPeiByPei" resultType="com.moxos.uab.domain.entity.die.Pei">
         SELECT id_plan_pei, gestion, descripcion, id_estado

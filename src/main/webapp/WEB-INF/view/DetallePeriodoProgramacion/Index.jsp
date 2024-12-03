@@ -16,6 +16,10 @@
             <h1><i class="fa fa-th-list"></i> Plan ${plan.gestion}</h1>
                     <p> ${plan.descripcion}</p>
         </div>
+        <ul class="app-breadcrumb breadcrumb">
+          <li class="breadcrumb-item"><i class="fa fa-home fs-6"></i></li>
+          <li class="breadcrumb-item"><a href="<c:url value="/pei/index"/>">Admin P.E.I.</a></li>
+        </ul>
     </div>
     <div class="row">
         <div class="col-sm-12">

@@ -21,7 +21,6 @@
             <div class="tile border border-primary">
                 <div class="tile-title-w-btn">
                     <h3 class="title">Areas estrategicas</h3>
-
                 </div>
                 <div class="tile-body">
                     <button id="addButton" type="button"
