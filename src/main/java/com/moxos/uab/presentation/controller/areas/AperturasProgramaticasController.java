@@ -1,16 +1,14 @@
 package com.moxos.uab.presentation.controller.areas;
 
 import com.moxos.uab.business.facade.IPoliticasIndicadoresAreasFacade;
+import com.moxos.uab.domain.dto.request.aperturasprogramaticas.AperturasProgramaticasRequest;
 import com.moxos.uab.domain.dto.request.general.ParametrosPaginacionBusquedaRequest;
 import com.moxos.uab.domain.dto.request.general.SelectListItemDto;
-import com.moxos.uab.domain.dto.request.pei.PeiRequest;
 import com.moxos.uab.domain.dto.response.GeneralResponse;
 import com.moxos.uab.domain.dto.response.Response;
-import com.moxos.uab.domain.dto.response.pei.PeiResponse;
+import com.moxos.uab.domain.dto.response.aperturasprogramaticas.AperturasProgramaticasResponse;
 import com.moxos.uab.domain.entity.siiga.Clientes;
 import jakarta.validation.Valid;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -25,11 +23,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Controller
-public class PeiController {
-
+public class AperturasProgramaticasController {
     private final IPoliticasIndicadoresAreasFacade politicasIndicadoresAreasFacade;
 
-    public PeiController(IPoliticasIndicadoresAreasFacade politicasIndicadoresAreasFacade) {
+    public AperturasProgramaticasController(IPoliticasIndicadoresAreasFacade politicasIndicadoresAreasFacade) {
         this.politicasIndicadoresAreasFacade = politicasIndicadoresAreasFacade;
     }
 
@@ -37,88 +34,87 @@ public class PeiController {
         ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
         return (Clientes) attr.getRequest().getSession().getAttribute("__sess_cliente");
     }
-
-    @GetMapping("/pei/index")
+    @GetMapping("/aperturas-programaticas/index")
     public String index(@ModelAttribute("model") ParametrosPaginacionBusquedaRequest<Integer> model, Model modelo) {
         model.setOption(0);
         //Lista de opciones de busqueda
         List<SelectListItemDto> opcionesElementos = new ArrayList<>();
-        opcionesElementos.add(new SelectListItemDto("0", "GESTION"));
-        opcionesElementos.add(new SelectListItemDto("1", "DESCRIPCION"));
+        opcionesElementos.add(new SelectListItemDto("0", "DESCRIPCION"));
+        opcionesElementos.add(new SelectListItemDto("1", "CODIGO"));
         modelo.addAttribute("opciones", opcionesElementos);
         modelo.addAttribute("model", model);
-        return "Pei/Index";
+        return "AperturasProgramaticas/Index";
     }
 
-    @GetMapping("/pei/listar")
+    @GetMapping("/aperturas-programaticas/listar")
     public String listar(@ModelAttribute("model") ParametrosPaginacionBusquedaRequest<Integer> model, Model modelo) {
-        var paginacion = politicasIndicadoresAreasFacade.getPei(model);
+        var paginacion = politicasIndicadoresAreasFacade.getAperturasProgramaticas(model);
         double cantidadpaginas = Math.ceil((double) paginacion.getTotaldeRegistros() / paginacion.getRegistrosporPagina());
 
         modelo.addAttribute("cantidadpaginas", cantidadpaginas);
         modelo.addAttribute("model", paginacion);
-        return "Pei/_Listar";
+        return "AperturasProgramaticas/_Listar";
     }
 
-    @GetMapping("/pei/update")
-    public String editar(@ModelAttribute("model") PeiRequest model, Model modelo) {
-        PeiRequest pieRequest = politicasIndicadoresAreasFacade.getPeiModel(model.getId_plan_pei());
-        modelo.addAttribute("model", pieRequest);
-        return "Pei/_Update";
+    @GetMapping("/aperturas-programaticas/update")
+    public String editar(@ModelAttribute("model") AperturasProgramaticasRequest model, Model modelo) {
+        AperturasProgramaticasRequest aperturasProgramaticasRequest = politicasIndicadoresAreasFacade.getAperturasProgramaticasModel(model.getId_apertura_programatica());
+        modelo.addAttribute("model", aperturasProgramaticasRequest);
+        return "AperturasProgramaticas/_Update";
     }
 
-    @PostMapping("/pei/update")
-    public String editar(@ModelAttribute("model") @Valid PeiRequest model, BindingResult result, Model modelo) {
+    @PostMapping("/aperturas-programaticas/update")
+    public String editar(@ModelAttribute("model") @Valid AperturasProgramaticasRequest model, BindingResult result, Model modelo) {
         if (result.hasErrors()) {
             modelo.addAttribute("model", model);
-            return "Pei/_Update";
+            return "AperturasProgramaticas/_Update";
         }
         model.setUlt_usuario(getUsuario().getId_usuario());
-        Response<PeiResponse> response = politicasIndicadoresAreasFacade.savePei(model);
+        Response<AperturasProgramaticasResponse> response = politicasIndicadoresAreasFacade.saveAperturasProgramaticas(model);
         if (response.isSuccess()) {
             modelo.addAttribute("item", response.getResult());
-            return "Pei/_Filas";
+            return "AperturasProgramaticas/_Filas";
         } else {
             result.addError(new FieldError("model", "descripcion", response.getMessage()));
             modelo.addAttribute("model", model);
-            return "Pei/_Update";
+            return "AperturasProgramaticas/_Update";
         }
     }
 
-    @GetMapping("/pei/new")
-    public String nuevo(@ModelAttribute("model") PeiRequest model, Model modelo) {
+    @GetMapping("/aperturas-programaticas/new")
+    public String nuevo(@ModelAttribute("model") AperturasProgramaticasRequest model, Model modelo) {
         modelo.addAttribute("model", model);
-        return "Pei/_New";
+        return "AperturasProgramaticas/_New";
     }
 
-    @PostMapping("/pei/new")
-    public String nuevo(@ModelAttribute("model") @Valid PeiRequest model, BindingResult result, Model modelo) {
+    @PostMapping("/aperturas-programaticas/new")
+    public String nuevo(@ModelAttribute("model") @Valid AperturasProgramaticasRequest model, BindingResult result, Model modelo) {
         if (result.hasErrors()) {
             modelo.addAttribute("model", model);
-            return "Pei/_New";
+            return "AperturasProgramaticas/_New";
         }
         model.setUlt_usuario(getUsuario().getId_usuario());
-        Response<PeiResponse> response = politicasIndicadoresAreasFacade.savePei(model);
+        Response<AperturasProgramaticasResponse> response = politicasIndicadoresAreasFacade.saveAperturasProgramaticas(model);
         if (response.isSuccess()) {
             modelo.addAttribute("item", response.getResult());
-            return "Pei/_Filas";
+            return "AperturasProgramaticas/_Filas";
         } else {
             result.addError(new FieldError("model", "descripcion", response.getMessage()));
             modelo.addAttribute("model", model);
-            return "Pei/_New";
+            return "AperturasProgramaticas/_New";
         }
     }
 
-    @GetMapping("/pei/delete")
-    public String eliminar(@ModelAttribute("model") PeiRequest model, Model modelo) {
-        PeiRequest peiRequest = politicasIndicadoresAreasFacade.getPeiModel(model.getId_plan_pei());
-        modelo.addAttribute("model", peiRequest);
-        return "Pei/_Delete";
+    @GetMapping("/aperturas-programaticas/delete")
+    public String eliminar(@ModelAttribute("model") AperturasProgramaticasRequest model, Model modelo) {
+        AperturasProgramaticasRequest AperturasProgramaticasRequest = politicasIndicadoresAreasFacade.getAperturasProgramaticasModel(model.getId_apertura_programatica());
+        modelo.addAttribute("model", AperturasProgramaticasRequest);
+        return "AperturasProgramaticas/_Delete";
     }
 
-    @PostMapping("/pei/delete")
-    public String eliminar(@ModelAttribute("model") @Valid PeiRequest model, BindingResult result, Model modelo) {
-        GeneralResponse response = politicasIndicadoresAreasFacade.deletePei(model);
+    @PostMapping("/aperturas-programaticas/delete")
+    public String eliminar(@ModelAttribute("model") @Valid AperturasProgramaticasRequest model, BindingResult result, Model modelo) {
+        GeneralResponse response = politicasIndicadoresAreasFacade.deleteAperturasProgramaticas(model);
         if (response.isSuccess()) {
             modelo.addAttribute("status", true);
             modelo.addAttribute("message", "Se elimino correctamente");
@@ -126,16 +122,17 @@ public class PeiController {
             modelo.addAttribute("status", false);
             modelo.addAttribute("message", response.getMessage());
         }
-        return "Pei/_Notificacion";
+        return "AperturasProgramaticas/_Notificacion";
     }
 
-    @GetMapping("/pei/listar-filtrar")
+    @GetMapping("/aperturas-programaticas/listar-filtrar")
     public String filtrar(@ModelAttribute("model") ParametrosPaginacionBusquedaRequest<Integer> model, Model modelo) {
-        var paginacion = politicasIndicadoresAreasFacade.getPei(model);
+        var paginacion = politicasIndicadoresAreasFacade.getAperturasProgramaticas(model);
         double cantidadpaginas = Math.ceil((double) paginacion.getTotaldeRegistros() / paginacion.getRegistrosporPagina());
 
         modelo.addAttribute("cantidadpaginas", cantidadpaginas);
         modelo.addAttribute("model", paginacion);
-        return "Pei/_Listar";
+        return "AperturasProgramaticas/_Listar";
     }
+
 }

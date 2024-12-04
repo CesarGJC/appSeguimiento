@@ -6,6 +6,7 @@ import com.moxos.uab.common.enums.*;
 import com.moxos.uab.common.util.RequestUtils;
 import com.moxos.uab.domain.dto.request.DetallePeriodoProgramacion.DetallePeriodoProgramacionRequest;
 import com.moxos.uab.domain.dto.request.DetallePeriodoProgramacion.ParametroPeiRequest;
+import com.moxos.uab.domain.dto.request.aperturasprogramaticas.AperturasProgramaticasRequest;
 import com.moxos.uab.domain.dto.request.areasestrategicas.AreasEstrategicasRequest;
 import com.moxos.uab.domain.dto.request.catalogoindicadores.CatalogoIndicadoresRequest;
 import com.moxos.uab.domain.dto.request.catalogoindicadores.ParametroAreaEstrategicaRequest;
@@ -21,6 +22,7 @@ import com.moxos.uab.domain.dto.request.unidadmedida.UnidadMedidaRequest;
 import com.moxos.uab.domain.dto.response.DetallePeriodoProgramacion.DetallePeriodoProgramacionResponse;
 import com.moxos.uab.domain.dto.response.GeneralResponse;
 import com.moxos.uab.domain.dto.response.Response;
+import com.moxos.uab.domain.dto.response.aperturasprogramaticas.AperturasProgramaticasResponse;
 import com.moxos.uab.domain.dto.response.areasestrategicas.AreaEstrategicaResponse;
 import com.moxos.uab.domain.dto.response.areasestrategicas.AreasEstrategicasDeleteResponse;
 import com.moxos.uab.domain.dto.response.catalogoindicadores.CatalogoIndicadoresResponse;
@@ -52,8 +54,9 @@ public class PoliticasIndicadoresAreasFacadeImpl implements IPoliticasIndicadore
     private final ICategoriaIndicadorService categoriaIndicadorService;
     private final ITipoIndicadorService tipoIndicadorService;
     private final IUnidadMedidaService unidadMedidaService;
+    private final IAperturasProgramaticasService aperturasProgramaticasService;
 
-    public PoliticasIndicadoresAreasFacadeImpl(IAreasEstrategicasService areasEstrategicasService, IPoliticasDesarrolloService politicasDesarrolloService, IConfigurationService configurationService, IIndicadoresEstrategicosService indicadoresEstrategicosService, ICatalogoIndicadoresService catalogoIndicadoresService, IPeiService peiService, IDetallePeriodoProgramacionService detallePeriodoProgramacionService, ModelMapper modelMapper, PlanesDao planesDao, ICategoriaIndicadorService categoriaIndicadorService, ITipoIndicadorService tipoIndicadorService, IUnidadMedidaService unidadMedidaService) {
+    public PoliticasIndicadoresAreasFacadeImpl(IAreasEstrategicasService areasEstrategicasService, IPoliticasDesarrolloService politicasDesarrolloService, IConfigurationService configurationService, IIndicadoresEstrategicosService indicadoresEstrategicosService, ICatalogoIndicadoresService catalogoIndicadoresService, IPeiService peiService, IDetallePeriodoProgramacionService detallePeriodoProgramacionService, ModelMapper modelMapper, PlanesDao planesDao, ICategoriaIndicadorService categoriaIndicadorService, ITipoIndicadorService tipoIndicadorService, IUnidadMedidaService unidadMedidaService,IAperturasProgramaticasService aperturasProgramaticasService) {
         this.areasEstrategicasService = areasEstrategicasService;
         this.politicasDesarrolloService = politicasDesarrolloService;
         this.configurationService = configurationService;
@@ -66,6 +69,7 @@ public class PoliticasIndicadoresAreasFacadeImpl implements IPoliticasIndicadore
         this.categoriaIndicadorService = categoriaIndicadorService;
         this.tipoIndicadorService = tipoIndicadorService;
         this.unidadMedidaService = unidadMedidaService;
+        this.aperturasProgramaticasService=aperturasProgramaticasService;
     }
 
     @Override
@@ -171,11 +175,6 @@ public class PoliticasIndicadoresAreasFacadeImpl implements IPoliticasIndicadore
     @Override
     public GeneralResponse deletePei(PeiRequest model) {
         return peiService.deletePei(model);
-    }
-
-    @Override
-    public List<ListView> getPei() {
-        return List.of();
     }
 
     @Override
@@ -468,6 +467,60 @@ public class PoliticasIndicadoresAreasFacadeImpl implements IPoliticasIndicadore
     public List<ListView> getUnidadesMedidas() {
         return unidadMedidaService.getUnidadMedida().getResult();
     }
+
+    //----Incicio: Adiciones Cesar = Fachada (Aperturas Programaticas)----
+
+    @Override
+    public IndexViewModelFilter<AperturasProgramaticasResponse, Integer> getAperturasProgramaticas(ParametrosPaginacionBusquedaRequest<Integer> model) {
+        //Clase generica para la paginacion
+        IndexViewModelFilter<AperturasProgramaticasResponse, Integer> filtro = new IndexViewModelFilter<>();
+
+        //Lista para mostrar el numero de elementos
+        List<SelectListItemDto> moxstrarelementos = RequestUtils.getCantidadDeElementos();
+
+        //Cantidad a mostrar por pagina
+        int cantidadderegistrosporpagina = model.getMostrar();
+
+        //Mostrar la pagina actual
+        int pagina = (model.getPagina() - 1) * cantidadderegistrosporpagina;
+
+        //Parametro de busqueda en elementos
+        String buscar = model.getBuscar() == null ? "'%%'" : "'%" + model.getBuscar().toUpperCase() + "%'";
+        Object opcion = model.getOption();
+        //Lista elementos a mostrar
+        Response<List<AperturasProgramaticasResponse>> designados = aperturasProgramaticasService.listarAperturasProgramaticasByTipo(buscar, SearchAperturas.values()[Integer.parseInt(opcion.toString())], cantidadderegistrosporpagina, pagina);
+        if (designados.isSuccess()) {
+            Response<Integer> totalregistros = aperturasProgramaticasService.getCantidadByTipo(buscar, SearchAperturas.values()[Integer.parseInt(opcion.toString())]);
+            filtro.setTotaldeRegistros(totalregistros.getResult());
+        } else {
+            filtro.setTotaldeRegistros(0);
+        }
+        filtro.setLista(designados.getResult());
+        filtro.setPaginaActual(model.getPagina());
+        filtro.setRegistrosporPagina(cantidadderegistrosporpagina);
+        filtro.setMostrarElementos(moxstrarelementos);
+        filtro.setMostrar(cantidadderegistrosporpagina);
+        filtro.setOpcion(opcion.toString());
+        return filtro;
+    }
+
+    @Override
+    public Response<AperturasProgramaticasResponse> saveAperturasProgramaticas(AperturasProgramaticasRequest aperturasProgramaticas) {
+        Response<Integer> result = aperturasProgramaticasService.saveAperturasProgramaticas(aperturasProgramaticas);
+        return aperturasProgramaticasService.getByid(result.getResult());
+    }
+
+    @Override
+    public AperturasProgramaticasRequest getAperturasProgramaticasModel(int idAperturasProgramatica) {
+        return aperturasProgramaticasService.getByidAperturasProgramaticas(idAperturasProgramatica).getResult();
+    }
+
+    @Override
+    public GeneralResponse deleteAperturasProgramaticas(AperturasProgramaticasRequest model) {
+        return aperturasProgramaticasService.deleteAperturasProgramaticas(model);
+    }
+
+    //----Fin: Adiciones Cesar = Fachada (Aperturas Programaticas)----
 
     @Override
     public IndexViewModelFilter<TipoIndicadorResponse, Integer> getTipoIndicador(ParametrosPaginacionBusquedaRequest<Integer> model) {

@@ -2,6 +2,7 @@ package com.moxos.uab.business.facade;
 
 import com.moxos.uab.domain.dto.request.DetallePeriodoProgramacion.DetallePeriodoProgramacionRequest;
 import com.moxos.uab.domain.dto.request.DetallePeriodoProgramacion.ParametroPeiRequest;
+import com.moxos.uab.domain.dto.request.aperturasprogramaticas.AperturasProgramaticasRequest;
 import com.moxos.uab.domain.dto.request.areasestrategicas.AreasEstrategicasRequest;
 import com.moxos.uab.domain.dto.request.catalogoindicadores.CatalogoIndicadoresRequest;
 import com.moxos.uab.domain.dto.request.catalogoindicadores.ParametroAreaEstrategicaRequest;
@@ -16,6 +17,7 @@ import com.moxos.uab.domain.dto.request.unidadmedida.UnidadMedidaRequest;
 import com.moxos.uab.domain.dto.response.DetallePeriodoProgramacion.DetallePeriodoProgramacionResponse;
 import com.moxos.uab.domain.dto.response.GeneralResponse;
 import com.moxos.uab.domain.dto.response.Response;
+import com.moxos.uab.domain.dto.response.aperturasprogramaticas.AperturasProgramaticasResponse;
 import com.moxos.uab.domain.dto.response.areasestrategicas.AreaEstrategicaResponse;
 import com.moxos.uab.domain.dto.response.areasestrategicas.AreasEstrategicasDeleteResponse;
 import com.moxos.uab.domain.dto.response.catalogoindicadores.CatalogoIndicadoresResponse;
@@ -48,8 +50,6 @@ public interface IPoliticasIndicadoresAreasFacade {
     PeiRequest getPeiModel(int idPei);
 
     GeneralResponse deletePei(PeiRequest model);
-
-    List<ListView> getPei();
 
     IndexViewModelFilter<DetallePeriodoProgramacionResponse, Integer> getDetallePeriodoProgramacion(ParametrosPaginacionBusquedaRequest<ParametroPeiRequest> busqueda);
 
@@ -93,7 +93,6 @@ public interface IPoliticasIndicadoresAreasFacade {
 
     GeneralResponse deleteCatalogoIndicadores(CatalogoIndicadoresRequest model);
 
-
     IndexViewModelFilter<CategoriaIndicadorResponse, Integer> getCategoriaIndicador(ParametrosPaginacionBusquedaRequest<Integer> busqueda);
 
     Response<CategoriaIndicadorResponse> saveCategoriaIndicador(CategoriaIndicadorRequest categoriaIndicador);
@@ -123,4 +122,16 @@ public interface IPoliticasIndicadoresAreasFacade {
     List<ListView> getTiposIndicadores();
 
     List<ListView> getUnidadesMedidas();
+
+    //----Incio: Adiciones Cesar = Metodos (Aperturas Programaticas)----
+
+    IndexViewModelFilter<AperturasProgramaticasResponse, Integer> getAperturasProgramaticas(ParametrosPaginacionBusquedaRequest<Integer> busqueda);
+
+    Response<AperturasProgramaticasResponse> saveAperturasProgramaticas(AperturasProgramaticasRequest aperturasProgramaticas);
+
+    AperturasProgramaticasRequest getAperturasProgramaticasModel(int idAperturasProgramatica);
+
+    GeneralResponse deleteAperturasProgramaticas(AperturasProgramaticasRequest model);
+
+    //----Fin: Adiciones Cesar = Metodos (Aperturas Programaticas)----
 }
