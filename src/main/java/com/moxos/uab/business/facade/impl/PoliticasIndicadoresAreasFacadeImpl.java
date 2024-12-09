@@ -2,29 +2,36 @@ package com.moxos.uab.business.facade.impl;
 
 import com.moxos.uab.business.facade.IPoliticasIndicadoresAreasFacade;
 import com.moxos.uab.business.service.*;
-import com.moxos.uab.business.service.impl.DetallePeriodoProgramacionServiceImpl;
 import com.moxos.uab.common.enums.*;
 import com.moxos.uab.common.util.RequestUtils;
 import com.moxos.uab.domain.dto.request.DetallePeriodoProgramacion.DetallePeriodoProgramacionRequest;
 import com.moxos.uab.domain.dto.request.DetallePeriodoProgramacion.ParametroPeiRequest;
+import com.moxos.uab.domain.dto.request.aperturasprogramaticas.AperturasProgramaticasRequest;
 import com.moxos.uab.domain.dto.request.areasestrategicas.AreasEstrategicasRequest;
-import com.moxos.uab.domain.dto.request.catalogoindicadores.CatalogoIndicadoresRequest;
+import com.moxos.uab.domain.dto.request.categoriaindicador.CategoriaIndicadorRequest;
 import com.moxos.uab.domain.dto.request.general.IndexViewModelFilter;
 import com.moxos.uab.domain.dto.request.general.ParametrosPaginacionBusquedaRequest;
 import com.moxos.uab.domain.dto.request.general.SelectListItemDto;
 import com.moxos.uab.domain.dto.request.indicadoresestrategicos.IndicadoresEstrategicosRequest;
 import com.moxos.uab.domain.dto.request.pei.PeiRequest;
 import com.moxos.uab.domain.dto.request.politicasdesarrollo.PoliticasDesarrolloRequest;
+import com.moxos.uab.domain.dto.request.tipoindicador.TipoIndicadorRequest;
+import com.moxos.uab.domain.dto.request.unidadmedida.UnidadMedidaRequest;
 import com.moxos.uab.domain.dto.response.DetallePeriodoProgramacion.DetallePeriodoProgramacionResponse;
 import com.moxos.uab.domain.dto.response.GeneralResponse;
 import com.moxos.uab.domain.dto.response.Response;
+import com.moxos.uab.domain.dto.response.aperturasprogramaticas.AperturasProgramaticasResponse;
 import com.moxos.uab.domain.dto.response.areasestrategicas.AreaEstrategicaResponse;
-import com.moxos.uab.domain.dto.response.catalogoindicadores.CatalogoIndicadoresResponse;
+import com.moxos.uab.domain.dto.response.categoriaindicador.CategoriaIndicadorResponse;
 import com.moxos.uab.domain.dto.response.configuration.ConfigurationResponse;
 import com.moxos.uab.domain.dto.response.indicadoresestrategicos.IndicadoresEstrategicosResponse;
 import com.moxos.uab.domain.dto.response.pei.PeiResponse;
 import com.moxos.uab.domain.dto.response.politicasdesarrollo.PoliticasDesarrolloResponse;
+import com.moxos.uab.domain.dto.response.tipoindicador.TipoIndicadorResponse;
+import com.moxos.uab.domain.dto.response.unidadmedida.UnidadMedidaResponse;
 import com.moxos.uab.domain.dto.response.view.ListView;
+import com.moxos.uab.persistence.siiga.PlanesDao;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -38,8 +45,14 @@ public class PoliticasIndicadoresAreasFacadeImpl implements IPoliticasIndicadore
     private final ICatalogoIndicadoresService catalogoIndicadoresService;
     private final IPeiService peiService;
     private final IDetallePeriodoProgramacionService detallePeriodoProgramacionService;
+    private final ModelMapper modelMapper;
+    private final PlanesDao planesDao;
+    private final ICategoriaIndicadorService categoriaIndicadorService;
+    private final ITipoIndicadorService tipoIndicadorService;
+    private final IUnidadMedidaService unidadMedidaService;
+    private final IAperturasProgramaticasService aperturasProgramaticasService;
 
-    public PoliticasIndicadoresAreasFacadeImpl(IAreasEstrategicasService areasEstrategicasService, IPoliticasDesarrolloService politicasDesarrolloService, IConfigurationService configurationService, IIndicadoresEstrategicosService indicadoresEstrategicosService, ICatalogoIndicadoresService catalogoIndicadoresService, IPeiService peiService, IDetallePeriodoProgramacionService detallePeriodoProgramacionService) {
+    public PoliticasIndicadoresAreasFacadeImpl(IAreasEstrategicasService areasEstrategicasService, IPoliticasDesarrolloService politicasDesarrolloService, IConfigurationService configurationService, IIndicadoresEstrategicosService indicadoresEstrategicosService, ICatalogoIndicadoresService catalogoIndicadoresService, IPeiService peiService, IDetallePeriodoProgramacionService detallePeriodoProgramacionService, ModelMapper modelMapper, PlanesDao planesDao, ICategoriaIndicadorService categoriaIndicadorService, ITipoIndicadorService tipoIndicadorService, IUnidadMedidaService unidadMedidaService,IAperturasProgramaticasService aperturasProgramaticasService) {
         this.areasEstrategicasService = areasEstrategicasService;
         this.politicasDesarrolloService = politicasDesarrolloService;
         this.configurationService = configurationService;
@@ -47,6 +60,12 @@ public class PoliticasIndicadoresAreasFacadeImpl implements IPoliticasIndicadore
         this.catalogoIndicadoresService = catalogoIndicadoresService;
         this.peiService = peiService;
         this.detallePeriodoProgramacionService = detallePeriodoProgramacionService;
+        this.modelMapper = modelMapper;
+        this.planesDao = planesDao;
+        this.categoriaIndicadorService = categoriaIndicadorService;
+        this.tipoIndicadorService = tipoIndicadorService;
+        this.unidadMedidaService = unidadMedidaService;
+        this.aperturasProgramaticasService=aperturasProgramaticasService;
     }
 
     @Override
@@ -90,9 +109,15 @@ public class PoliticasIndicadoresAreasFacadeImpl implements IPoliticasIndicadore
     }
 
     @Override
-    public AreasEstrategicasRequest getAreaEstrategicasModel(int idAreaEstrategica) {
-        return areasEstrategicasService.getByidAreasEstrategicas(idAreaEstrategica).getResult();
+    public AreaEstrategicaResponse getAreaEstrategicasModel(int idAreaEstrategica) {
+        return null;
     }
+
+    @Override
+    public AreasEstrategicasRequest getAreaEstrategicasDetalle(int idAreaEstrategica) {
+        return null;
+    }
+
 
     @Override
     public GeneralResponse deleteAreaEstrategica(AreasEstrategicasRequest model) {
@@ -150,11 +175,6 @@ public class PoliticasIndicadoresAreasFacadeImpl implements IPoliticasIndicadore
     }
 
     @Override
-    public List<ListView> getPei() {
-        return List.of();
-    }
-
-    @Override
     public IndexViewModelFilter<DetallePeriodoProgramacionResponse, Integer> getDetallePeriodoProgramacion(ParametrosPaginacionBusquedaRequest<ParametroPeiRequest> busqueda) {
 
         //Clase generica para la paginacion
@@ -196,7 +216,8 @@ public class PoliticasIndicadoresAreasFacadeImpl implements IPoliticasIndicadore
 
     @Override
     public DetallePeriodoProgramacionRequest getDetallePeriodoProgramacionModel(int idDetallePeriodoProgramacion) {
-        return null;
+        var response = detallePeriodoProgramacionService.getByid(idDetallePeriodoProgramacion);
+        return modelMapper.map(response.getResult(), DetallePeriodoProgramacionRequest.class);
     }
 
     @Override
@@ -255,15 +276,14 @@ public class PoliticasIndicadoresAreasFacadeImpl implements IPoliticasIndicadore
     }
 
     @Override
-    public List<ListView> getIndicadoresEstrategicos(int idPoliticaDesarrollo) {
-        return indicadoresEstrategicosService.listIndicadoresEstrategicosPorPolitica(idPoliticaDesarrollo).getResult();
+    public List<ListView> getPlanesEstrategicosInstitcuinales() {
+        return peiService.listPlanEstrategicaInstitucional().getResult();
     }
 
     @Override
-    public List<ListView> getCatalogoIndicadores(int idIndicadorEstrategico) {
-        return List.of();
+    public List<ListView> getIndicadoresEstrategicos(int idPoliticaDesarrollo) {
+        return indicadoresEstrategicosService.listIndicadoresEstrategicosPorPolitica(idPoliticaDesarrollo).getResult();
     }
-
 
     @Override
     public Response<PoliticasDesarrolloResponse> savePoliticasDesarrollo(PoliticasDesarrolloRequest model) {
@@ -326,9 +346,14 @@ public class PoliticasIndicadoresAreasFacadeImpl implements IPoliticasIndicadore
     }
 
     @Override
-    public IndexViewModelFilter<CatalogoIndicadoresResponse, Integer> getCatalogosIndicadores(ParametrosPaginacionBusquedaRequest<Integer> model) {
+    public List<ListView> getPoliticasDesarrollo() {
+        return politicasDesarrolloService.getAllPoliticasDesarrolloA().getResult();
+    }
+
+    @Override
+    public IndexViewModelFilter<CategoriaIndicadorResponse, Integer> getCategoriaIndicador(ParametrosPaginacionBusquedaRequest<Integer> model) {
         //Clase generica para la paginacion
-        IndexViewModelFilter<CatalogoIndicadoresResponse, Integer> filtro = new IndexViewModelFilter<>();
+        IndexViewModelFilter<CategoriaIndicadorResponse, Integer> filtro = new IndexViewModelFilter<>();
 
         //Lista para mostrar el numero de elementos
         List<SelectListItemDto> moxstrarelementos = RequestUtils.getCantidadDeElementos();
@@ -343,9 +368,9 @@ public class PoliticasIndicadoresAreasFacadeImpl implements IPoliticasIndicadore
         String buscar = model.getBuscar() == null ? "'%%'" : "'%" + model.getBuscar().toUpperCase() + "%'";
         Object opcion = model.getOption();
         //Lista elementos a mostrar
-        Response<List<CatalogoIndicadoresResponse>> designados = catalogoIndicadoresService.listarCatalogoIndicadoresByTipo(buscar, SearchCatalogo.values()[Integer.parseInt(opcion.toString())], cantidadderegistrosporpagina, pagina);
+        Response<List<CategoriaIndicadorResponse>> designados = categoriaIndicadorService.listarCategoriaIndicadorByTipo(buscar, SearchCategoriaIndicador.values()[Integer.parseInt(opcion.toString())], cantidadderegistrosporpagina, pagina);
         if (designados.isSuccess()) {
-            Response<Integer> totalregistros = catalogoIndicadoresService.getCantidadByTipo(buscar, SearchCatalogo.values()[Integer.parseInt(opcion.toString())]);
+            Response<Integer> totalregistros = categoriaIndicadorService.getCantidadByTipo(buscar, SearchCategoriaIndicador.values()[Integer.parseInt(opcion.toString())]);
             filtro.setTotaldeRegistros(totalregistros.getResult());
         } else {
             filtro.setTotaldeRegistros(0);
@@ -360,24 +385,187 @@ public class PoliticasIndicadoresAreasFacadeImpl implements IPoliticasIndicadore
     }
 
     @Override
-    public CatalogoIndicadoresRequest getCatalogoIndicadoresModel(int idCatalogoIndicadores) {
-        return catalogoIndicadoresService.getByid(idCatalogoIndicadores).getResult();
+    public Response<CategoriaIndicadorResponse> saveCategoriaIndicador(CategoriaIndicadorRequest categoriaIndicador) {
+        Response<Integer> result = categoriaIndicadorService.saveCategoriaIndicador(categoriaIndicador);
+        return categoriaIndicadorService.getByid(result.getResult());
     }
 
     @Override
-    public Response<CatalogoIndicadoresResponse> saveCatalogoIndicadores(CatalogoIndicadoresRequest model) {
-        return catalogoIndicadoresService.saveCatalogoIndicadores(model);
-    }
-
-
-    @Override
-    public GeneralResponse deleteCatalogoIndicadores(CatalogoIndicadoresRequest model) {
-        return catalogoIndicadoresService.deleteCatalogoIndicadores(model);
+    public CategoriaIndicadorRequest getCategoriaIndicadorModel(int idCategoriaIndicador) {
+        return categoriaIndicadorService.getByidCategoriaIndicador(idCategoriaIndicador).getResult();
     }
 
     @Override
-    public List<ListView> getPoliticasDesarrollo() {
-        return politicasDesarrolloService.getAllPoliticasDesarrolloA().getResult();
+    public GeneralResponse deleteCategoriaIndicador(CategoriaIndicadorRequest model) {
+        return categoriaIndicadorService.deleteCategoriaIndicador(model);
     }
 
+    @Override
+    public List<ListView> getCategoriaIndicador() {
+        return categoriaIndicadorService.getCategorias().getResult();
+    }
+
+    @Override
+    public List<ListView> getTiposIndicadores() {
+        return tipoIndicadorService.getTiposIndicadores().getResult();
+    }
+
+    @Override
+    public List<ListView> getUnidadesMedidas() {
+        return unidadMedidaService.getUnidadMedida().getResult();
+    }
+
+    //----Incicio: Adiciones Cesar = Fachada (Aperturas Programaticas)----
+
+    @Override
+    public IndexViewModelFilter<AperturasProgramaticasResponse, Integer> getAperturasProgramaticas(ParametrosPaginacionBusquedaRequest<Integer> model) {
+        //Clase generica para la paginacion
+        IndexViewModelFilter<AperturasProgramaticasResponse, Integer> filtro = new IndexViewModelFilter<>();
+
+        //Lista para mostrar el numero de elementos
+        List<SelectListItemDto> moxstrarelementos = RequestUtils.getCantidadDeElementos();
+
+        //Cantidad a mostrar por pagina
+        int cantidadderegistrosporpagina = model.getMostrar();
+
+        //Mostrar la pagina actual
+        int pagina = (model.getPagina() - 1) * cantidadderegistrosporpagina;
+
+        //Parametro de busqueda en elementos
+        String buscar = model.getBuscar() == null ? "'%%'" : "'%" + model.getBuscar().toUpperCase() + "%'";
+        Object opcion = model.getOption();
+        //Lista elementos a mostrar
+        Response<List<AperturasProgramaticasResponse>> designados = aperturasProgramaticasService.listarAperturasProgramaticasByTipo(buscar, SearchAperturas.values()[Integer.parseInt(opcion.toString())], cantidadderegistrosporpagina, pagina);
+        if (designados.isSuccess()) {
+            Response<Integer> totalregistros = aperturasProgramaticasService.getCantidadByTipo(buscar, SearchAperturas.values()[Integer.parseInt(opcion.toString())]);
+            filtro.setTotaldeRegistros(totalregistros.getResult());
+        } else {
+            filtro.setTotaldeRegistros(0);
+        }
+        filtro.setLista(designados.getResult());
+        filtro.setPaginaActual(model.getPagina());
+        filtro.setRegistrosporPagina(cantidadderegistrosporpagina);
+        filtro.setMostrarElementos(moxstrarelementos);
+        filtro.setMostrar(cantidadderegistrosporpagina);
+        filtro.setOpcion(opcion.toString());
+        return filtro;
+    }
+
+    @Override
+    public Response<AperturasProgramaticasResponse> saveAperturasProgramaticas(AperturasProgramaticasRequest aperturasProgramaticas) {
+        Response<Integer> result = aperturasProgramaticasService.saveAperturasProgramaticas(aperturasProgramaticas);
+        return aperturasProgramaticasService.getByid(result.getResult());
+    }
+
+    @Override
+    public AperturasProgramaticasRequest getAperturasProgramaticasModel(int idAperturasProgramatica) {
+        return aperturasProgramaticasService.getByidAperturasProgramaticas(idAperturasProgramatica).getResult();
+    }
+
+    @Override
+    public GeneralResponse deleteAperturasProgramaticas(AperturasProgramaticasRequest model) {
+        return aperturasProgramaticasService.deleteAperturasProgramaticas(model);
+    }
+
+    //----Fin: Adiciones Cesar = Fachada (Aperturas Programaticas)----
+
+    @Override
+    public IndexViewModelFilter<TipoIndicadorResponse, Integer> getTipoIndicador(ParametrosPaginacionBusquedaRequest<Integer> model) {
+        //Clase generica para la paginacion
+        IndexViewModelFilter<TipoIndicadorResponse, Integer> filtro = new IndexViewModelFilter<>();
+
+        //Lista para mostrar el numero de elementos
+        List<SelectListItemDto> moxstrarelementos = RequestUtils.getCantidadDeElementos();
+
+        //Cantidad a mostrar por pagina
+        int cantidadderegistrosporpagina = model.getMostrar();
+
+        //Mostrar la pagina actual
+        int pagina = (model.getPagina() - 1) * cantidadderegistrosporpagina;
+
+        //Parametro de busqueda en elementos
+        String buscar = model.getBuscar() == null ? "'%%'" : "'%" + model.getBuscar().toUpperCase() + "%'";
+        Object opcion = model.getOption();
+        //Lista elementos a mostrar
+        Response<List<TipoIndicadorResponse>> designados = tipoIndicadorService.listarTipoIndicadorByTipo(buscar, SearchTipoIndicador.values()[Integer.parseInt(opcion.toString())], cantidadderegistrosporpagina, pagina);
+        if (designados.isSuccess()) {
+            Response<Integer> totalregistros = tipoIndicadorService.getCantidadByTipo(buscar, SearchTipoIndicador.values()[Integer.parseInt(opcion.toString())]);
+            filtro.setTotaldeRegistros(totalregistros.getResult());
+        } else {
+            filtro.setTotaldeRegistros(0);
+        }
+        filtro.setLista(designados.getResult());
+        filtro.setPaginaActual(model.getPagina());
+        filtro.setRegistrosporPagina(cantidadderegistrosporpagina);
+        filtro.setMostrarElementos(moxstrarelementos);
+        filtro.setMostrar(cantidadderegistrosporpagina);
+        filtro.setOpcion(opcion.toString());
+        return filtro;
+    }
+
+    @Override
+    public Response<TipoIndicadorResponse> saveTipoIndicador(TipoIndicadorRequest tipoIndicadorRequest) {
+        Response<Integer> result = tipoIndicadorService.saveTipoIndicador(tipoIndicadorRequest);
+        return tipoIndicadorService.getByid(result.getResult());
+    }
+
+    @Override
+    public TipoIndicadorRequest getTipoIndicadorModel(int idTipoIndicador) {
+        return tipoIndicadorService.getByidTipoIndicador(idTipoIndicador).getResult();
+    }
+
+    @Override
+    public GeneralResponse deleteTipoIndicador(TipoIndicadorRequest model) {
+        return tipoIndicadorService.deleteTipoIndicador(model);
+    }
+
+    @Override
+    public IndexViewModelFilter<UnidadMedidaResponse, Integer> getUnidadMedida(ParametrosPaginacionBusquedaRequest<Integer> model) {
+        //Clase generica para la paginacion
+        IndexViewModelFilter<UnidadMedidaResponse, Integer> filtro = new IndexViewModelFilter<>();
+
+        //Lista para mostrar el numero de elementos
+        List<SelectListItemDto> moxstrarelementos = RequestUtils.getCantidadDeElementos();
+
+        //Cantidad a mostrar por pagina
+        int cantidadderegistrosporpagina = model.getMostrar();
+
+        //Mostrar la pagina actual
+        int pagina = (model.getPagina() - 1) * cantidadderegistrosporpagina;
+
+        //Parametro de busqueda en elementos
+        String buscar = model.getBuscar() == null ? "'%%'" : "'%" + model.getBuscar().toUpperCase() + "%'";
+        Object opcion = model.getOption();
+        //Lista elementos a mostrar
+        Response<List<UnidadMedidaResponse>> designados = unidadMedidaService.listarUnidadMedidaByTipo(buscar, SearchUnidadMedida.values()[Integer.parseInt(opcion.toString())], cantidadderegistrosporpagina, pagina);
+        if (designados.isSuccess()) {
+            Response<Integer> totalregistros = unidadMedidaService.getCantidadByTipo(buscar, SearchUnidadMedida.values()[Integer.parseInt(opcion.toString())]);
+            filtro.setTotaldeRegistros(totalregistros.getResult());
+        } else {
+            filtro.setTotaldeRegistros(0);
+        }
+        filtro.setLista(designados.getResult());
+        filtro.setPaginaActual(model.getPagina());
+        filtro.setRegistrosporPagina(cantidadderegistrosporpagina);
+        filtro.setMostrarElementos(moxstrarelementos);
+        filtro.setMostrar(cantidadderegistrosporpagina);
+        filtro.setOpcion(opcion.toString());
+        return filtro;
+    }
+
+    @Override
+    public Response<UnidadMedidaResponse> saveUnidadMedida(UnidadMedidaRequest unidadMedidaRequest) {
+        Response<Integer> result = unidadMedidaService.saveUnidadMedida(unidadMedidaRequest);
+        return unidadMedidaService.getByid(result.getResult());
+    }
+
+    @Override
+    public UnidadMedidaRequest getUnidadMedidaModel(int idUnidadMedida) {
+        return unidadMedidaService.getByidUnidadMedia(idUnidadMedida).getResult();
+    }
+
+    @Override
+    public GeneralResponse deleteUnidadMedida(UnidadMedidaRequest model) {
+        return unidadMedidaService.deleteUnidadMedida(model);
+    }
 }

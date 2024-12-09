@@ -3,8 +3,8 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<td data-label="DESCRIPCION">${item.descripcion}</td>
-<td data-label="PLANES PEI">${item.descripcion_plan}</td>
+<td data-label="DETALLES PERIODOS DE PROGRAMACION">${item.descripcion}</td>
+<td data-label="PLAN PEI">${item.plan_pei}</td>
 <td data-label="ACCION" id="td${item.id_detalle_periodos_programacion}">
     <div class="dropdown">
         <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton1"

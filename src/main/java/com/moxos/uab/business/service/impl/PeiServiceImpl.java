@@ -124,4 +124,16 @@ public class PeiServiceImpl implements IPeiService {
             return new Response<>(false, e.getMessage(), null);
         }
     }
+
+    @Override
+    public Response<List<ListView>> listPlanEstrategicaInstitucional() {
+        try {
+            List<ListView> listViews = new ArrayList<>();
+            for (var item : peiDao.getAllPei())
+                listViews.add(new ListView(String.valueOf(item.getId_plan_pei()), item.getDescripcion()));
+            return new Response<>(true, "", listViews);
+        } catch (Exception e) {
+            return new Response<>(false, e.getMessage(), null);
+        }
+    }
 }
