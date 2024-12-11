@@ -62,7 +62,7 @@ public class IndicadoresEstrategicosController {
     @GetMapping("/indicadores-estrategicos/update")
     public String editar(@ModelAttribute("model") IndicadoresEstrategicosRequest model, Model modelo) {
         IndicadoresEstrategicosRequest indicadoresEstrategicosRequest = politicasIndicadoresAreasFacade.getIndicadoresEstrategicosModel(model.getId_indicador_estrategico());
-        indicadoresEstrategicosRequest.setAreasEstrategicas(politicasIndicadoresAreasFacade.getAreasEstrategicas());
+      //  indicadoresEstrategicosRequest.setAreasEstrategicas(politicasIndicadoresAreasFacade.getAreasEstrategicas());
         indicadoresEstrategicosRequest.setPoliticasDesarrollo(politicasIndicadoresAreasFacade.getPoliticasDesarrollo(indicadoresEstrategicosRequest.getId_area_estrategica()));
         modelo.addAttribute("model", indicadoresEstrategicosRequest);
         return "IndicadoresEstrategicos/_Update";
@@ -71,7 +71,7 @@ public class IndicadoresEstrategicosController {
     @PostMapping("/indicadores-estrategicos/update")
     public String editar(@ModelAttribute("model") @Valid IndicadoresEstrategicosRequest model, BindingResult result, Model modelo) {
         if (result.hasErrors()) {
-            model.setAreasEstrategicas(politicasIndicadoresAreasFacade.getAreasEstrategicas());
+          //  model.setAreasEstrategicas(politicasIndicadoresAreasFacade.getAreasEstrategicas());
             model.setPoliticasDesarrollo(politicasIndicadoresAreasFacade.getPoliticasDesarrollo(model.getId_area_estrategica()));
             modelo.addAttribute("model", model);
             return "IndicadoresEstrategicos/_Update";
@@ -91,7 +91,7 @@ public class IndicadoresEstrategicosController {
     @GetMapping("/indicadores-estrategicos/new")
     public String nuevo(@ModelAttribute("model") IndicadoresEstrategicosRequest model, Model modelo) {
         model.setId_area_estrategica(-1);
-        model.setAreasEstrategicas(politicasIndicadoresAreasFacade.getAreasEstrategicas());
+       // model.setAreasEstrategicas(politicasIndicadoresAreasFacade.getAreasEstrategicas());
         model.setId_politica_desarrollo(-1);
         model.setPoliticasDesarrollo(politicasIndicadoresAreasFacade.getPoliticasDesarrollo(model.getId_area_estrategica()));;
         modelo.addAttribute("model", model);
@@ -101,7 +101,7 @@ public class IndicadoresEstrategicosController {
     @PostMapping("/indicadores-estrategicos/new")
     public String nuevo(@ModelAttribute("model") @Valid IndicadoresEstrategicosRequest model, BindingResult result, Model modelo) {
         if (result.hasErrors()) {
-            model.setAreasEstrategicas(politicasIndicadoresAreasFacade.getAreasEstrategicas());
+           // model.setAreasEstrategicas(politicasIndicadoresAreasFacade.getAreasEstrategicas());
             model.setPoliticasDesarrollo(politicasIndicadoresAreasFacade.getPoliticasDesarrollo(model.getId_area_estrategica()));
             modelo.addAttribute("model", model);
             return "IndicadoresEstrategicos/_New";

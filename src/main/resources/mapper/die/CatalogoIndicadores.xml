@@ -2,145 +2,91 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.moxos.uab.persistence.die.CatalogoIndicadoresDao">
     <select id="saveCatalogoIndicadores" resultType="java.lang.Integer">
-        select * from create_catalogo_indicadores(#{id_catalogo_indicador},#{id_indicador_estrategico},#{catalogo_indicador},#{meta},#{linea_base},#{denominacion_indicador},#{formula},#{medios_verificacion},#{ult_usuario})
+        select *
+        from create_catalogo_indicadores(
+                #{id_catalogo_indicador_pei},
+                #{id_area_estrategica},
+                #{denominacion_indicador},
+                #{id_unidad_medida},
+                #{id_tipo_indicador},
+                #{id_categoria},
+                #{articulacion},
+                #{ult_usuario}
+             )
     </select>
     <update id="deleteCatalogoIndicadores">
-        UPDATE public.tcatalogo_indicadores
+        UPDATE public.tcatalogo_indicadores_pei
         SET id_estado='X'
-        WHERE id_catalogo_indicador=#{id_catalogo_indicador};
+        WHERE id_catalogo_indicador_pei=#{id_catalogo_indicador_pei};
     </update>
     <select id="selectCatalogoIndicadores" resultType="com.moxos.uab.domain.entity.die.CatalogoIndicadores">
         SELECT id_catalogo_indicador, id_indicador_estrategico, catalogo_indicador, meta, linea_base, denominacion_indicador, formula, medios_verificacion, ult_usuario
         FROM public.tcatalogo_indicadores
-        WHERE id_catalogo_indicador=#{id_catalogo_indicador} and id_estado='A';
+        WHERE id_catalogo_indicador_pei=#{id_catalogo_indicador_pei} and id_estado='A';
     </select>
     <select id="getByid" resultType="com.moxos.uab.domain.entity.die.CatalogoIndicadores">
-        SELECT ti.id_catalogo_indicador,
-               tpd.politica_desarrollo,
-               tpd.id_politica_desarrollo,
-               ti.id_indicador_estrategico,
-               te.indicador_estrategico,
-               catalogo_indicador,
-               meta,
-               linea_base,
+        SELECT id_catalogo_indicador_pei,
+               id_area_estrategica,
                denominacion_indicador,
-               formula,
-               medios_verificacion
-        FROM public.tcatalogo_indicadores ti
-                 INNER JOIN public.tindicadores_estrategicos te ON ti.id_indicador_estrategico = te.id_indicador_estrategico
-                 INNER JOIN public.tpoliticas_desarrollo tpd on tpd.id_politica_desarrollo = te.id_politica_desarrollo
-        WHERE ti.id_catalogo_indicador = #{id_catalogo_indicador}
-            LIMIT 1;
+               id_unidad_medida,
+               id_tipo_indicador,
+               id_categoria,
+               articulacion
+        FROM public.tcatalogo_indicadores_pei
+        where id_estado='A' and id_catalogo_indicador_pei=#{id_catalogo_indicador_pei};
     </select>
     <select id="getAllCatalogoIndicadores" resultType="com.moxos.uab.domain.entity.die.CatalogoIndicadores">
         SELECT id_catalogo_indicador, id_catalogo_indicador, catalogo_indicador, meta, linea_base, denominacion_indicador, formula, medios_verificacion, id_estado, fec_registro, fec_modificacion, ult_usuario
         FROM public.tcatalogo_indicadores
         WHERE id_catalogo_indicador=#{id_catalogo_indicador} and id_estado='A';
     </select>
-    <select id="getCatalogoIndicadoresByIndicadores" resultType="com.moxos.uab.domain.entity.die.CatalogoIndicadores">
-        SELECT ti.id_catalogo_indicador,
-               tpd.politica_desarrollo,
-               ti.id_indicador_estrategico,
-               te.indicador_estrategico,
-               catalogo_indicador,
-               meta,
-               linea_base,
+    <select id="getCatalogoIndicadoresByArticulacion" resultType="com.moxos.uab.domain.entity.die.CatalogoIndicadores">
+        SELECT ti.id_catalogo_indicador_pei,
+               te.area_estrategica,
                denominacion_indicador,
-               formula,
-               medios_verificacion
-        FROM public.tcatalogo_indicadores ti
-                 INNER JOIN public.tindicadores_estrategicos te ON ti.id_indicador_estrategico = te.id_indicador_estrategico
-                 JOIN public.tpoliticas_desarrollo tpd on tpd.id_politica_desarrollo = te.id_politica_desarrollo
-        WHERE ti.id_estado = 'A'
-            AND upper(te.indicador_estrategico) like ${buscar}
-        ORDER BY te.indicador_estrategico
+               tpd.descripcion || '(' || tpd.abreviacion || ')' as tipo_indicador,
+               tu.descripcion || '(' || tu.abreviacion || ')'   as unidad,
+               tc.descripcion || '(' || tc.abreviacion || ')'   as categoria,
+               articulacion
+        FROM public.tcatalogo_indicadores_pei ti
+                 INNER JOIN public.tareas_estrategia te ON ti.id_area_estrategica = te.id_area_estrategica
+                 INNER JOIN public.ttipo_indicador tpd on tpd.id_tipo_indicador = ti.id_tipo_indicador
+                 INNER JOIN public.tunidad_medida tu on tu.id_unidad_medida = ti.id_unidad_medida
+                 INNER JOIN public.tcategoria_indicador tc on tc.id_categoria = ti.id_categoria
+        WHERE ti.id_estado = 'A' and ti.id_area_estrategica=#{id_area_estrategica}
+          AND upper(articulacion) like ${buscar}
+        ORDER BY ti.denominacion_indicador
             LIMIT ${pagina}
         OFFSET ${nro_pagina};
     </select>
-    <select id="getCantidadCatalogoIndicadoresByIndicadores" resultType="java.lang.Integer">
-        SELECT COUNT(id_catalogo_indicador)
-        FROM public.tcatalogo_indicadores ti
-                 INNER JOIN public.tindicadores_estrategicos te ON ti.id_indicador_estrategico = te.id_indicador_estrategico
-        WHERE ti.id_estado = 'A' AND upper(te.indicador_estrategico) like ${buscar}
+    <select id="getCantidadCatalogoIndicadoresByArticulacion" resultType="java.lang.Integer">
+        SELECT COUNT(id_catalogo_indicador_pei)
+        FROM public.tcatalogo_indicadores_pei ti
+        WHERE ti.id_estado = 'A'  and ti.id_area_estrategica=#{id_area_estrategica} AND upper(articulacion) like ${buscar}
     </select>
-    <select id="getCatalogoIndicadoresByCatalogo" resultType="com.moxos.uab.domain.entity.die.CatalogoIndicadores">
-        SELECT ti.id_catalogo_indicador,
-               tpd.politica_desarrollo,
-               ti.id_indicador_estrategico,
-               te.indicador_estrategico,
-               catalogo_indicador,
-               meta,
-               linea_base,
+    <select id="getCatalogoIndicadoresByDenominacion" resultType="com.moxos.uab.domain.entity.die.CatalogoIndicadores">
+        SELECT ti.id_catalogo_indicador_pei,
+               te.area_estrategica,
                denominacion_indicador,
-               formula,
-               medios_verificacion
-        FROM public.tcatalogo_indicadores ti
-                 INNER JOIN public.tindicadores_estrategicos te ON ti.id_indicador_estrategico = te.id_indicador_estrategico
-                 JOIN public.tpoliticas_desarrollo tpd on tpd.id_politica_desarrollo = te.id_politica_desarrollo
-        WHERE ti.id_estado = 'A'
-          AND upper(catalogo_indicador) like ${buscar}
-        ORDER BY te.indicador_estrategico
+               tpd.descripcion || '(' || tpd.abreviacion || ')' as tipo_indicador,
+               tu.descripcion || '(' || tu.abreviacion || ')'   as unidad,
+               tc.descripcion || '(' || tc.abreviacion || ')'   as categoria,
+               articulacion
+        FROM public.tcatalogo_indicadores_pei ti
+                 INNER JOIN public.tareas_estrategia te ON ti.id_area_estrategica = te.id_area_estrategica
+                 INNER JOIN public.ttipo_indicador tpd on tpd.id_tipo_indicador = ti.id_tipo_indicador
+                 INNER JOIN public.tunidad_medida tu on tu.id_unidad_medida = ti.id_unidad_medida
+                 INNER JOIN public.tcategoria_indicador tc on tc.id_categoria = ti.id_categoria
+        WHERE ti.id_estado = 'A'  and ti.id_area_estrategica=#{id_area_estrategica}
+          AND upper(denominacion_indicador) like ${buscar}
+        ORDER BY ti.denominacion_indicador
             LIMIT ${pagina}
         OFFSET ${nro_pagina};
     </select>
-    <select id="getCantidadCatalogoIndicadoresByCatalogo" resultType="java.lang.Integer">
-        SELECT COUNT(id_catalogo_indicador)
-        FROM public.tcatalogo_indicadores ti
-                 INNER JOIN public.tindicadores_estrategicos te ON ti.id_indicador_estrategico = te.id_indicador_estrategico
-        WHERE ti.id_estado = 'A' AND upper(catalogo_indicador) like ${buscar}
-    </select>
-    <select id="getCatalogoIndicadoresByMeta" resultType="com.moxos.uab.domain.entity.die.CatalogoIndicadores">
-        SELECT ti.id_catalogo_indicador,
-               tpd.politica_desarrollo,
-               ti.id_indicador_estrategico,
-               te.indicador_estrategico,
-               catalogo_indicador,
-               meta,
-               linea_base,
-               denominacion_indicador,
-               formula,
-               medios_verificacion
-        FROM public.tcatalogo_indicadores ti
-                 INNER JOIN public.tindicadores_estrategicos te ON ti.id_indicador_estrategico = te.id_indicador_estrategico
-                 JOIN public.tpoliticas_desarrollo tpd on tpd.id_politica_desarrollo = te.id_politica_desarrollo
-        WHERE ti.id_estado = 'A'
-          AND upper(meta) like ${buscar}
-        ORDER BY te.indicador_estrategico
-            LIMIT ${pagina}
-        OFFSET ${nro_pagina};
-    </select>
-    <select id="getCantidadCatalogoIndicadoresByMeta" resultType="java.lang.Integer">
-        SELECT COUNT(id_catalogo_indicador)
-        FROM public.tcatalogo_indicadores ti
-                 INNER JOIN public.tindicadores_estrategicos te ON ti.id_indicador_estrategico = te.id_indicador_estrategico
-        WHERE ti.id_estado = 'A' AND upper(meta) like ${buscar}
-    </select>
-    <select id="getCatalogoIndicadoresByLineaBase" resultType="com.moxos.uab.domain.entity.die.CatalogoIndicadores">
-        SELECT ti.id_catalogo_indicador,
-               tpd.politica_desarrollo,
-               ti.id_indicador_estrategico,
-               te.indicador_estrategico,
-               catalogo_indicador,
-               meta,
-               linea_base,
-               denominacion_indicador,
-               formula,
-               medios_verificacion
-        FROM public.tcatalogo_indicadores ti
-                 INNER JOIN public.tindicadores_estrategicos te
-                            ON ti.id_indicador_estrategico = te.id_indicador_estrategico
-                 JOIN public.tpoliticas_desarrollo tpd on tpd.id_politica_desarrollo = te.id_politica_desarrollo
-        WHERE ti.id_estado = 'A'
-          AND upper(linea_base) like ${buscar}
-        ORDER BY te.indicador_estrategico
-            LIMIT ${pagina}
-        OFFSET ${nro_pagina};
-    </select>
-    <select id="getCantidadCatalogoIndicadoresByLineaBase" resultType="java.lang.Integer">
-        SELECT COUNT(id_catalogo_indicador)
-        FROM public.tcatalogo_indicadores ti
-                 INNER JOIN public.tindicadores_estrategicos te ON ti.id_indicador_estrategico = te.id_indicador_estrategico
-        WHERE ti.id_estado = 'A' AND upper(linea_base) like ${buscar}
+    <select id="getCantidadCatalogoIndicadoresByDenominacion" resultType="java.lang.Integer">
+        SELECT COUNT(id_catalogo_indicador_pei)
+        FROM public.tcatalogo_indicadores_pei ti
+        WHERE ti.id_estado = 'A'  and ti.id_area_estrategica=#{id_area_estrategica} AND upper(denominacion_indicador) like ${buscar}
     </select>
 
 </mapper>

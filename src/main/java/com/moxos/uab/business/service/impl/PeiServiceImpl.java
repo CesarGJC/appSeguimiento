@@ -9,8 +9,6 @@ import com.moxos.uab.domain.dto.response.pei.PeiResponse;
 import com.moxos.uab.domain.dto.response.view.ListView;
 import com.moxos.uab.domain.entity.die.Pei;
 import com.moxos.uab.persistence.die.PeiDao;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
@@ -19,12 +17,12 @@ import java.util.List;
 
 @Service
 public class PeiServiceImpl implements IPeiService {
-    private ModelMapper modelMapper;
+    private final ModelMapper modelMapper;
     private final PeiDao peiDao;
 
-    public PeiServiceImpl(PeiDao peiDao) {
+    public PeiServiceImpl(ModelMapper modelMapper, PeiDao peiDao) {
+        this.modelMapper = modelMapper;
         this.peiDao = peiDao;
-        this.modelMapper = new ModelMapper();
     }
 
     @Override
@@ -120,6 +118,18 @@ public class PeiServiceImpl implements IPeiService {
         try {
             PeiRequest pei = modelMapper.map(peiDao.getByid(id_plan_pei), PeiRequest.class);
             return new Response<>(true, "", pei);
+        } catch (Exception e) {
+            return new Response<>(false, e.getMessage(), null);
+        }
+    }
+
+    @Override
+    public Response<List<ListView>> listPlanEstrategicaInstitucional() {
+        try {
+            List<ListView> listViews = new ArrayList<>();
+            for (var item : peiDao.getAllPei())
+                listViews.add(new ListView(String.valueOf(item.getId_plan_pei()), item.getDescripcion()));
+            return new Response<>(true, "", listViews);
         } catch (Exception e) {
             return new Response<>(false, e.getMessage(), null);
         }

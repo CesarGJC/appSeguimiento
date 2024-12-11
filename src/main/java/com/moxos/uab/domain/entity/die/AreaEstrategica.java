@@ -9,14 +9,15 @@ import java.util.Date;
 public class AreaEstrategica extends Entidad {
     private int id_area_estrategica;
     private String area_estrategica;
-    private Integer pagina;
-    private Integer nro_pagina;
+    private String id_estado;
     private Date fec_registro;
     private Date fec_modificacion;
     private int ult_usuario;
-    private String id_estado;
     private Integer id_plan_pei;
-    private String gestion;
+    private Integer orden;
+
+    private Integer pagina;
+    private Integer nro_pagina;
     private String descripcion;
     private String buscar;
 }

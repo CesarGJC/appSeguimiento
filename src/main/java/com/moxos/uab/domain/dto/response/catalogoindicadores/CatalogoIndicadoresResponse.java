@@ -4,15 +4,11 @@ import lombok.Data;
 
 @Data
 public class CatalogoIndicadoresResponse {
-    private int id_catalogo_indicador;
-    private int id_indicador_estrategico;
-    private String indicador_estrategico;
-    private String catalogo_indicador;
-    private String meta;
-    private String linea_base;
+    private int id_catalogo_indicador_pei;
+    private String area_estrategica;
     private String denominacion_indicador;
-    private String formula;
-    private String medios_verificacion;
-    private int id_politica_desarrollo;
-    private String politica_desarrollo;
+    private String tipo_indicador;
+    private String unidad;
+    private String categoria;
+    private String articulacion;
 }

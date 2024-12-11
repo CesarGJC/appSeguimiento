@@ -56,7 +56,7 @@ public class PoliticasDesarrolloController {
     @GetMapping("/politicas-desarrollo/update")
     public String editar(@ModelAttribute("model") PoliticasDesarrolloRequest model, Model modelo) {
         PoliticasDesarrolloRequest politicasDesarrolloRequest = politicasIndicadoresAreasFacade.getPoliticasDesarrolloModel(model.getId_politica_desarrollo());
-        politicasDesarrolloRequest.setAreasEstrategicas(politicasIndicadoresAreasFacade.getAreasEstrategicas());
+       // politicasDesarrolloRequest.setAreasEstrategicas(politicasIndicadoresAreasFacade.getAreasEstrategicas());
         modelo.addAttribute("model", politicasDesarrolloRequest);
         return "PoliticasDesarrollo/_Update";
     }
@@ -64,7 +64,7 @@ public class PoliticasDesarrolloController {
     @PostMapping("/politicas-desarrollo/update")
     public String editar(@ModelAttribute("model") @Valid PoliticasDesarrolloRequest model, BindingResult result, Model modelo) {
         if (result.hasErrors()) {
-            model.setAreasEstrategicas(politicasIndicadoresAreasFacade.getAreasEstrategicas());
+           // model.setAreasEstrategicas(politicasIndicadoresAreasFacade.getAreasEstrategicas());
             modelo.addAttribute("model", model);
             return "PoliticasDesarrollo/_Update";
         }
@@ -82,7 +82,7 @@ public class PoliticasDesarrolloController {
 
     @GetMapping("/politicas-desarrollo/new")
     public String nuevo(@ModelAttribute("model") PoliticasDesarrolloRequest model, Model modelo) {
-        model.setAreasEstrategicas(politicasIndicadoresAreasFacade.getAreasEstrategicas());
+        //model.setAreasEstrategicas(politicasIndicadoresAreasFacade.getAreasEstrategicas());
         modelo.addAttribute("model", model);
         return "PoliticasDesarrollo/_New";
     }
@@ -90,7 +90,7 @@ public class PoliticasDesarrolloController {
     @PostMapping("/politicas-desarrollo/new")
     public String nuevo(@ModelAttribute("model") @Valid PoliticasDesarrolloRequest model, BindingResult result, Model modelo) {
         if (result.hasErrors()) {
-            model.setAreasEstrategicas(politicasIndicadoresAreasFacade.getAreasEstrategicas());
+           // model.setAreasEstrategicas(politicasIndicadoresAreasFacade.getAreasEstrategicas());
             modelo.addAttribute("model", model);
             return "PoliticasDesarrollo/_New";
         }

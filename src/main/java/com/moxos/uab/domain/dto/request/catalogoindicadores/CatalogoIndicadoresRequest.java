@@ -10,30 +10,25 @@ import java.util.List;
 
 @Data
 public class CatalogoIndicadoresRequest {
-    private int id_catalogo_indicador;
-    private List<ListView> politicasDesarrollo;
-    @NotNull(message = "Debe seleccionar la Politica de Desarrollo")
-    private int id_politica_desarrollo;
-    private List<ListView> indicador_estrategico;
-    @NotNull(message = "Debe seleccionar el Indicador Estrategico")
-    private int id_indicador_estrategico;
-    @NotNull(message = "Inserte Mensaje de Validacion")
-    @NotBlank(message = "Inserte Mensaje de Validacion")
-    private String catalogo_indicador;
-    @NotNull(message = "Inserte Mensaje de Validacion")
-    @NotBlank(message = "Inserte Mensaje de Validacion")
-    private String meta;
-    @NotNull(message = "Inserte Mensaje de Validacion")
-    @NotBlank(message = "Inserte Mensaje de Validacion")
-    private String linea_base;
-    @NotNull(message = "Inserte Mensaje de Validacion")
-    @NotBlank(message = "Inserte Mensaje de Validacion")
+    private Integer id_catalogo_indicador_pei = 0;
+    private Integer id_area_estrategica;
+    @NotNull(message = "Debe ingresar la descripcion de la denominacion")
+    @NotBlank(message = "Debe ingresar la descripcion de la denominacion")
     private String denominacion_indicador;
-    @NotNull(message = "Inserte Mensaje de Validacion")
-    @NotBlank(message = "Inserte Mensaje de Validacion")
-    private String formula;
-    @NotNull(message = "Inserte Mensaje de Validacion")
-    @NotBlank(message = "Inserte Mensaje de Validacion")
-    private String medios_verificacion;
-    private int ult_usuario;
+    @NotNull(message = "Debe seleccionar la unidad")
+    private Integer id_unidad_medida;
+    private List<ListView> tiposUnidades;
+
+    @NotNull(message = "Debe seleccionar el tipo de indicador")
+    private Integer id_tipo_indicador;
+    private List<ListView> tiposIndicadores;
+
+    @NotNull(message = "Debe seleccionar el tipo de categoria")
+    private Integer id_categoria;
+    private List<ListView> categorias;
+
+    @NotNull(message = "Debe ingresar la descripcion de la articulacion")
+    @NotBlank(message = "Debe ingresar la descripcion de la articulacion")
+    private String articulacion;
+    private Integer ult_usuario;
 }

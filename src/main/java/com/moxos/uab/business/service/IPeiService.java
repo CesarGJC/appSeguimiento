@@ -23,4 +23,6 @@ public interface IPeiService {
     Response<Integer> getCantidadByTipo(String buscar, SearchPei searchPei);
 
     Response<PeiRequest> getByidPei(int id_plan_pei);
+
+    Response<List<ListView>> listPlanEstrategicaInstitucional();
 }

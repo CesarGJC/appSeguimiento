@@ -3,12 +3,13 @@
 <mapper namespace="com.moxos.uab.persistence.die.DetallePeriodoProgramacionDao">
     <select id="saveDetallePeriodoProgramacion" resultType="java.lang.Integer">
         select *
-        from create_detalle_periodos_programacion(#{id_detalle_periodos_programacion},#{id_plan_pei}, #{descripcion}, #{ult_usuario});
+        from create_detalle_periodos_programacion(#{id_detalle_periodos_programacion}, #{id_plan_pei}, #{descripcion},
+                                                  #{ult_usuario});
     </select>
     <update id="deleteDetallePeriodoProgramacion">
         UPDATE public.detalle_periodos_programacion
         SET id_estado='X'
-        WHERE id_detalle_periodos_programacion=#{id_detalle_periodos_programacion};
+        WHERE id_detalle_periodos_programacion = #{id_detalle_periodos_programacion};
     </update>
     <select id="getById" resultType="com.moxos.uab.domain.entity.die.DetallePeriodoProgramacion">
         SELECT id_detalle_periodos_programacion,
@@ -19,47 +20,76 @@
                  INNER JOIN public.plan_pei te ON td.id_plan_pei = te.id_plan_pei
         WHERE id_detalle_periodos_programacion = #{id_detalle_periodos_programacion} limit 1;
     </select>
-    <select id="getAllDetallePeriodoProgramacion" resultType="com.moxos.uab.domain.entity.die.DetallePeriodoProgramacion">
-        SELECT id_detalle_periodos_programacion, id_plan_pei, descripcion, id_estado, fec_registro, fec_modificacion, ult_usuario
-        FROM public.detalle_periodos_programacion
-        WHERE id_indicador_estrategico=#{id_detalle_periodos_programacion} and id_estado='A';
-    </select>
-    <select id="getDetallePeriodoProgramacionByPlan" resultType="com.moxos.uab.domain.entity.die.DetallePeriodoProgramacion">
+    <select id="getAllDetallePeriodoProgramacion"
+            resultType="com.moxos.uab.domain.entity.die.DetallePeriodoProgramacion">
         SELECT id_detalle_periodos_programacion,
-               te.descripcion As plan_pei ,
+               id_plan_pei,
+               descripcion,
+               id_estado,
+               fec_registro,
+               fec_modificacion,
+               ult_usuario
+        FROM public.detalle_periodos_programacion
+        WHERE id_indicador_estrategico = #{id_detalle_periodos_programacion}
+          and id_estado = 'A';
+    </select>
+    <select id="getDetallePeriodoProgramacionByPlan"
+            resultType="com.moxos.uab.domain.entity.die.DetallePeriodoProgramacion">
+        SELECT id_detalle_periodos_programacion,
+               te.descripcion As plan_pei,
                td.descripcion
         FROM detalle_periodos_programacion td
-                 INNER JOIN public.plan_pei te ON td.id_plan_pei=te.id_plan_pei
-        WHERE td.id_plan_pei=#{id_plan_pei} AND td.id_estado='A' AND upper(te.descripcion) like ${buscar}
+                 INNER JOIN public.plan_pei te ON td.id_plan_pei = te.id_plan_pei
+        WHERE td.id_plan_pei = #{id_plan_pei}
+          AND td.id_estado = 'A'
+          AND upper(te.descripcion) like ${buscar}
         ORDER BY te.descripcion
-            LIMIT ${pagina} OFFSET ${nro_pagina};
+            LIMIT ${pagina}
+        OFFSET ${nro_pagina};
     </select>
     <select id="getCantidadDetallePeriodoProgramacionByPlan" resultType="java.lang.Integer">
         SELECT COUNT(id_detalle_periodos_programacion)
         FROM detalle_periodos_programacion td
-                 INNER JOIN public.plan_pei te ON td.id_plan_pei=te.id_plan_pei
-        WHERE td.id_plan_pei=#{id_plan_pei} AND td.id_estado='A' AND upper(te.descripcion) like #{buscar}
+                 INNER JOIN public.plan_pei te ON td.id_plan_pei = te.id_plan_pei
+        WHERE td.id_plan_pei = #{id_plan_pei}
+          AND td.id_estado = 'A'
+          AND upper(te.descripcion) like #{buscar}
     </select>
-    <select id="getDetallePeriodoProgramacionByDetalle" resultType="com.moxos.uab.domain.entity.die.DetallePeriodoProgramacion">
+    <select id="getDetallePeriodoProgramacionByDetalle"
+            resultType="com.moxos.uab.domain.entity.die.DetallePeriodoProgramacion">
         SELECT id_detalle_periodos_programacion,
-               te.descripcion As plan_pei ,
+               te.descripcion As plan_pei,
                td.descripcion
         FROM detalle_periodos_programacion td
-                 INNER JOIN public.plan_pei te ON td.id_plan_pei=te.id_plan_pei
-        WHERE td.id_plan_pei=#{id_plan_pei} AND td.id_estado='A' AND upper(td.descripcion) like ${buscar}
+                 INNER JOIN public.plan_pei te ON td.id_plan_pei = te.id_plan_pei
+        WHERE td.id_plan_pei = #{id_plan_pei}
+          AND td.id_estado = 'A'
+          AND upper(td.descripcion) like ${buscar}
         ORDER BY te.descripcion
-            LIMIT ${pagina} OFFSET ${nro_pagina};
+            LIMIT ${pagina}
+        OFFSET ${nro_pagina};
     </select>
     <select id="getCantidadDetallePeriodoProgramacionByDetalle" resultType="java.lang.Integer">
         SELECT COUNT(id_detalle_periodos_programacion)
         FROM detalle_periodos_programacion td
-                 INNER JOIN public.plan_pei te ON td.id_plan_pei=te.id_plan_pei
-        WHERE td.id_plan_pei=#{id_plan_pei} AND td.id_estado='A' AND upper(td.descripcion) like ${buscar}
+                 INNER JOIN public.plan_pei te ON td.id_plan_pei = te.id_plan_pei
+        WHERE td.id_plan_pei = #{id_plan_pei}
+          AND td.id_estado = 'A'
+          AND upper(td.descripcion) like ${buscar}
     </select>
-    <select id="getAllDetallePeriodoProgramacionByPlan" resultType="com.moxos.uab.domain.entity.die.DetallePeriodoProgramacion">
-        SELECT id_detalle_periodos_programacion,te.descripcion ,descripcion
+    <select id="getAllDetallePeriodoProgramacionByPlan"
+            resultType="com.moxos.uab.domain.entity.die.DetallePeriodoProgramacion">
+        SELECT id_detalle_periodos_programacion, te.descripcion, descripcion
         FROM detalle_periodos_programacion td
-                 INNER JOIN public.plan_pei te ON td.id_plan_pei=te.id_plan_pei
-        WHERE td.id_estado='A' AND td.id_plan_pei=te.id_plan_pei
+                 INNER JOIN public.plan_pei te ON td.id_plan_pei = te.id_plan_pei
+        WHERE td.id_estado = 'A'
+          AND td.id_plan_pei = te.id_plan_pei
+    </select>
+    <select id="getPeriodos" resultType="com.moxos.uab.domain.entity.die.DetallePeriodoProgramacion">
+        SELECT id_detalle_periodos_programacion, descripcion
+        FROM detalle_periodos_programacion
+        where id_plan_pei = #{id}
+          and id_estado = 'A'
+        order by descripcion
     </select>
 </mapper>

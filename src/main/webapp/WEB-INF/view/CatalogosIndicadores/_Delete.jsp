@@ -12,11 +12,11 @@
 <div class="row">
     <div class="col-md mb-3 mt-3">
         <form:form data-form="true" method="post" modelAttribute="model"  action="${pageContext.request.contextPath}/catalogo-indicadores/delete">
-            <form:hidden path="id_catalogo_indicador"/>
+            <form:hidden path="id_catalogo_indicador_pei"/>
             <div class="row">
-                <label class="control-label col-md-3">Catalogo Indicadores</label>
+                <label class="control-label col-md-3">Denominacion del Indicadores</label>
                 <div class="col-md-9">
-                    <c:out value="${model.catalogo_indicador}"/>
+                    <c:out value="${model.denominacion_indicador}"/>
                 </div>
             </div>
         </form:form>

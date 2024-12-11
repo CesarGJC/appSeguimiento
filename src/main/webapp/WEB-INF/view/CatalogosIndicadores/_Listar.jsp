@@ -9,16 +9,13 @@
             <thead>
             <tr>
                 <th data-resize="true" data-filter="true"
-                    data-type="text" data-row-sort="0">INDICADORES ESTRATEGICOS
+                    data-type="text" data-row-sort="0">DENOMINACION
                 </th>
                 <th data-resize="true" data-filter="true"
-                    data-type="text" data-row-sort="1">CATALOGOS DE INDICADORES
+                    data-type="text" data-row-sort="1">DETALLE
                 </th>
                 <th data-resize="true" data-filter="true"
-                    data-type="text" data-row-sort="2">METAS
-                </th>
-                <th data-resize="true" data-filter="true"
-                    data-type="text" data-row-sort="3">LINEAS BASE
+                    data-type="text" data-row-sort="2">NIVEL ARTICULACION
                 </th>
                 <th></th>
             </tr>
@@ -26,25 +23,26 @@
             <tbody>
             <c:forEach items="${model.lista}" var="item">
                 <tr>
-                    <td data-label="INDICADORES ESTRATEGICOS">${item.indicador_estrategico}</td>
-                    <td data-label="CATALOGOS DE INDICADORES">${item.catalogo_indicador}</td>
-                    <td data-label="METAS">${item.meta}</td>
-                    <td data-label="LINEAS BASE">${item.linea_base}</td>
-                    <td data-label="ACCION" id="td${item.id_catalogo_indicador}">
+                    <td data-label="DENOMINACION">${item.denominacion_indicador}</td>
+                    <td data-label="DETALLE">
+                        <strong>Tipo unidad: </strong>${item.unidad}<br>
+                        <strong>Tipo indicador: </strong>${item.tipo_indicador}<br>
+                        <strong>Categoria: </strong>${item.categoria}
+                    </td>
+                    <td data-label="NIVEL ARTICULACION">${item.articulacion}</td>
+                    <td data-label="ACCION" id="td${item.id_catalogo_indicador_pei}">
                         <div class="dropdown">
-                            <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton1"
+                            <button class="btn btn-flat text-black" type="button" id="dropdownMenuButton1"
                                     data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
                             </button>
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                <li><a data-update="true"
-                                       data-atributes='"id_catalogo_indicador": ${item.id_catalogo_indicador}'
-                                       data-id="${item.id_catalogo_indicador}"
-                                       href="#"
-                                       class="dropdown-item">Modificar</a></li>
+                                <li><a href="<c:url value="/catalogo-indicadores/update"><c:param name="id" value="${item.id_catalogo_indicador_pei}"/></c:url>"
+                                       class="dropdown-item enlace">Modificar</a></li>
                                 <li>
                                     <a class="dropdown-item" data-delete="true"
-                                       data-atributes='"id_catalogo_indicador": ${item.id_catalogo_indicador}'
-                                       data-id="${item.id_catalogo_indicador}"
+                                       data-atributes='"id_catalogo_indicador_pei": ${item.id_catalogo_indicador_pei}'
+                                       data-id="${item.id_catalogo_indicador_pei}"
                                        href="#">Eliminar</a>
                                 </li>
                             </ul>

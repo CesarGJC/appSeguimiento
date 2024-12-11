@@ -2,7 +2,6 @@ package com.moxos.uab.common.enums;
 
 
 public enum SearchAreas {
-    DESCRIPCION,
-    GESTION,
-    CODIGO
+    AREA_ESTRATEGICA,
+    PLAN_PEI
 }

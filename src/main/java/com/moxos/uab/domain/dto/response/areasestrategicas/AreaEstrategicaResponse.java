@@ -9,4 +9,5 @@ public class AreaEstrategicaResponse {
     private int id_plan_pei;
     private String gestion;
     private String descripcion;
+    private String orden;
 }

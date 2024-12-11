@@ -6,6 +6,7 @@ import com.moxos.uab.common.enums.SearchDetallePeriodo;
 import com.moxos.uab.domain.dto.request.DetallePeriodoProgramacion.DetallePeriodoProgramacionRequest;
 import com.moxos.uab.domain.dto.request.politicasdesarrollo.PoliticasDesarrolloRequest;
 import com.moxos.uab.domain.dto.response.DetallePeriodoProgramacion.DetallePeriodoProgramacionResponse;
+import com.moxos.uab.domain.dto.response.DetallePeriodoProgramacion.PeriodosProgramacionResponse;
 import com.moxos.uab.domain.dto.response.GeneralResponse;
 import com.moxos.uab.domain.dto.response.Response;
 import com.moxos.uab.domain.dto.response.politicasdesarrollo.PoliticasDesarrolloResponse;
@@ -35,7 +36,7 @@ public class DetallePeriodoProgramacionServiceImpl implements IDetallePeriodoPro
         try {
             var detalle = modelMapper.map(dpp, DetallePeriodoProgramacion.class);
             Integer id = detallePeriodoProgramacionDao.saveDetallePeriodoProgramacion(detalle);
-            var result=detallePeriodoProgramacionDao.getById(id);
+            var result = detallePeriodoProgramacionDao.getById(id);
             DetallePeriodoProgramacionResponse detallePeriodoProgramacionResponse = modelMapper.map(result, DetallePeriodoProgramacionResponse.class);
             return new Response<>(true, "", detallePeriodoProgramacionResponse);
         } catch (Exception e) {
@@ -102,7 +103,7 @@ public class DetallePeriodoProgramacionServiceImpl implements IDetallePeriodoPro
 
 
     @Override
-    public Response<Integer> getCantidadByTipo(String buscar, SearchDetallePeriodo searchPei,Integer id) {
+    public Response<Integer> getCantidadByTipo(String buscar, SearchDetallePeriodo searchPei, Integer id) {
         DetallePeriodoProgramacion detallePeriodoProgramacion = new DetallePeriodoProgramacion();
         detallePeriodoProgramacion.setBuscar(buscar);
         detallePeriodoProgramacion.setId_plan_pei(id);
@@ -125,14 +126,15 @@ public class DetallePeriodoProgramacionServiceImpl implements IDetallePeriodoPro
     }
 
     @Override
-    public Response<List<ListView>> getAllDetallePeriodoProgramacion() {
+    public Response<List<PeriodosProgramacionResponse>> getPeriodosPlan(int idPlan) {
         try {
-            List<ListView> listViews = new ArrayList<>();
-            for (var item : detallePeriodoProgramacionDao.getAllDetallePeriodoProgramacion())
-                listViews.add(new ListView(String.valueOf(item.getId_detalle_periodos_programacion()), item.getDescripcion()));
+            List<PeriodosProgramacionResponse> listViews = new ArrayList<>();
+            for (var item : detallePeriodoProgramacionDao.getPeriodos(idPlan))
+                listViews.add(new PeriodosProgramacionResponse(item.getId_detalle_periodos_programacion(), Integer.valueOf(item.getDescripcion())));
             return new Response<>(true, "", listViews);
         } catch (Exception e) {
             return new Response<>(false, e.getMessage(), null);
         }
     }
+
 }

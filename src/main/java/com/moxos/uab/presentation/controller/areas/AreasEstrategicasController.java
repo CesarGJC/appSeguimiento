@@ -7,6 +7,7 @@ import com.moxos.uab.domain.dto.request.general.SelectListItemDto;
 import com.moxos.uab.domain.dto.response.GeneralResponse;
 import com.moxos.uab.domain.dto.response.Response;
 import com.moxos.uab.domain.dto.response.areasestrategicas.AreaEstrategicaResponse;
+import com.moxos.uab.domain.dto.response.areasestrategicas.AreasEstrategicasDeleteResponse;
 import com.moxos.uab.domain.entity.siiga.Clientes;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
@@ -42,8 +43,7 @@ public class AreasEstrategicasController {
         //Lista de opciones de busqueda
         List<SelectListItemDto> opcionesElementos = new ArrayList<>();
         opcionesElementos.add(new SelectListItemDto("0", "DESCRIPCION"));
-        opcionesElementos.add(new SelectListItemDto("1", "GESTION"));
-        opcionesElementos.add(new SelectListItemDto("2", "CODIGO"));
+        opcionesElementos.add(new SelectListItemDto("1", "PLAN P.E.I."));
         modelo.addAttribute("opciones", opcionesElementos);
         modelo.addAttribute("model", model);
         return "AreasEstrategicas/Index";
@@ -61,8 +61,9 @@ public class AreasEstrategicasController {
 
     @GetMapping("/areas-estrategicas/update")
     public String editar(@ModelAttribute("model") AreasEstrategicasRequest model, Model modelo) {
-        AreasEstrategicasRequest areasEstrategicasRequest = politicasIndicadoresAreasFacade.getAreaEstrategicasModel(model.getId_area_estrategica());
+        AreasEstrategicasRequest areasEstrategicasRequest = politicasIndicadoresAreasFacade.getAreaEstrategicasDetalle(model.getId_area_estrategica());
         modelo.addAttribute("model", areasEstrategicasRequest);
+        modelo.addAttribute("planes", politicasIndicadoresAreasFacade.getPlanesEstrategicosInstitcuinales());
         return "AreasEstrategicas/_Update";
     }
 
@@ -70,6 +71,7 @@ public class AreasEstrategicasController {
     public String editar(@ModelAttribute("model") @Valid AreasEstrategicasRequest model, BindingResult result, Model modelo) {
         if (result.hasErrors()) {
             modelo.addAttribute("model", model);
+            modelo.addAttribute("planes", politicasIndicadoresAreasFacade.getPlanesEstrategicosInstitcuinales());
             return "AreasEstrategicas/_Update";
         }
         model.setUlt_usuario(getUsuario().getId_usuario());
@@ -80,6 +82,7 @@ public class AreasEstrategicasController {
         } else {
             result.addError(new FieldError("model", "area_estrategica", response.getMessage()));
             modelo.addAttribute("model", model);
+            modelo.addAttribute("planes", politicasIndicadoresAreasFacade.getPlanesEstrategicosInstitcuinales());
             return "AreasEstrategicas/_Update";
         }
     }
@@ -87,6 +90,7 @@ public class AreasEstrategicasController {
     @GetMapping("/areas-estrategicas/new")
     public String nuevo(@ModelAttribute("model") AreasEstrategicasRequest model, Model modelo) {
         modelo.addAttribute("model", model);
+        modelo.addAttribute("planes", politicasIndicadoresAreasFacade.getPlanesEstrategicosInstitcuinales());
         return "AreasEstrategicas/_New";
     }
 
@@ -94,6 +98,7 @@ public class AreasEstrategicasController {
     public String nuevo(@ModelAttribute("model") @Valid AreasEstrategicasRequest model, BindingResult result, Model modelo) {
         if (result.hasErrors()) {
             modelo.addAttribute("model", model);
+            modelo.addAttribute("planes", politicasIndicadoresAreasFacade.getPlanesEstrategicosInstitcuinales());
             return "AreasEstrategicas/_New";
         }
         model.setUlt_usuario(getUsuario().getId_usuario());
@@ -104,19 +109,20 @@ public class AreasEstrategicasController {
         } else {
             result.addError(new FieldError("model", "area_estrategica", response.getMessage()));
             modelo.addAttribute("model", model);
+            modelo.addAttribute("planes", politicasIndicadoresAreasFacade.getPlanesEstrategicosInstitcuinales());
             return "AreasEstrategicas/_New";
         }
     }
 
     @GetMapping("/areas-estrategicas/delete")
     public String eliminar(@ModelAttribute("model") AreasEstrategicasRequest model, Model modelo) {
-        AreasEstrategicasRequest areasEstrategicasRequest = politicasIndicadoresAreasFacade.getAreaEstrategicasModel(model.getId_area_estrategica());
+        AreasEstrategicasDeleteResponse areasEstrategicasRequest = politicasIndicadoresAreasFacade.getAreaEstrategicasModel(model.getId_area_estrategica());
         modelo.addAttribute("model", areasEstrategicasRequest);
         return "AreasEstrategicas/_Delete";
     }
 
     @PostMapping("/areas-estrategicas/delete")
-    public String eliminar(@ModelAttribute("model") @Valid AreasEstrategicasRequest model, BindingResult result, Model modelo) {
+    public String eliminarAreasEstrategica(@ModelAttribute("model") AreasEstrategicasRequest model, Model modelo) {
         GeneralResponse response = politicasIndicadoresAreasFacade.deleteAreaEstrategica(model);
         if (response.isSuccess()) {
             modelo.addAttribute("status", true);

@@ -12,9 +12,9 @@ import java.util.List;
 
 public interface ICatalogoIndicadoresService {
 
-    Response<CatalogoIndicadoresResponse> saveCatalogoIndicadores(CatalogoIndicadoresRequest catalogoIndicadores);
+    Response<Integer> saveCatalogoIndicadores(CatalogoIndicadoresRequest catalogoIndicadores);
 
-    GeneralResponse deleteCatalogoIndicadores(CatalogoIndicadoresRequest catalogoIndicadores);
+    GeneralResponse deleteCatalogoIndicadores(Integer id);
 
     Response<List<CatalogoIndicadoresResponse>> selectCatalogoIndicadores();
 
@@ -22,7 +22,7 @@ public interface ICatalogoIndicadoresService {
 
     Response<CatalogoIndicadoresRequest> getByid(int id_catalogo_indicador);
 
-    Response<List<CatalogoIndicadoresResponse>> listarCatalogoIndicadoresByTipo(String buscar, SearchCatalogo SearchIndicadores , int pagina, int nroPagina);
+    Response<List<CatalogoIndicadoresResponse>> listarCatalogoIndicadoresByTipo(String buscar, SearchCatalogo SearchIndicadores, int pagina, int nroPagina, int id);
 
-    Response<Integer> getCantidadByTipo(String buscar, SearchCatalogo SearchIndicadores);
+    Response<Integer> getCantidadByTipo(String buscar, SearchCatalogo SearchIndicadores, int id);
 }

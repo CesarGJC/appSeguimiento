@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.springframework.dao.DataAccessException;
 
 import java.util.List;
+
 @Mapper
 public interface DetallePeriodoProgramacionDao {
 
@@ -26,4 +27,5 @@ public interface DetallePeriodoProgramacionDao {
 
     List<DetallePeriodoProgramacion> getAllDetallePeriodoProgramacionByPlan(Integer id_plan_pei);
 
+    List<DetallePeriodoProgramacion> getPeriodos(Integer id) throws DataAccessException;
 }

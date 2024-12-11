@@ -19,12 +19,6 @@
                     <c:out value="${model.descripcion}"/>
                 </div>
             </div>
-            <div class="row">
-                <label class="control-label col-md-3">PLAN PEI</label>
-                <div class="col-md-9">
-                    <c:out value="${model.descripcion_plan}"/>
-                </div>
-            </div>
         </form:form>
     </div>
 </div>

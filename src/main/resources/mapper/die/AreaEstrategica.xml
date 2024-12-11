@@ -3,7 +3,7 @@
 <mapper namespace="com.moxos.uab.persistence.die.AreaEstrategicaDao">
     <select id="saveAreaEstrategica" resultType="java.lang.Integer">
         select *
-        from create_areas_estrategicas(#{id_area_estrategica}, #{area_estrategica}, #{ult_usuario},{#id_plan_pei});
+        from create_areas_estrategicas(#{id_area_estrategica}, #{area_estrategica}, #{ult_usuario}, #{id_plan_pei}, #{orden});
     </select>
     <update id="deleteAreaEstrategica">
         UPDATE public.tareas_estrategia
@@ -11,54 +11,68 @@
         WHERE id_area_estrategica=#{id_area_estrategica};
     </update>
     <select id="selectAreaEstrategica" resultType="com.moxos.uab.domain.entity.die.AreaEstrategica">
-        SELECT id_area_estrategica, area_estrategica, id_estado, fec_registro, fec_modificacion, ult_usuario,gestion,codigo
+        SELECT id_area_estrategica, area_estrategica, id_estado, fec_registro, fec_modificacion, ult_usuario,gestion,codigo, orden
         FROM public.tareas_estrategia
         WHERE id_area_estrategica=#{id_area_estrategica} and id_estado='A';
     </select>
     <select id="getByid" resultType="com.moxos.uab.domain.entity.die.AreaEstrategica">
-        SELECT id_area_estrategica, area_estrategica, id_estado, fec_registro, fec_modificacion, ult_usuario, gestion,codigo
-        FROM public.tareas_estrategia
-        WHERE id_area_estrategica=#{id_area_estrategica} limit 1;
+        SELECT ta.id_area_estrategica,
+               ta.area_estrategica,
+               ta.id_estado,
+               ta.fec_registro,
+               ta.fec_modificacion,
+               ta.ult_usuario,
+               pp.descripcion, orden, ta.id_plan_pei
+        FROM public.tareas_estrategia ta
+                 inner join public.plan_pei pp on ta.id_plan_pei = pp.id_plan_pei
+        WHERE id_area_estrategica = #{id_area_estrategica} limit 1;
     </select>
     <select id="getAllAreaEstrategica" resultType="com.moxos.uab.domain.entity.die.AreaEstrategica">
-        SELECT id_area_estrategica, area_estrategica, id_estado, fec_registro, fec_modificacion, ult_usuario,gestion,codigo
+        SELECT id_area_estrategica, area_estrategica, id_estado, fec_registro, fec_modificacion, ult_usuario,gestion,codigo,orden
         FROM public.tareas_estrategia
         WHERE id_area_estrategica=#{id_area_estrategica} and id_estado='A';
     </select>
     <select id="getAreasEstrategicasByArea" resultType="com.moxos.uab.domain.entity.die.AreaEstrategica">
-        SELECT id_area_estrategica, area_estrategica, gestion,codigo
-        FROM tareas_estrategia
-        where  upper(area_estrategica) like ${buscar} and id_estado='A'
+        SELECT id_area_estrategica, area_estrategica, pp.descripcion, orden
+        FROM tareas_estrategia ta
+        inner join plan_pei pp on ta.id_plan_pei=pp.id_plan_pei
+        where  upper(area_estrategica) like ${buscar} and ta.id_estado='A'
         ORDER BY area_estrategica
         LIMIT ${pagina} OFFSET ${nro_pagina};
     </select>
     <select id="getCantidadAreasEstrategicasByArea" resultType="java.lang.Integer">
         SELECT COUNT(id_area_estrategica)
-        FROM tareas_estrategia
-        where  upper(area_estrategica) like ${buscar} and id_estado='A'
+        FROM tareas_estrategia ta
+        inner join plan_pei pp on ta.id_plan_pei=pp.id_plan_pei
+        where  upper(area_estrategica) like ${buscar} and ta.id_estado='A'
     </select>
     <select id="getAreasEstrategicasByGestion" resultType="com.moxos.uab.domain.entity.die.AreaEstrategica">
-    SELECT id_area_estrategica, area_estrategica,gestion,codigo
-    FROM tareas_estrategia
-    where  upper(gestion) like ${buscar} and id_estado='A'
-    ORDER BY area_estrategica
-        LIMIT ${pagina} OFFSET ${nro_pagina};
-</select>
+        SELECT id_area_estrategica, area_estrategica, pp.descripcion, orden
+        FROM tareas_estrategia ta
+                 inner join plan_pei pp on ta.id_plan_pei = pp.id_plan_pei
+        where upper(pp.descripcion) like ${buscar}
+          and ta.id_estado = 'A'
+        ORDER BY orden
+            LIMIT ${pagina}
+        OFFSET ${nro_pagina};
+    </select>
     <select id="getCantidadAreasEstrategicasByGestion" resultType="java.lang.Integer">
         SELECT COUNT(id_area_estrategica)
-        FROM tareas_estrategia
-        where  upper(gestion) like ${buscar} and id_estado='A'
+        FROM tareas_estrategia ta
+                 inner join plan_pei pp on ta.id_plan_pei = pp.id_plan_pei
+        where upper(pp.descripcion) like ${buscar}
+          and ta.id_estado = 'A'
     </select>
     <select id="getAllAreaEstrategicaPorGestion" resultType="com.moxos.uab.domain.entity.die.AreaEstrategica">
-        SELECT id_area_estrategica, area_estrategica,gestion,codigo
+        SELECT id_area_estrategica, area_estrategica, orden
         FROM tareas_estrategia
-        WHERE id_estado='A' and gestion=#{gestion}
+        WHERE id_estado='A' and id_plan_pei=#{id_plan_pei} order by orden
     </select>
     <select id="getAreasEstrategicasByCodigo" resultType="com.moxos.uab.domain.entity.die.AreaEstrategica">
-        SELECT id_area_estrategica, area_estrategica, gestion,codigo
+        SELECT id_area_estrategica, area_estrategica, gestion,codigo, orden
         FROM tareas_estrategia
         where  upper(codigo) like ${buscar} and id_estado='A'
-        ORDER BY area_estrategica
+        ORDER BY orden
             LIMIT ${pagina} OFFSET ${nro_pagina};
     </select>
     <select id="getCantidadAreasEstrategicasByCodigo" resultType="java.lang.Integer">
@@ -67,7 +81,7 @@
         where  upper(codigo) like ${buscar} and id_estado='A'
     </select>
     <select id="getAllAreaEstrategicaPorCodigo" resultType="com.moxos.uab.domain.entity.die.AreaEstrategica">
-        SELECT id_area_estrategica, area_estrategica,gestion,codigo
+        SELECT id_area_estrategica, area_estrategica,gestion,codigo, orden
         FROM tareas_estrategia
         WHERE id_estado='A' and codigo=#{codigo}
     </select>

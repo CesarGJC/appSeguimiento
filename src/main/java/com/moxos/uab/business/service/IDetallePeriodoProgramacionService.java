@@ -4,6 +4,7 @@ import com.moxos.uab.common.enums.SearchDetallePeriodo;
 import com.moxos.uab.common.enums.SearchPoliticas;
 import com.moxos.uab.domain.dto.request.DetallePeriodoProgramacion.DetallePeriodoProgramacionRequest;
 import com.moxos.uab.domain.dto.response.DetallePeriodoProgramacion.DetallePeriodoProgramacionResponse;
+import com.moxos.uab.domain.dto.response.DetallePeriodoProgramacion.PeriodosProgramacionResponse;
 import com.moxos.uab.domain.dto.response.GeneralResponse;
 import com.moxos.uab.domain.dto.response.Response;
 import com.moxos.uab.domain.dto.response.view.ListView;
@@ -19,9 +20,9 @@ public interface IDetallePeriodoProgramacionService {
 
     Response<DetallePeriodoProgramacionRequest> getByid(int id_detalle_periodos_programacion);
 
-    Response<List<DetallePeriodoProgramacionResponse>> listarDetallePeriodoProgramacionByTipo(String buscar, SearchDetallePeriodo searchPei, int pagina, int nroPagina,int id);
+    Response<List<DetallePeriodoProgramacionResponse>> listarDetallePeriodoProgramacionByTipo(String buscar, SearchDetallePeriodo searchPei, int pagina, int nroPagina, int id);
 
-    Response<Integer> getCantidadByTipo(String buscar, SearchDetallePeriodo searchPei,Integer id);
+    Response<Integer> getCantidadByTipo(String buscar, SearchDetallePeriodo searchPei, Integer id);
 
-    Response<List<ListView>>getAllDetallePeriodoProgramacion();
+    Response<List<PeriodosProgramacionResponse>> getPeriodosPlan(int idPlan);
 }

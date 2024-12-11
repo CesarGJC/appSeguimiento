@@ -5,6 +5,7 @@ import com.moxos.uab.domain.dto.request.areasestrategicas.AreasEstrategicasReque
 import com.moxos.uab.domain.dto.response.GeneralResponse;
 import com.moxos.uab.domain.dto.response.Response;
 import com.moxos.uab.domain.dto.response.areasestrategicas.AreaEstrategicaResponse;
+import com.moxos.uab.domain.dto.response.areasestrategicas.AreasEstrategicasDeleteResponse;
 import com.moxos.uab.domain.dto.response.view.ListView;
 
 import java.util.List;
@@ -16,7 +17,7 @@ public interface IAreasEstrategicasService {
 
     Response<List<AreaEstrategicaResponse>> selectAreaEstrategica();
 
-    Response<List<ListView>> listAreaEstrategica(String gestion);
+    Response<List<ListView>> listAreaEstrategica(Integer id);
 
     Response<AreaEstrategicaResponse> getByid(int id_area_estrategica);
 
@@ -24,6 +25,7 @@ public interface IAreasEstrategicasService {
 
     Response<Integer> getCantidadByTipo(String buscar, SearchAreas searchAreas);
 
-    Response<AreasEstrategicasRequest> getByidAreasEstrategicas(int idAreaEstrategica);
+    Response<AreasEstrategicasDeleteResponse> getByidAreasEstrategicas(int idAreaEstrategica);
 
+    Response<AreasEstrategicasRequest> getByidAreasEstrategicasDetalle(int idAreaEstrategica);
 }

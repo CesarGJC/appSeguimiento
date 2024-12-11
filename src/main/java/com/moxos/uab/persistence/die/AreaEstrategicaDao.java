@@ -16,7 +16,7 @@ public interface AreaEstrategicaDao {
 
     List<AreaEstrategica> getAllAreaEstrategica() throws DataAccessException;
 
-    List<AreaEstrategica> getAllAreaEstrategicaPorGestion(String gestion) throws DataAccessException;
+    List<AreaEstrategica> getAllAreaEstrategicaPorGestion(Integer id_plan_pei) throws DataAccessException;
 
     List<AreaEstrategica> getAllAreaEstrategicaPorCodigo(String codigo) throws DataAccessException;
 

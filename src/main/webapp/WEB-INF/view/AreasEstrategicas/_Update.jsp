@@ -7,18 +7,18 @@
            action="${pageContext.request.contextPath}/areas-estrategicas/update">
     <form:hidden path="id_area_estrategica"/>
     <div class="mb-3">
+        <label class="form-label" for="id_plan_pei">Planes estrategicos</label>
+        <form:select cssClass="form-select" path="id_plan_pei" items="${planes}" itemLabel="value" itemValue="id"/>
+        <form:errors cssClass="invalid" path="id_plan_pei"/>
+    </div>
+    <div class="mb-3">
         <label class="form-label" for="area_estrategica">Areas estrategicas</label>
         <form:textarea path="area_estrategica" cssClass="form-control"/>
         <form:errors cssClass="invalid" path="area_estrategica"/>
     </div>
     <div class="mb-3">
-        <label class="form-label" for="gestion">Gestion</label>
-        <form:input path="gestion" cssClass="form-control"/>
-        <form:errors cssClass="invalid" path="gestion"/>
-    </div>
-    <div class="mb-3">
-        <label class="form-label" for="codigo">Codigo</label>
-        <form:input path="codigo" cssClass="form-control"/>
-        <form:errors cssClass="invalid" path="codigo"/>
+        <label class="form-label" for="area_estrategica">Orden</label>
+        <form:input type="number" path="orden" cssClass="form-control"/>
+        <form:errors cssClass="invalid" path="orden"/>
     </div>
 </form:form>

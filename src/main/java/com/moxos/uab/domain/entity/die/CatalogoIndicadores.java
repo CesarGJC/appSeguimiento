@@ -5,16 +5,18 @@ import lombok.Data;
 
 @Data
 public class CatalogoIndicadores extends Entidad {
-    private int id_catalogo_indicador;
-    private int id_indicador_estrategico;
-    private String indicador_estrategico;
-    private String catalogo_indicador;
-    private String meta;
-    private String linea_base;
+    private Integer id_catalogo_indicador_pei;
+    private Integer id_area_estrategica;
     private String denominacion_indicador;
-    private String formula;
-    private String medios_verificacion;
+    private Integer id_unidad_medida;
+    private Integer id_tipo_indicador;
+    private Integer id_categoria;
+    private String articulacion;
 
+    private String area_estrategica;
+    private String tipo_indicador;
+    private String unidad;
+    private String categoria;
     private Integer pagina;
     private Integer nro_pagina;
     private String buscar;

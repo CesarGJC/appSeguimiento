@@ -1,0 +1,1 @@
+<option value="${item.id_categoria}">${item.descripcion}(${item.abreviacion})</option>

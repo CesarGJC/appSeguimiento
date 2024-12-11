@@ -2,23 +2,32 @@ package com.moxos.uab.business.facade;
 
 import com.moxos.uab.domain.dto.request.DetallePeriodoProgramacion.DetallePeriodoProgramacionRequest;
 import com.moxos.uab.domain.dto.request.DetallePeriodoProgramacion.ParametroPeiRequest;
+import com.moxos.uab.domain.dto.request.aperturasprogramaticas.AperturasProgramaticasResponse;
 import com.moxos.uab.domain.dto.request.areasestrategicas.AreasEstrategicasRequest;
 import com.moxos.uab.domain.dto.request.catalogoindicadores.CatalogoIndicadoresRequest;
+import com.moxos.uab.domain.dto.request.catalogoindicadores.ParametroAreaEstrategicaRequest;
+import com.moxos.uab.domain.dto.request.categoriaindicador.CategoriaIndicadorRequest;
 import com.moxos.uab.domain.dto.request.general.IndexViewModelFilter;
 import com.moxos.uab.domain.dto.request.general.ParametrosPaginacionBusquedaRequest;
 import com.moxos.uab.domain.dto.request.indicadoresestrategicos.IndicadoresEstrategicosRequest;
 import com.moxos.uab.domain.dto.request.pei.PeiRequest;
 import com.moxos.uab.domain.dto.request.politicasdesarrollo.PoliticasDesarrolloRequest;
+import com.moxos.uab.domain.dto.request.tipoindicador.TipoIndicadorRequest;
+import com.moxos.uab.domain.dto.request.unidadmedida.UnidadMedidaRequest;
 import com.moxos.uab.domain.dto.response.DetallePeriodoProgramacion.DetallePeriodoProgramacionResponse;
 import com.moxos.uab.domain.dto.response.GeneralResponse;
 import com.moxos.uab.domain.dto.response.Response;
+import com.moxos.uab.domain.dto.response.aperturasprogramaticas.AperturasProgramaticasRequest;
 import com.moxos.uab.domain.dto.response.areasestrategicas.AreaEstrategicaResponse;
+import com.moxos.uab.domain.dto.response.areasestrategicas.AreasEstrategicasDeleteResponse;
 import com.moxos.uab.domain.dto.response.catalogoindicadores.CatalogoIndicadoresResponse;
+import com.moxos.uab.domain.dto.response.categoriaindicador.CategoriaIndicadorResponse;
 import com.moxos.uab.domain.dto.response.indicadoresestrategicos.IndicadoresEstrategicosResponse;
 import com.moxos.uab.domain.dto.response.pei.PeiResponse;
 import com.moxos.uab.domain.dto.response.politicasdesarrollo.PoliticasDesarrolloResponse;
+import com.moxos.uab.domain.dto.response.tipoindicador.TipoIndicadorResponse;
+import com.moxos.uab.domain.dto.response.unidadmedida.UnidadMedidaResponse;
 import com.moxos.uab.domain.dto.response.view.ListView;
-import com.moxos.uab.domain.entity.die.CatalogoIndicadores;
 
 import java.util.List;
 
@@ -27,7 +36,9 @@ public interface IPoliticasIndicadoresAreasFacade {
 
     Response<AreaEstrategicaResponse> saveAreaEstrategica(AreasEstrategicasRequest areaEstrategica);
 
-    AreasEstrategicasRequest getAreaEstrategicasModel(int idAreaEstrategica);
+    AreasEstrategicasDeleteResponse getAreaEstrategicasModel(int idAreaEstrategica);
+
+    AreasEstrategicasRequest getAreaEstrategicasDetalle(int idAreaEstrategica);
 
     GeneralResponse deleteAreaEstrategica(AreasEstrategicasRequest model);
 
@@ -55,13 +66,13 @@ public interface IPoliticasIndicadoresAreasFacade {
 
     List<ListView> getPoliticasDesarrollo();
 
-    List<ListView> getAreasEstrategicas();
+    List<ListView> getAreasEstrategicas(Integer id);
+
+    List<ListView> getPlanesEstrategicosInstitcuinales();
 
     List<ListView> getPoliticasDesarrollo(int idAreaEstrategica);
 
     List<ListView> getIndicadoresEstrategicos(int idPoliticaDesarrollo);
-
-    List<ListView> getCatalogoIndicadores(int idIndicadorEstrategico);
 
     Response<PoliticasDesarrolloResponse> savePoliticasDesarrollo(PoliticasDesarrolloRequest model);
 
@@ -75,11 +86,52 @@ public interface IPoliticasIndicadoresAreasFacade {
 
     GeneralResponse deleteIndicadoresEstrategicos(IndicadoresEstrategicosRequest model);
 
-    IndexViewModelFilter<CatalogoIndicadoresResponse, Integer> getCatalogosIndicadores(ParametrosPaginacionBusquedaRequest<Integer> busqueda);
+    IndexViewModelFilter<CatalogoIndicadoresResponse, Integer> getCatalogosIndicadores(ParametrosPaginacionBusquedaRequest<ParametroAreaEstrategicaRequest> busqueda);
 
     CatalogoIndicadoresRequest getCatalogoIndicadoresModel(int idCatalogoIndicadores);
 
-    Response<CatalogoIndicadoresResponse> saveCatalogoIndicadores(CatalogoIndicadoresRequest model);
+    Response<Integer> saveCatalogoIndicadores(CatalogoIndicadoresRequest model);
 
-    GeneralResponse deleteCatalogoIndicadores(CatalogoIndicadoresRequest model);
+    GeneralResponse deleteCatalogoIndicadores(Integer id);
+
+
+    IndexViewModelFilter<CategoriaIndicadorResponse, Integer> getCategoriaIndicador(ParametrosPaginacionBusquedaRequest<Integer> busqueda);
+
+    Response<CategoriaIndicadorResponse> saveCategoriaIndicador(CategoriaIndicadorRequest categoriaIndicador);
+
+    CategoriaIndicadorRequest getCategoriaIndicadorModel(int idCategoriaIndicador);
+
+    GeneralResponse deleteCategoriaIndicador(CategoriaIndicadorRequest model);
+
+    List<ListView> getCategoriaIndicador();
+
+    IndexViewModelFilter<TipoIndicadorResponse, Integer> getTipoIndicador(ParametrosPaginacionBusquedaRequest<Integer> busqueda);
+
+    Response<TipoIndicadorResponse> saveTipoIndicador(TipoIndicadorRequest tipoIndicadorRequest);
+
+    TipoIndicadorRequest getTipoIndicadorModel(int idTipoIndicador);
+
+    GeneralResponse deleteTipoIndicador(TipoIndicadorRequest model);
+
+    IndexViewModelFilter<UnidadMedidaResponse, Integer> getUnidadMedida(ParametrosPaginacionBusquedaRequest<Integer> busqueda);
+
+    Response<UnidadMedidaResponse> saveUnidadMedida(UnidadMedidaRequest unidadMedidaRequest);
+
+    UnidadMedidaRequest getUnidadMedidaModel(int idUnidadMedida);
+
+    GeneralResponse deleteUnidadMedida(UnidadMedidaRequest model);
+
+    List<ListView> getTiposIndicadores();
+
+    List<ListView> getUnidadesMedidas();
+
+    IndexViewModelFilter<AperturasProgramaticasResponse, Integer> getAperturasProgramaticas(ParametrosPaginacionBusquedaRequest<Integer> busqueda);
+
+    Response<AperturasProgramaticasResponse> saveAperturasProgramaticas(AperturasProgramaticasRequest aperturasProgramaticas);
+
+    AperturasProgramaticasRequest getAperturasProgramaticasModel(int idAperturasProgramatica);
+
+    GeneralResponse deleteAperturasProgramaticas(AperturasProgramaticasRequest model);
+
+    List<ListView> getListaAperturasProgramaticas();
 }

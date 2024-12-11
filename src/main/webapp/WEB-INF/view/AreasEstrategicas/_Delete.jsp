@@ -20,16 +20,11 @@
                 </div>
             </div>
             <div class="row">
-                <label class="control-label col-md-3">Gestion</label>
+                <label class="control-label col-md-3">Plan: </label>
                 <div class="col-md-9">
-                    <c:out value="${model.gestion}"/>
+                    <c:out value="${model.descripcion}"/>
                 </div>
-            </div> <div class="row">
-            <label class="control-label col-md-3">Codigo</label>
-            <div class="col-md-9">
-                <c:out value="${model.codigo}"/>
             </div>
-        </div>
         </form:form>
     </div>
 </div>

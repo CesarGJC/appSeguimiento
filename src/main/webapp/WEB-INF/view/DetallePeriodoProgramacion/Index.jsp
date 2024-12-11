@@ -10,12 +10,16 @@
     <link href="<c:url value="/static/css/table.bootstrap.css?v=6" />" rel="stylesheet">
 </head>
 <body class="app sidebar-mini">
-<main class="app-content3">
+<main id="main" data-context="${pageContext.request.contextPath}" class="app-content3">
     <div class="app-title">
         <div>
             <h1><i class="fa fa-th-list"></i> Plan ${plan.gestion}</h1>
                     <p> ${plan.descripcion}</p>
         </div>
+        <ul class="app-breadcrumb breadcrumb">
+          <li class="breadcrumb-item"><i class="fa fa-home fs-6"></i></li>
+          <li class="breadcrumb-item"><a href="<c:url value="/pei/index"/>">Admin P.E.I.</a></li>
+        </ul>
     </div>
     <div class="row">
         <div class="col-sm-12">

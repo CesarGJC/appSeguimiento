@@ -9,7 +9,7 @@
     <form:hidden path="id_plan_pei"/>
     <div class="mb-3">
         <label class="form-label" for="descripcion">Detalle Periodo de Programacion</label>
-        <form:textarea type="number" path="descripcion" cssClass="form-control"/>
+        <form:input type="number" path="descripcion" cssClass="form-control"/>
         <form:errors cssClass="invalid" path="descripcion"/>
     </div>
 </form:form>

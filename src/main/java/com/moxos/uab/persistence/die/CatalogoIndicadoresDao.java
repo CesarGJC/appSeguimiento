@@ -11,7 +11,7 @@ public interface CatalogoIndicadoresDao {
 
     Integer saveCatalogoIndicadores(CatalogoIndicadores catalogoIndicadores) throws DataAccessException;
 
-    void deleteCatalogoIndicadores(CatalogoIndicadores catalogoIndicadores) throws DataAccessException;
+    void deleteCatalogoIndicadores(Integer id_catalogo_indicador_pei) throws DataAccessException;
 
     List<CatalogoIndicadores> selectCatalogoIndicadores(int id_catalogo_indicador) throws DataAccessException;
 
@@ -19,19 +19,12 @@ public interface CatalogoIndicadoresDao {
 
     CatalogoIndicadores getByid(int id_catalogo_indicador) throws DataAccessException;
 
-    List<CatalogoIndicadores> getCatalogoIndicadoresByIndicadores(CatalogoIndicadores catalogoIndicadores) throws DataAccessException;
+    List<CatalogoIndicadores> getCatalogoIndicadoresByArticulacion(CatalogoIndicadores catalogoIndicadores) throws DataAccessException;
 
-    Integer getCantidadCatalogoIndicadoresByIndicadores(CatalogoIndicadores catalogoIndicadores) throws DataAccessException;
+    Integer getCantidadCatalogoIndicadoresByArticulacion(CatalogoIndicadores catalogoIndicadores) throws DataAccessException;
 
-    List<CatalogoIndicadores> getCatalogoIndicadoresByCatalogo(CatalogoIndicadores catalogoIndicadores) throws DataAccessException;
+    List<CatalogoIndicadores> getCatalogoIndicadoresByDenominacion(CatalogoIndicadores catalogoIndicadores) throws DataAccessException;
 
-    Integer getCantidadCatalogoIndicadoresByCatalogo(CatalogoIndicadores catalogoIndicadores) throws DataAccessException;
+    Integer getCantidadCatalogoIndicadoresByDenominacion(CatalogoIndicadores catalogoIndicadores) throws DataAccessException;
 
-    List<CatalogoIndicadores> getCatalogoIndicadoresByMeta(CatalogoIndicadores catalogoIndicadores) throws DataAccessException;
-
-    Integer getCantidadCatalogoIndicadoresByMeta(CatalogoIndicadores catalogoIndicadores) throws DataAccessException;
-
-    List<CatalogoIndicadores> getCatalogoIndicadoresByLineaBase(CatalogoIndicadores catalogoIndicadores) throws DataAccessException;
-
-    Integer getCantidadCatalogoIndicadoresByLineaBase(CatalogoIndicadores catalogoIndicadores) throws DataAccessException;
 }

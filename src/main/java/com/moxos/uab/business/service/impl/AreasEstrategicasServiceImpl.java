@@ -6,6 +6,7 @@ import com.moxos.uab.domain.dto.request.areasestrategicas.AreasEstrategicasReque
 import com.moxos.uab.domain.dto.response.GeneralResponse;
 import com.moxos.uab.domain.dto.response.Response;
 import com.moxos.uab.domain.dto.response.areasestrategicas.AreaEstrategicaResponse;
+import com.moxos.uab.domain.dto.response.areasestrategicas.AreasEstrategicasDeleteResponse;
 import com.moxos.uab.domain.dto.response.view.ListView;
 import com.moxos.uab.domain.entity.die.AreaEstrategica;
 import com.moxos.uab.persistence.die.AreaEstrategicaDao;
@@ -18,7 +19,7 @@ import java.util.List;
 
 @Service
 public class AreasEstrategicasServiceImpl implements IAreasEstrategicasService {
-    private ModelMapper modelMapper;
+    private final ModelMapper modelMapper;
     private final AreaEstrategicaDao areaEstrategicaDao;
 
 
@@ -59,17 +60,16 @@ public class AreasEstrategicasServiceImpl implements IAreasEstrategicasService {
     }
 
     @Override
-    public Response<List<ListView>> listAreaEstrategica(String gestion) {
+    public Response<List<ListView>> listAreaEstrategica(Integer id) {
         try {
             List<ListView> listViews = new ArrayList<>();
-            for (var item : areaEstrategicaDao.getAllAreaEstrategicaPorGestion(gestion))
+            for (var item : areaEstrategicaDao.getAllAreaEstrategicaPorGestion(id))
                 listViews.add(new ListView(String.valueOf(item.getId_area_estrategica()), item.getArea_estrategica()));
             return new Response<>(true, "", listViews);
         } catch (Exception e) {
             return new Response<>(false, e.getMessage(), null);
         }
     }
-
 
 
     @Override
@@ -91,14 +91,11 @@ public class AreasEstrategicasServiceImpl implements IAreasEstrategicasService {
         try {
             List<AreaEstrategicaResponse> areaEstrategicas = new ArrayList<>();
             switch (searchAreas) {
-                case DESCRIPCION:
+                case AREA_ESTRATEGICA:
                     areaEstrategicas = areaEstrategicaDao.getAreasEstrategicasByArea(areaEstrategica).stream().map(p -> modelMapper.map(p, AreaEstrategicaResponse.class)).toList();
                     break;
-                case GESTION:
+                case PLAN_PEI:
                     areaEstrategicas = areaEstrategicaDao.getAreasEstrategicasByGestion(areaEstrategica).stream().map(p -> modelMapper.map(p, AreaEstrategicaResponse.class)).toList();
-                    break;
-                case CODIGO:
-                    areaEstrategicas = areaEstrategicaDao.getAreasEstrategicasByCodigo(areaEstrategica).stream().map(p -> modelMapper.map(p, AreaEstrategicaResponse.class)).toList();
                     break;
                 default:
                     break;
@@ -116,14 +113,11 @@ public class AreasEstrategicasServiceImpl implements IAreasEstrategicasService {
         try {
             Integer cantidad = 0;
             switch (searchAreas) {
-                case DESCRIPCION:
+                case AREA_ESTRATEGICA:
                     cantidad = areaEstrategicaDao.getCantidadAreasEstrategicasByArea(areaEstrategica);
                     break;
-                case GESTION:
+                case PLAN_PEI:
                     cantidad = areaEstrategicaDao.getCantidadAreasEstrategicasByGestion(areaEstrategica);
-                    break;
-                case CODIGO:
-                    cantidad = areaEstrategicaDao.getCantidadAreasEstrategicasByCodigo(areaEstrategica);
                     break;
                 default:
                     break;
@@ -135,7 +129,17 @@ public class AreasEstrategicasServiceImpl implements IAreasEstrategicasService {
     }
 
     @Override
-    public Response<AreasEstrategicasRequest> getByidAreasEstrategicas(int idAreaEstrategica) {
+    public Response<AreasEstrategicasDeleteResponse> getByidAreasEstrategicas(int idAreaEstrategica) {
+        try {
+            AreasEstrategicasDeleteResponse areaEstrategicas = modelMapper.map(areaEstrategicaDao.getByid(idAreaEstrategica), AreasEstrategicasDeleteResponse.class);
+            return new Response<>(true, "", areaEstrategicas);
+        } catch (Exception e) {
+            return new Response<>(false, e.getMessage(), null);
+        }
+    }
+
+    @Override
+    public Response<AreasEstrategicasRequest> getByidAreasEstrategicasDetalle(int idAreaEstrategica) {
         try {
             AreasEstrategicasRequest areaEstrategicas = modelMapper.map(areaEstrategicaDao.getByid(idAreaEstrategica), AreasEstrategicasRequest.class);
             return new Response<>(true, "", areaEstrategicas);

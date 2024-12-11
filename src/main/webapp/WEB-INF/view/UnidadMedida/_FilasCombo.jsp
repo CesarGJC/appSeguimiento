@@ -1,0 +1,1 @@
+<option value="${item.id_unidad_medida}">${item.descripcion}(${item.abreviacion})</option>

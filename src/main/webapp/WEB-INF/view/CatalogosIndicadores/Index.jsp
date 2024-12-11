@@ -7,26 +7,40 @@
 <html lang="es">
 <head>
     <%@ include file="../_css.jsp" %>
+    <link href="<c:url value="/static/css/table.bootstrap.css?v=6" />" rel="stylesheet">
 </head>
 <body class="app sidebar-mini">
-<main class="app-content3">
+<main id="main" data-context="${pageContext.request.contextPath}" class="app-content3">
     <div class="app-title">
         <div>
-            <h1><i class="fa fa-th-list"></i> Detalle de Catalogo Indicadores</h1>
+            <h1><i class="fa fa-th-list"></i> ${areaEstrategica.descripcion}</h1>
         </div>
+        <ul class="app-breadcrumb breadcrumb">
+            <li class="breadcrumb-item"><i class="fa fa-home fs-6"></i></li>
+            <li class="breadcrumb-item"><a class="enlace" href="<c:url value="/areas-estrategicas/index"/>">Areas</a>
+            </li>
+        </ul>
     </div>
+    <c:if test="${result !=null}">
+        <div class="${result.className}" role="alert">
+                ${result.message}
+        </div>
+    </c:if>
     <div class="row">
         <div class="col-sm-12">
             <div class="tile border border-primary">
                 <div class="tile-title-w-btn">
-                    <h3 class="title">Catalogo Indiadores</h3>
-
+                    <h3 class="title">CATÁLOGO DE INDICADORES DE LA UNIVERSIDAD AUTONOMA DEL BENI "JOSE BALLIVIAN"</h3>
                 </div>
                 <div class="tile-body">
-                    <button id="addButton" type="button"
-                            data-atributes='"id_catalogo_indicador": 0'></button>
+                    <div class="row">
+                        <div class="col">
+                            <a class="btn btn-primary enlace"
+                               href="<c:url value="/catalogo-indicadores/new"><c:param name="id_area_estrategica" value="${areaEstrategica.id_area_estrategica}"/></c:url>"><i
+                                    class="fa fa-plus" aria-hidden="true"></i> Catalogo indicador</a>
+                        </div>
+                    </div>
                     <div class="row d-flex flex-row-reverse mb-3">
-
                         <div class="col-md-4">
                             <div class="small fw-light">Buscar</div>
                             <div class="input-group">
@@ -51,16 +65,22 @@
                         </div>
                     </div>
                     <div class="row">
+                        <div class="col">
+                            <p><strong>Área Estratégica:</strong>
+                                ${areaEstrategica.area_estrategica}
+                            </p>
+                        </div>
+                    </div>
+                    <div class="row">
                         <div id="table-container" data-toolbar="true" data-add="true"
-                             data-url-add="${pageContext.request.contextPath}/catalogo-indicadores/new"
                              data-url-data="${pageContext.request.contextPath}/catalogo-indicadores/listar-filtrar"
-                             data-url-update="${pageContext.request.contextPath}/catalogo-indicadores/update"
                              data-url-delete="${pageContext.request.contextPath}/catalogo-indicadores/delete"
                              class="table-main-container col-xl">
                             <jsp:include page="${request.contextPath}/catalogo-indicadores/listar">
                                 <jsp:param name="pagina" value="${model.pagina}"/>
                                 <jsp:param name="mostrar" value="${model.mostrar}"/>
-                                <jsp:param name="option" value="${model.option}"/>
+                                <jsp:param name="id" value="${model.option.id}"/>
+                                <jsp:param name="opcion" value="${model.option.opcion}"/>
                             </jsp:include>
                         </div>
                     </div>
@@ -73,7 +93,6 @@
 <script src="<c:url value="/static/js/sweetalert.min.js" />"></script>
 <script src="<c:url value="/static/js/toast.boostrap.js"/>"></script>
 <script src="<c:url value="/static/js/table.bootstrap.js?v=63"/>"></script>
-<script src="<c:url value="/static/js/ComboBoxBoostrap.js?v=6"/>"></script>
 <c:if test="${result !=null}">
     <script>
         setTimeout(function () {
@@ -82,13 +101,8 @@
     </script>
 </c:if>
 <script>
-    let comboboxArea;
     let table = new TableBoostrap(document.getElementById('table-container'), {
-        title: "Lista de Indicadores Estrategicos",
-        add: document.getElementById('addButton'),
-        loadContent: () => {
-            comboboxArea = new ComboBoxBoostrap('.filter', {});
-        }
+        title: "Lista de Catalogo de Indicadores"
     });
 
     function cargarElementoCatalogos(pagina) {
