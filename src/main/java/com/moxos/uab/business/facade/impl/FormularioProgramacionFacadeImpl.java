@@ -75,7 +75,12 @@ public class FormularioProgramacionFacadeImpl implements IFormularioProgramacion
     public GeneralResponse deleteFormulario(Integer id) {
         return formularioService.deleteFormulario(id);
     }
-
+    @Override
+    public FormularioProgramacionResponse getFormularioProgramacionCabecera(Integer id) {
+        var response = formularioService.getFormularioProgramacionDetalle(id).getResult();
+        response.setPeriodos(detallePeriodoProgramacionService.getPeriodosPlan(response.getId_plan_pei()).getResult());
+        return response;
+    }
     @Override
     public FormularioProgramacionResponse getFormularioProgramacionDetalle(Integer id) {
         var response = formularioService.getFormularioProgramacionDetalle(id).getResult();

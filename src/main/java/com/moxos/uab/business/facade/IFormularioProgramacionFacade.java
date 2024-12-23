@@ -19,6 +19,8 @@ public interface IFormularioProgramacionFacade {
 
     GeneralResponse deleteFormulario(Integer id);
 
+    FormularioProgramacionResponse getFormularioProgramacionCabecera(Integer id);
+
     FormularioProgramacionResponse getFormularioProgramacionDetalle(Integer id);
 
 }

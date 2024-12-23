@@ -121,6 +121,11 @@
                                     </c:forEach>
                                 </tr>
                                 </thead>
+                                <tbody id="contenido">
+                                <jsp:include page="${request.contextPath}/programacion/detalle/formulario">
+                                    <jsp:param name="id" value="${formulario.id_formulario}"/>
+                                </jsp:include>
+                                </tbody>
                             </table>
                         </div>
                     </div>
@@ -130,5 +135,26 @@
     </div>
 </main>
 <%@ include file="../../_js.jsp" %>
+<script>
+    function evaluar(input) {
+        let data = '{'
+        Object.entries(input.dataset).forEach(([clave, valor]) => {
+            if (clave.includes('sistema')) {
+                let name = clave.replace("sistema", "").toLowerCase();
+                if (!isNaN(Number(valor))) {
+                    data += '"' + name + '": ' + valor + ',';
+                } else if (valor.toLowerCase() === "true" || valor.toLowerCase() === "false") {
+                    data += '"' + name + '": ' + valor + ',';
+                } else {
+                    data += '"' + name + '": "' + valor + '",';
+                }
+            }
+        });
+        data = data.slice(0, -1)
+        data += '}';
+        console.log(JSON.parse(data));
+        return JSON.parse(data);
+    }
+</script>
 </body>
 </html>

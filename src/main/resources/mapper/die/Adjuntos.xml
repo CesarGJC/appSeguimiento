@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.moxos.uab.persistence.die.AdjuntosDao">
+    <select id="saveAdjuntos" resultType="java.lang.Integer">
+        select *
+        from create_adjuntos(
+                #{id_adjunto},
+                #{id_evaluacion_desempeno},
+                #{nro_documento},
+                #{tipo_documento},
+                #{ult_usuario}
+             )
+    </select>
+    <select id="getByid" resultType="com.moxos.uab.domain.entity.die.Adjuntos">
+
+    </select>
+    <update id="deleteAdjuntos">
+        UPDATE tadjuntos
+        SET id_estado='X'
+        WHERE id_adjunto=#{id_adjunto};
+    </update>
+    <select id="getAdjuntos" resultType="com.moxos.uab.domain.entity.die.Adjuntos">
+
+    </select>
+</mapper>
