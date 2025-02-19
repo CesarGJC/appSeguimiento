@@ -45,6 +45,11 @@
                             <form:hidden path="id_catalogo_indicador_pei"/>
                             <form:hidden path="id_area_estrategica"/>
                             <div class="mb-3">
+                                <label class="form-label" for="codigo">Codigo indicador</label>
+                                <form:input type="number" path="codigo" cssClass="form-control"/>
+                                <form:errors cssClass="invalid" path="codigo"/>
+                            </div>
+                            <div class="mb-3">
                                 <label class="form-label" for="id_unidad_medida">Unidades de Medida</label>
                                 <div class="input-group mb-3">
                                     <form:select path="id_unidad_medida" cssClass="form-select filter"

@@ -5,8 +5,12 @@ import lombok.Data;
 
 @Data
 public class AccionEstrategica extends Entidad {
-    private int id_acciones_estrategica;
-    private int id_objetivo_estrategica;
-    private String objetivo_estrategica;
-    private int orden;
+    private Integer id_acciones_estrategica;
+    private Integer id_objetivos_estrategicos;
+    private String acciones_estrategica;
+    private Integer orden;
+
+    private String descripcion;
+    private String area_estrategica;
+    private String objetivos_estrategicos;
 }

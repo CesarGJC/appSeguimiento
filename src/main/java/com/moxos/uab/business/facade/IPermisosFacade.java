@@ -5,7 +5,7 @@ import com.moxos.uab.domain.dto.response.GeneralResponse;
 import com.moxos.uab.domain.dto.response.Response;
 import com.moxos.uab.domain.dto.response.permisos.PermisosResponse;
 
-public interface IEncargadosUnidadFacade {
+public interface IPermisosFacade {
 
     Response<PermisosResponse> savePermisos(PermisosRequest permisosRequest);
 

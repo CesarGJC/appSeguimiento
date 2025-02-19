@@ -22,4 +22,6 @@ public interface IFormularioService {
     GeneralResponse deleteFormulario(Integer id);
 
     Response<FormularioProgramacionResponse> getFormularioProgramacionDetalle(int id);
+
+    Response<List<FormularioResponse>>  getFormularioPlan(Integer id);
 }

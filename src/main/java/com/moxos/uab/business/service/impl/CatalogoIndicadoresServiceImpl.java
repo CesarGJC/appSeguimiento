@@ -128,4 +128,26 @@ public class CatalogoIndicadoresServiceImpl implements ICatalogoIndicadoresServi
             return new Response<>(false, e.getMessage(), null);
         }
     }
+
+    @Override
+    public Response<List<ListView>> listCatalogoIndicadoresPorArea(int idAreaEstrategica) {
+        try {
+            List<ListView> listviews = new ArrayList<>();
+            for (var item : catalogoIndicadoresDao.getListaCatalalogosIndicadoresByAreasEstrategicas(idAreaEstrategica))
+                listviews.add(new ListView(String.valueOf(item.getId_catalogo_indicador_pei()), item.getDenominacion_indicador()));
+            return new Response<>(true, "", listviews);
+        } catch (Exception e) {
+            return new Response<>(false, e.getMessage(), null);
+        }
+    }
+
+    @Override
+    public Response<CatalogoIndicadoresRequest> itemCatalogoIndicador(int idCatalogoIndicador) {
+        try {
+            CatalogoIndicadoresRequest catalogoIndicadores = modelMapper.map(catalogoIndicadoresDao.getItemCatalalogosIndicadoresByid(idCatalogoIndicador), CatalogoIndicadoresRequest.class);
+            return new Response<>(true, "", catalogoIndicadores);
+        } catch (Exception e) {
+            return new Response<>(false, e.getMessage(), null);
+        }
+    }
 }

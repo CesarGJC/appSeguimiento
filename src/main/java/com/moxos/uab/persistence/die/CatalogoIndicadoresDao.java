@@ -13,8 +13,6 @@ public interface CatalogoIndicadoresDao {
 
     void deleteCatalogoIndicadores(Integer id_catalogo_indicador_pei) throws DataAccessException;
 
-    List<CatalogoIndicadores> selectCatalogoIndicadores(int id_catalogo_indicador) throws DataAccessException;
-
     List<CatalogoIndicadores> getAllCatalogoIndicadores() throws DataAccessException;
 
     CatalogoIndicadores getByid(int id_catalogo_indicador) throws DataAccessException;
@@ -27,4 +25,7 @@ public interface CatalogoIndicadoresDao {
 
     Integer getCantidadCatalogoIndicadoresByDenominacion(CatalogoIndicadores catalogoIndicadores) throws DataAccessException;
 
+    List<CatalogoIndicadores> getListaCatalalogosIndicadoresByAreasEstrategicas(Integer id_area_estrategica) throws DataAccessException;
+
+    CatalogoIndicadores getItemCatalalogosIndicadoresByid(Integer id_catalogo_indicador_pei) throws DataAccessException;
 }

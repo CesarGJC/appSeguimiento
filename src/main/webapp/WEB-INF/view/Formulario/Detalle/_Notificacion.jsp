@@ -1,16 +1,15 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: Cesar
-  Date: 28/1/2025
-  Time: 14:29
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
-  <head>
-    <title>$Title$</title>
-  </head>
-  <body>
-  $END$
-  </body>
-</html>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page contentType="text/html" pageEncoding="UTF-8" %>
+<div class="row">
+    <div class="col-md">
+        <c:if test="${status}">
+            <h1 class="display-4 mt-3 text-center text-success"><i class="fa fa-check-circle-o" aria-hidden="true"></i>
+                Satisfactorio</h1>
+        </c:if>
+        <c:if test="${!status}">
+            <h1 class="display-4 mt-3 text-center text-danger"><i class="fa fa-check-circle-o" aria-hidden="true"></i>
+                Error</h1>
+        </c:if>
+        <p class="mt-3 mb-3 text-center">${message}.</p>
+    </div>
+</div>

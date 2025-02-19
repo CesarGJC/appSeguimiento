@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.moxos.uab.persistence.die.EvaluacionDesempenoDao">
+    <select id="saveEvaluacionDesempeno" resultType="java.lang.Integer">
+        select *
+        from create_evaluacion_desempeno(
+                #{id_evaluacion_desempeno},
+                #{id_resultados},
+                #{id_resultados_gestion},
+                #{id_programa},
+                #{titulo},
+                #{descripcion},
+                #{elaborador},
+                #{resultado},
+                #{fec_publicacion},
+                #{descargas},
+                #{ult_usuario}
+             )
+    </select>
+    <select id="getByid" resultType="com.moxos.uab.domain.entity.die.EvaluacionDesempeno">
+        SELECT id_evaluacion_desempeno,
+               tr.id_resultados,
+               tre.id_resultados_gestion,
+               id_programa,
+               titulo,
+               descripcion,
+               elaborador,
+               resultado
+        FROM public.tevaluacion_desempeno ted
+                 INNER JOIN public.tresultados tr on ted.id_resultados=tr.id_resultados
+                 INNER JOIN public.tresultados_gestion on ted.id_resultados_gestion=tre.id_resultados_gestion
+        WHERE id_evaluacion_desempeno=#{id_evaluacion_desempeno}
+    </select>
+    <select id="getAllEvalucionDesempeno" resultType="com.moxos.uab.domain.entity.die.EvaluacionDesempeno">
+        SELECT id_resultados, id_resultados_gestion, id_programa, titulo,descripcion,elaborador,resultado
+        FROM tevaluacion_desempeno
+        WHERE id_estado='A';
+    </select>
+    <update id="deleteEvaluacionDesempeno">
+        UPDATE tevaluacion_desempeno
+        SET id_estado='X'
+        WHERE id_evaluacion_desempeno=#{id_evaluacion_desempeno};
+    </update>
+    <select id="getEvaluacionDesempeno" resultType="com.moxos.uab.domain.entity.die.EvaluacionDesempeno">
+        SELECT id_evaluacion_desempeno,
+               tr.id_resultados,
+               tre.id_resultados_gestion,
+               id_programa,
+               titulo,
+               descripcion,
+               elaborador,
+               resultado
+        FROM public.tevaluacion_desempeno ted
+                 JOIN public.tresultados tr on ted.id_resultados=tr.id_resultados
+                 JOIN public.tresultados_gestion on ted.id_resultados_gestion=tre.id_resultados_gestion
+        WHERE ted.id_estado='A' AND id_evaluacion_desempeno=#{id_evaluacion_desempeno}
+    </select>
+</mapper>

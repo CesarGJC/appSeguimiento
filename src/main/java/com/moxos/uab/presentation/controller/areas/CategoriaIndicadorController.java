@@ -26,7 +26,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Controller
-public class CategoriaIndicadorController {
+public class    CategoriaIndicadorController {
     private final IPoliticasIndicadoresAreasFacade politicasIndicadoresAreasFacade;
 
     private CategoriaIndicadorController(IPoliticasIndicadoresAreasFacade politicasIndicadoresAreasFacade) {

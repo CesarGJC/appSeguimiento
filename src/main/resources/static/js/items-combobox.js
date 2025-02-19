@@ -90,9 +90,7 @@ class itemsComboBox {
 
                 let url = input.dataset.url;
                 let target = input.dataset.target;
-                let data = {
-                    display: 'item',
-                };
+                let data = getDataAttributesComboBox(input);
                 let response = await Get(url, data);
                 this.Body.innerHTML = response.toString();
                 this.Send.setAttribute("data-optionitem", "add");
@@ -102,6 +100,7 @@ class itemsComboBox {
         });
     }
 }
+
 let toastItems = new ToastModal(window.parent.document.getElementById("toast"), {});
 Object.prototype.extendComboboxItems =
     Object.prototype.extendComboboxItems ||
@@ -117,4 +116,23 @@ function alertMessageItems(data) {
         titleText: "Aviso",
         subtitleText: "",
     });
+}
+
+function getDataAttributesComboBox(input) {
+    let data = '{ "display": "item",'
+    Object.entries(input.dataset).forEach(([clave, valor]) => {
+        if (clave.includes('sistema')) {
+            let name = clave.replace("sistema", "").toLowerCase();
+            if (!isNaN(Number(valor))) {
+                data += '"' + name + '": ' + valor + ',';
+            } else if (valor.toLowerCase() === "true" || valor.toLowerCase() === "false") {
+                data += '"' + name + '": ' + valor + ',';
+            } else {
+                data += '"' + name + '": "' + valor + '",';
+            }
+        }
+    });
+    data = data.slice(0, -1)
+    data += '}';
+    return JSON.parse(data);
 }

@@ -1,6 +1,8 @@
 package com.moxos.uab.domain.dto.response.formulario;
 
 import com.moxos.uab.domain.dto.response.DetallePeriodoProgramacion.PeriodosProgramacionResponse;
+import com.moxos.uab.domain.dto.response.accionestrategica.AccionEstrategicaResponse;
+import com.moxos.uab.domain.dto.response.objetivosestrategicos.ObjetivosEstrategicosResponse;
 import lombok.Data;
 
 import java.util.List;
@@ -23,4 +25,6 @@ public class FormularioProgramacionResponse {
     private Integer id_area_estrategica;
     private Integer id_apertura_programatica;
     private List<PeriodosProgramacionResponse> periodos;
+    private List<FormularioResultadosResponse> formularioResultadosResponseList;
+
 }

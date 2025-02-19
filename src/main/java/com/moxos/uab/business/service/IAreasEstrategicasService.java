@@ -19,6 +19,8 @@ public interface IAreasEstrategicasService {
 
     Response<List<ListView>> listAreaEstrategica(Integer id);
 
+    Response<List<ListView>> listAreaEstrategicas();
+
     Response<AreaEstrategicaResponse> getByid(int id_area_estrategica);
 
     Response<List<AreaEstrategicaResponse>> listarAreaEstrategicaByTipo(String buscar, SearchAreas searchAreas, int pagina, int nroPagina);

@@ -1,6 +1,6 @@
 package com.moxos.uab.business.facade.impl;
 
-import com.moxos.uab.business.facade.IEncargadosUnidadFacade;
+import com.moxos.uab.business.facade.IPermisosFacade;
 import com.moxos.uab.business.service.IPermisosService;
 import com.moxos.uab.domain.dto.request.permisos.PermisosRequest;
 import com.moxos.uab.domain.dto.response.GeneralResponse;
@@ -10,11 +10,11 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 @Service
-public class EncargadoUnidadFacadeImpl implements IEncargadosUnidadFacade {
+public class PermisosFacadeImpl implements IPermisosFacade {
     private final ModelMapper modelMapper;
     private final IPermisosService permisosService;
 
-    public EncargadoUnidadFacadeImpl(ModelMapper modelMapper, IPermisosService permisosService) {
+    public PermisosFacadeImpl(ModelMapper modelMapper, IPermisosService permisosService) {
         this.modelMapper = modelMapper;
         this.permisosService = permisosService;
     }

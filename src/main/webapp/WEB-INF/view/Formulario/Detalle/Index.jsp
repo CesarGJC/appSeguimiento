@@ -56,7 +56,7 @@
                     <h3 class="title"></h3>
                 </div>
                 <div class="tile-body">
-                    <div class="invoice">
+                    <div id="contenedor" class="invoice">
                         <div class="row mb-4">
                             <div class="col-12 text-center">
                                 <img style="width: 45px" src="<c:url value="/static/image/logominiatura.png"/>">
@@ -135,26 +135,13 @@
     </div>
 </main>
 <%@ include file="../../_js.jsp" %>
-<script>
-    function evaluar(input) {
-        let data = '{'
-        Object.entries(input.dataset).forEach(([clave, valor]) => {
-            if (clave.includes('sistema')) {
-                let name = clave.replace("sistema", "").toLowerCase();
-                if (!isNaN(Number(valor))) {
-                    data += '"' + name + '": ' + valor + ',';
-                } else if (valor.toLowerCase() === "true" || valor.toLowerCase() === "false") {
-                    data += '"' + name + '": ' + valor + ',';
-                } else {
-                    data += '"' + name + '": "' + valor + '",';
-                }
-            }
-        });
-        data = data.slice(0, -1)
-        data += '}';
-        console.log(JSON.parse(data));
-        return JSON.parse(data);
-    }
+<script src="<c:url value="/static/js/toast.boostrap.js"/>"></script>
+<script src="<c:url value="/static/js/ajax-form.js?v=1" />"></script>
+
+
+<script type="module">
+    let formulario=new AjaxForm(document.getElementById('contenedor'));
+
 </script>
 </body>
 </html>

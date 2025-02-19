@@ -7,22 +7,20 @@
                 #{id_resultados_gestion},
                 #{id_resultados},
                 #{id_detalle_periodos_programacion},
-                #{id_acciones_estrategica},
                 #{descripcion},
-                #{formula},
-                #{linea_base},
-                #{meta_base},
-                #{fuente_informacion},
-                #{denominacion_indicador},
-                #{id_unidad_medida},
-                #{id_tipo_indicador},
-                #{id_categoria},
-                #{articulacion},
                 #{ult_usuario}
              )
     </select>
     <select id="getByid" resultType="com.moxos.uab.domain.entity.die.ResultadosGestion">
-
+        SELECT id_resultados_gestion,
+               tr.id_resultados,
+               tdp.id_detalle_periodos_programacion,
+               descripcion,
+               articulacion
+        FROM tresultados_gestion trg
+                 INNER JOIN tresultados tr on trg.id_resultados=tr.id_resultados
+                 INNER JOIN detalle_periodos_programacion tdp on trg.id_detalle_periodos_programacion=tdp.id_detalle_periodos_programacion
+        WHERE id_resultados_gestion=#{id_resultados_gestion}
     </select>
     <update id="deleteResultadoGestion">
         UPDATE tresultados_gestion
@@ -30,6 +28,20 @@
         WHERE id_resultados_gestion=#{id_resultados_gestion};
     </update>
     <select id="getResultadosGestion" resultType="com.moxos.uab.domain.entity.die.ResultadosGestion">
-
+        SELECT id_resultados_gestion,descripcion
+        FROM tresultados_gestion
+        WHERE id_resultados=#{id}
+          AND id_estado='A'
+        ORDER BY descripcion
+    </select>
+    <select id="getPeriodosProgramacion" resultType="com.moxos.uab.domain.entity.die.DetallePeriodoProgramacion" >
+        SELECT dpp.id_detalle_periodos_programacion,dpp.descripcion
+        FROM public.detalle_periodos_programacion dpp
+        WHERE dpp.id_estado='A' AND dpp.id_plan_pei=#{id_plan_pei};
+    </select>
+    <select id="getDetalleProgramacionPorResultados" resultType="com.moxos.uab.domain.entity.die.ResultadosGestion">
+        SELECT tr.id_resultados_gestion,tr.descripcion, tr.id_resultados, tr.id_detalle_periodos_programacion
+        FROM public.tresultados_gestion tr
+        WHERE tr.id_estado='A' AND tr.id_detalle_periodos_programacion=#{id_detalle_periodos_programacion} AND tr.id_resultados=#{id_resultados};
     </select>
 </mapper>

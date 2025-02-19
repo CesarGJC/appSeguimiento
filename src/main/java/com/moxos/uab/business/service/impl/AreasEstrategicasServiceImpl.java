@@ -71,6 +71,18 @@ public class AreasEstrategicasServiceImpl implements IAreasEstrategicasService {
         }
     }
 
+    @Override
+    public Response<List<ListView>> listAreaEstrategicas() {
+        try {
+            List<ListView> listViews = new ArrayList<>();
+            for (var item : areaEstrategicaDao.getAllAreaEstrategica())
+                listViews.add(new ListView(String.valueOf(item.getId_area_estrategica()), item.getArea_estrategica()));
+            return new Response<>(true, "", listViews);
+        } catch (Exception e) {
+            return new Response<>(false, e.getMessage(), null);
+        }
+    }
+
 
     @Override
     public Response<AreaEstrategicaResponse> getByid(int id_area_estrategica) {

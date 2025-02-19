@@ -16,4 +16,7 @@ public interface ProgramasDao {
 
     List<Programas> getUnvListarProgramas(Universidades id_universidad) throws DataAccessException;
 
+    Programas getProgramaFacultad(int idPrograma) throws DataAccessException;
+
+    List<Programas> getProgramasPorFacultad(Integer idFacultad) throws DataAccessException;
 }

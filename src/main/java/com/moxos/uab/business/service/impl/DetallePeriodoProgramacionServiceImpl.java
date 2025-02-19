@@ -137,4 +137,16 @@ public class DetallePeriodoProgramacionServiceImpl implements IDetallePeriodoPro
         }
     }
 
+    @Override
+    public Response<List<ListView>> getPeriodosGestionesByid(int idPlanPei) {
+        try {
+            List<ListView> listViews = new ArrayList<>();
+            for (var item : detallePeriodoProgramacionDao.getPeriodos(idPlanPei))
+                listViews.add(new ListView(item.getId_detalle_periodos_programacion().toString(), item.getDescripcion()));
+            return new Response<>(true, "", listViews);
+        } catch (Exception e) {
+            return new Response<>(false, e.getMessage(), null);
+        }
+    }
+
 }

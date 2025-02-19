@@ -3,21 +3,44 @@
 <mapper namespace="com.moxos.uab.persistence.die.AccionEstrategicaDao">
     <select id="saveAccionEstrategica" resultType="java.lang.Integer">
         select *
-        from create_acciones_estrategica(#{id_objetivo_estrategica}, #{objetivo_estrategica},#{orden}, #{ult_usuario})
+        from create_acciones_estrategica(#{id_acciones_estrategica},#{id_objetivos_estrategicos}, #{acciones_estrategica}, #{orden},
+                                         #{ult_usuario})
     </select>
     <update id="deleteAccionEstrategica">
         UPDATE tacciones_estrategica
         SET id_estado='X'
-        WHERE id_acciones_estrategica=#{id_acciones_estrategica};
+        WHERE id_acciones_estrategica = #{id_acciones_estrategica};
     </update>
     <select id="getByid" resultType="com.moxos.uab.domain.entity.die.AccionEstrategica">
-        SELECT id_objetivo_estrategica, objetivo_estrategica, orden, id_estado
-        FROM tacciones_estrategica
-        WHERE id_acciones_estrategica=#{id_acciones_estrategica} limit 1;
+        SELECT ta.id_acciones_estrategica,
+               ta.id_objetivos_estrategicos,
+               ta.acciones_estrategica,
+               ta.orden,
+               ta.id_estado,
+            tob.objetivos_estrategicos
+        FROM tacciones_estrategica ta
+                 INNER JOIN tobjetivos_estrategicos tob on ta.id_objetivos_estrategicos = tob.id_objetivos_estrategicos
+        WHERE id_acciones_estrategica = #{id_acciones_estrategica} limit 1;
     </select>
     <select id="getAllAccionEstrategica" resultType="com.moxos.uab.domain.entity.die.AccionEstrategica">
-        SELECT id_objetivo_estrategica, objetivo_estrategica, orden, id_estado
+        SELECT id_objetivos_estrategicos, acciones_estrategica, orden, id_estado
         FROM tacciones_estrategica
-        WHERE id_estado='A';
+        WHERE id_estado = 'A';
+    </select>
+    <select id="getAcciones" resultType="com.moxos.uab.domain.entity.die.AccionEstrategica">
+        SELECT id_acciones_estrategica,
+               id_objetivos_estrategicos,
+               acciones_estrategica, orden
+        FROM public.tacciones_estrategica
+        where id_objetivos_estrategicos=#{id} and id_estado='A'
+        order by orden
+    </select>
+    <select id="getDetalleAccionesEstrategicas" resultType="com.moxos.uab.domain.entity.die.AccionEstrategica">
+        select ar.area_estrategica, oe.objetivos_estrategicos, ae.acciones_estrategica
+        from public.tacciones_estrategica ae
+                 inner join public.tobjetivos_estrategicos oe
+                            on oe.id_objetivos_estrategicos = ae.id_objetivos_estrategicos
+                 inner join public.tareas_estrategia ar on ar.id_area_estrategica = oe.id_area_estrategica
+        where ae.id_acciones_estrategica = #{id_acciones_estrategica}
     </select>
 </mapper>

@@ -11,16 +11,21 @@
                 #{linea_base},
                 #{meta_base},
                 #{fuente_informacion},
-                #{denominacion_indicador},
-                #{id_unidad_medida},
-                #{id_tipo_indicador},
-                #{id_categoria},
-                #{articulacion},
+                #{id_catalogo_indicador_pei},
+                #{id_formulario},
                 #{ult_usuario}
              )
     </select>
     <select id="getByid" resultType="com.moxos.uab.domain.entity.die.Resultados">
-
+        SELECT r.id_resultados, r.id_acciones_estrategica,
+               r.descripcion, r.formula, r.linea_base, r.meta_base, r.fuente_informacion,
+               r.id_catalogo_indicador_pei,
+               r.id_formulario,
+               toe.id_area_estrategica
+        FROM public.tresultados r
+                 inner join public.tacciones_estrategica te on te.id_acciones_estrategica=r.id_acciones_estrategica
+                 inner join public.tobjetivos_estrategicos toe on toe.id_objetivos_estrategicos=te.id_objetivos_estrategicos
+        where id_resultados = #{id};
     </select>
     <update id="deleteResultado">
         UPDATE tresultados
@@ -28,6 +33,89 @@
         WHERE id_resultados=#{id_resultados};
     </update>
     <select id="getResultados" resultType="com.moxos.uab.domain.entity.die.Resultados">
-
+        SELECT r.id_resultados, tu.abreviacion as abreviacionUnidadMedida, ti.codigo,
+               r.id_acciones_estrategica,
+               r.descripcion, r.formula, r.linea_base, r.meta_base,
+               r.fuente_informacion, ti.denominacion_indicador, ti.id_unidad_medida, ti.id_tipo_indicador,
+               ti.id_categoria, ti.articulacion, r.id_estado, r.id_formulario
+        FROM public.tresultados r
+                 inner join public.tcatalogo_indicadores_pei ti on ti.id_catalogo_indicador_pei=r.id_catalogo_indicador_pei
+                 inner join public.tunidad_medida tu on tu.id_unidad_medida=ti.id_unidad_medida
+        where r.id_formulario=#{id_formulario} and r.id_estado='A' and r.id_acciones_estrategica=#{id_acciones_estrategica}
+    </select>
+    <resultMap id="mapResultadosPeriodos" type="com.moxos.uab.domain.entity.die.Resultados">
+        <id property="id_resultados" column="id_resultados"/>
+        <id property="abreviacionUnidadMedida" column="abreviacionUnidadMedida"/>
+        <id property="codigo" column="codigo"/>
+        <id property="id_acciones_estrategica" column="id_acciones_estrategica"/>
+        <id property="descripcion" column="descripcion"/>
+        <id property="formula" column="formula"/>
+        <id property="linea_base" column="linea_base"/>
+        <id property="meta_base" column="meta_base"/>
+        <id property="fuente_informacion" column="fuente_informacion"/>
+        <id property="denominacion_indicador" column="denominacion_indicador"/>
+        <id property="id_unidad_medida" column="id_unidad_medida"/>
+        <id property="id_tipo_indicador" column="id_tipo_indicador"/>
+        <id property="id_categoria" column="id_categoria"/>
+        <id property="articulacion" column="articulacion"/>
+        <id property="id_estado" column="id_estado"/>
+        <id property="id_formulario" column="id_formulario"/>
+        <result property="nombre" column="nombre"/>
+        <collection property="resultadosGestion" ofType="com.moxos.uab.domain.entity.die.ResultadosGestion">
+            <id property="id_resultados_gestion" column="id_resultados_gestion"/>
+            <result property="id_resultados" column="id_resultados"/>
+            <result property="id_detalle_periodos_programacion" column="id_detalle_periodos_programacion"/>
+            <result property="descripcionResultado" column="descripcionResultado"/>
+        </collection>
+    </resultMap>
+    <select id="getResultadosPeriodos" resultMap="mapResultadosPeriodos">
+        SELECT r.id_resultados, tu.abreviacion as abreviacionUnidadMedida, ti.codigo,
+               r.id_acciones_estrategica,
+               r.descripcion, r.formula, r.linea_base, r.meta_base,
+               r.fuente_informacion, ti.denominacion_indicador, ti.id_unidad_medida, ti.id_tipo_indicador,
+               ti.id_categoria, ti.articulacion, r.id_estado, r.id_formulario, rg.id_resultados_gestion,
+               rg.id_resultados, rg.id_detalle_periodos_programacion, rg.descripcion as descripcionResultado
+        FROM public.tresultados r
+                 inner join public.tcatalogo_indicadores_pei ti on ti.id_catalogo_indicador_pei=r.id_catalogo_indicador_pei
+                 inner join public.tunidad_medida tu on tu.id_unidad_medida=ti.id_unidad_medida
+                 inner join public.tresultados_gestion rg on rg.id_resultados=r.id_resultados
+        where rg.id_estado='A' and r.id_formulario=#{id_formulario} and r.id_estado='A' and r.id_acciones_estrategica=#{id_acciones_estrategica}
+    </select>
+    <select id="getListaResultadoPorGestionFormulario"  resultType="com.moxos.uab.domain.entity.die.Resultados">
+        SELECT tr.id_resultados, 'DESCRIPCION: '||tr.descripcion||' META: '||tr.meta_base||' LINEA BASE: '|| tr.linea_base||' FORMULA: '|| tr.formula As descripcion
+        FROM public.tresultados tr
+                 INNER JOIN public.tresultados_gestion tg on tg.id_resultados=tr.id_resultados
+                 INNER JOIN public.detalle_periodos_programacion tdp on tdp.id_detalle_periodos_programacion=tg.id_detalle_periodos_programacion
+        WHERE tr.id_estado='A' AND tg.id_detalle_periodos_programacion=#{id_detalle_periodos_programacion} AND tr.id_formulario=#{id_formulario}
+    </select>
+    <select id="getResultadosDetallePorPeriodo" resultType="com.moxos.uab.domain.entity.die.Resultados">
+        SELECT tr.id_resultados,
+               ta.acciones_estrategica,
+               tr.descripcion,
+               formula,
+               linea_base,
+               meta_base,
+               fuente_informacion,
+               ap.denominacion_indicador,
+               ti.descripcion  as categoria_indicador,
+               ap.codigo,
+               tti.descripcion as tipo_indicador,
+               tm.descripcion  as unidad_medidad,
+               tg.descripcion  as meta,
+               dpp.descripcion as gestion,
+               tm.abreviacion
+        FROM public.tresultados tr
+                 inner join public.tacciones_estrategica ta on ta.id_acciones_estrategica = tr.id_acciones_estrategica
+                 inner join public.tcatalogo_indicadores_pei ap
+                            on ap.id_catalogo_indicador_pei = tr.id_catalogo_indicador_pei
+                 inner join public.tcategoria_indicador ti on ti.id_categoria = ap.id_categoria
+                 inner join public.tunidad_medida tm on tm.id_unidad_medida = ap.id_unidad_medida
+                 inner join public.ttipo_indicador tti on tti.id_tipo_indicador = ap.id_tipo_indicador
+                 inner join public.tresultados_gestion tg on tg.id_resultados = tr.id_resultados
+                 inner join public.detalle_periodos_programacion dpp
+                            on dpp.id_detalle_periodos_programacion = tg.id_detalle_periodos_programacion
+        where tr.id_estado = 'A'
+          and tg.id_detalle_periodos_programacion = #{id_detalle_periodos_programacion}
+          and tr.id_resultados = #{id_resultados}
     </select>
 </mapper>

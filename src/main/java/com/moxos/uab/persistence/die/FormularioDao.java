@@ -26,4 +26,6 @@ public interface FormularioDao {
     void deleteFormulario(Integer id_formulario) throws DataAccessException;
 
     FormularioProgramacion getFormularioDetalle(int idFormulario) throws DataAccessException;
+
+    List<FormularioProgramacion> getFormularioPlan (Integer id_plan_pei) throws DataAccessException;
 }

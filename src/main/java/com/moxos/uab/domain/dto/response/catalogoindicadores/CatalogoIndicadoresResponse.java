@@ -11,4 +11,5 @@ public class CatalogoIndicadoresResponse {
     private String unidad;
     private String categoria;
     private String articulacion;
+    private String codigo;
 }

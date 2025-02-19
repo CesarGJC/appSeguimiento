@@ -53,7 +53,7 @@ public class DetallePeriodoProgramacionController {
 
     @GetMapping("/detalle-periodo-programacion/listar")
     public String listar(@ModelAttribute("model") ParametrosPaginacionBusquedaRequest<ParametroPeiRequest> model, @ModelAttribute("parametros") ParametroPeiRequest parametros, Model modelo) {
-        model.setOption(parametros);
+            model.setOption(parametros);
         var paginacion = politicasIndicadoresAreasFacade.getDetallePeriodoProgramacion(model);
         double cantidadpaginas = Math.ceil((double) paginacion.getTotaldeRegistros() / paginacion.getRegistrosporPagina());
 

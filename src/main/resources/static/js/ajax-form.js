@@ -83,6 +83,7 @@ class AjaxForm {
             this.Send.removeAttribute("disabled");
             this.Cancel.removeAttribute("disabled");
             target.innerHTML = result.toString();
+            this.refresh();
             alertMessageForm({ok: true, message: "Se realizo la operacion con exito"});
         }
     }

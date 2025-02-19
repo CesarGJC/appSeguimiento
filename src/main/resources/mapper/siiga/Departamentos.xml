@@ -27,4 +27,10 @@
         SELECT *
         FROM mi_unv_listar_departamentos(#{id_universidad});
     </select>
+    <select id="getDepartamentoPorId" resultType="com.moxos.uab.domain.entity.siiga.Departamentos">
+        SELECT id_departamento, departamento
+        FROM public.fcl_departamentos
+        where id_departamento = #{idDepartamento}
+          and id_estado = 'A'
+    </select>
 </mapper>

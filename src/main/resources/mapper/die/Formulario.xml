@@ -51,4 +51,10 @@
                  JOIN aperturas_programaticas ap ON ap.id_apertura_programatica = ff.id_apertura_programatica
         WHERE ff.id_estado = 'A' and id_formulario = #{idFormulario};
     </select>
+    <select id="getFormularioPlan" resultType="com.moxos.uab.domain.entity.die.FormularioProgramacion">
+        SELECT id_formulario, gestion, plan_pei, area_estrategica, apertura_programatica, codigo, titulo, descripcion, eje, meta, resultado, encargado
+        FROM public.vw_formularios
+        where id_plan_pei=#{id_plan_pei}
+    </select>
+
 </mapper>

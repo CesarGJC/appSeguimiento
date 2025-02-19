@@ -1,9 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.moxos.uab.persistence.die.ConfigurationDao">
-    <select id="getConfiguracionActual" resultType="com.moxos.uab.domain.entity.die.Configuracion">
-        SELECT id_configuracion, gestion
+    <select id="getConfiguracion" resultType="com.moxos.uab.domain.entity.die.Configuracion">
+        SELECT id_configuracion, clave, valor, etiqueta, tipo_valor, id_estado
         FROM public.tconfiguracion
-        WHERE activo=true LIMIT 1
+        WHERE id_estado = 'A'
+    </select>
+    <select id="getConfiguracionPorClave" resultType="com.moxos.uab.domain.entity.die.Configuracion">
+        SELECT id_configuracion, clave, valor, etiqueta, tipo_valor, id_estado
+        FROM public.tconfiguracion
+        WHERE id_estado = 'A' AND clave=#{clave}
+    </select>
+    <update id="saveConfiguracion" >
+        UPDATE public.tconfiguracion
+        SET valor=#{valor}
+        WHERE clave=#{clave}
+    </update>
+    <select id="getValor" resultType="java.lang.String">
+        SELECT  valor
+        FROM public.tconfiguracion
+        WHERE clave=#{clave}
     </select>
 </mapper>

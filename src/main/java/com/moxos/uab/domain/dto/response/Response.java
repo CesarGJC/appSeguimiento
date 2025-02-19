@@ -13,4 +13,8 @@ public class Response<T> {
         this.message = message;
         this.result = result;
     }
+
+    public Response() {
+
+    }
 }

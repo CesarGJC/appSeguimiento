@@ -1,39 +1,33 @@
 package com.moxos.uab.domain.dto.request.resultados;
 
+import com.moxos.uab.domain.dto.response.resultadosgestion.ResultadosGestionResponse;
+import com.moxos.uab.domain.dto.response.view.ListView;
+import com.moxos.uab.domain.entity.die.ResultadosGestion;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 public class ResultadosRequest {
-    private int id_resultados;
-    @NotNull(message = "Inserte Mensaje de Validacion")
-    private int id_acciones_estrategica ;
-    @NotNull(message = "Inserte Mensaje de Validacion")
-    @NotBlank(message = "Inserte Mensaje de Validacion")
-    private String descripcion ;
-    @NotNull(message = "Inserte Mensaje de Validacion")
-    @NotBlank(message = "Inserte Mensaje de Validacion")
-    private String formula ;
-    @NotNull(message = "Inserte Mensaje de Validacion")
-    @NotBlank(message = "Inserte Mensaje de Validacion")
-    private String linea_base ;
-    @NotNull(message = "Inserte Mensaje de Validacion")
-    @NotBlank(message = "Inserte Mensaje de Validacion")
-    private String meta_base ;
-    @NotNull(message = "Inserte Mensaje de Validacion")
-    @NotBlank(message = "Inserte Mensaje de Validacion")
-    private String fuente_informacion ;
-    @NotNull(message = "Inserte Mensaje de Validacion")
-    @NotBlank(message = "Inserte Mensaje de Validacion")
-    private String denominacion_indicador ;
-    @NotNull(message = "Inserte Mensaje de Validacion")
-    private int id_unidad_medida ;
-    @NotNull(message = "Inserte Mensaje de Validacion")
-    private int id_tipo_indicador ;
-    @NotNull(message = "Inserte Mensaje de Validacion")
-    private int id_categoria ;
-    @NotNull(message = "Inserte Mensaje de Validacion")
-    @NotBlank(message = "Inserte Mensaje de Validacion")
-    private String articulacion  ;
+    private Integer id_resultados = 0;
+    private Integer id_acciones_estrategica;
+    private Integer id_area_estrategica;
+    @NotBlank(message = "Debe ingresar el detalle")
+    private String descripcion;
+    @NotBlank(message = "Debe ingresar la formula")
+    private String formula;
+    @NotBlank(message = "Debe ingresar la linea base")
+    private String linea_base;
+    @NotBlank(message = "Debe ingresar la meta")
+    private String meta_base;
+    @NotBlank(message = "Debe ingresar la fuente de informacion")
+    private String fuente_informacion;
+    @NotNull(message = "Debe ingresar el indicador")
+    private Integer id_catalogo_indicador_pei;
+    private List<ListView> catalogosIndicadores;
+    private Integer id_formulario;
+    private Integer ult_usuario;
+    private Integer id_plan_pei;
 }

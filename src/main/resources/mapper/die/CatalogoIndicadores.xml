@@ -11,18 +11,29 @@
                 #{id_tipo_indicador},
                 #{id_categoria},
                 #{articulacion},
+                #{codigo},
                 #{ult_usuario}
              )
     </select>
     <update id="deleteCatalogoIndicadores">
         UPDATE public.tcatalogo_indicadores_pei
         SET id_estado='X'
-        WHERE id_catalogo_indicador_pei=#{id_catalogo_indicador_pei};
+        WHERE id_catalogo_indicador_pei = #{id_catalogo_indicador_pei};
     </update>
     <select id="selectCatalogoIndicadores" resultType="com.moxos.uab.domain.entity.die.CatalogoIndicadores">
-        SELECT id_catalogo_indicador, id_indicador_estrategico, catalogo_indicador, meta, linea_base, denominacion_indicador, formula, medios_verificacion, ult_usuario
+        SELECT id_catalogo_indicador,
+               id_indicador_estrategico,
+               catalogo_indicador,
+               meta,
+               linea_base,
+               denominacion_indicador,
+               formula,
+               medios_verificacion,
+               codigo,
+               ult_usuario
         FROM public.tcatalogo_indicadores
-        WHERE id_catalogo_indicador_pei=#{id_catalogo_indicador_pei} and id_estado='A';
+        WHERE id_catalogo_indicador_pei = #{id_catalogo_indicador_pei}
+          and id_estado = 'A';
     </select>
     <select id="getByid" resultType="com.moxos.uab.domain.entity.die.CatalogoIndicadores">
         SELECT id_catalogo_indicador_pei,
@@ -31,14 +42,29 @@
                id_unidad_medida,
                id_tipo_indicador,
                id_categoria,
+               codigo,
                articulacion
         FROM public.tcatalogo_indicadores_pei
-        where id_estado='A' and id_catalogo_indicador_pei=#{id_catalogo_indicador_pei};
+        where id_estado = 'A'
+          and id_catalogo_indicador_pei = #{id_catalogo_indicador_pei};
     </select>
     <select id="getAllCatalogoIndicadores" resultType="com.moxos.uab.domain.entity.die.CatalogoIndicadores">
-        SELECT id_catalogo_indicador, id_catalogo_indicador, catalogo_indicador, meta, linea_base, denominacion_indicador, formula, medios_verificacion, id_estado, fec_registro, fec_modificacion, ult_usuario
+        SELECT id_catalogo_indicador,
+               id_catalogo_indicador,
+               catalogo_indicador,
+               meta,
+               linea_base,
+               denominacion_indicador,
+               formula,
+               medios_verificacion,
+               id_estado,
+               fec_registro,
+               fec_modificacion,
+               codigo,
+               ult_usuario
         FROM public.tcatalogo_indicadores
-        WHERE id_catalogo_indicador=#{id_catalogo_indicador} and id_estado='A';
+        WHERE id_catalogo_indicador = #{id_catalogo_indicador}
+          and id_estado = 'A';
     </select>
     <select id="getCatalogoIndicadoresByArticulacion" resultType="com.moxos.uab.domain.entity.die.CatalogoIndicadores">
         SELECT ti.id_catalogo_indicador_pei,
@@ -47,13 +73,14 @@
                tpd.descripcion || '(' || tpd.abreviacion || ')' as tipo_indicador,
                tu.descripcion || '(' || tu.abreviacion || ')'   as unidad,
                tc.descripcion || '(' || tc.abreviacion || ')'   as categoria,
-               articulacion
+               articulacion, codigo
         FROM public.tcatalogo_indicadores_pei ti
                  INNER JOIN public.tareas_estrategia te ON ti.id_area_estrategica = te.id_area_estrategica
                  INNER JOIN public.ttipo_indicador tpd on tpd.id_tipo_indicador = ti.id_tipo_indicador
                  INNER JOIN public.tunidad_medida tu on tu.id_unidad_medida = ti.id_unidad_medida
                  INNER JOIN public.tcategoria_indicador tc on tc.id_categoria = ti.id_categoria
-        WHERE ti.id_estado = 'A' and ti.id_area_estrategica=#{id_area_estrategica}
+        WHERE ti.id_estado = 'A'
+          and ti.id_area_estrategica = #{id_area_estrategica}
           AND upper(articulacion) like ${buscar}
         ORDER BY ti.denominacion_indicador
             LIMIT ${pagina}
@@ -62,7 +89,9 @@
     <select id="getCantidadCatalogoIndicadoresByArticulacion" resultType="java.lang.Integer">
         SELECT COUNT(id_catalogo_indicador_pei)
         FROM public.tcatalogo_indicadores_pei ti
-        WHERE ti.id_estado = 'A'  and ti.id_area_estrategica=#{id_area_estrategica} AND upper(articulacion) like ${buscar}
+        WHERE ti.id_estado = 'A'
+          and ti.id_area_estrategica = #{id_area_estrategica}
+          AND upper(articulacion) like ${buscar}
     </select>
     <select id="getCatalogoIndicadoresByDenominacion" resultType="com.moxos.uab.domain.entity.die.CatalogoIndicadores">
         SELECT ti.id_catalogo_indicador_pei,
@@ -71,13 +100,14 @@
                tpd.descripcion || '(' || tpd.abreviacion || ')' as tipo_indicador,
                tu.descripcion || '(' || tu.abreviacion || ')'   as unidad,
                tc.descripcion || '(' || tc.abreviacion || ')'   as categoria,
-               articulacion
+               articulacion, codigo
         FROM public.tcatalogo_indicadores_pei ti
                  INNER JOIN public.tareas_estrategia te ON ti.id_area_estrategica = te.id_area_estrategica
                  INNER JOIN public.ttipo_indicador tpd on tpd.id_tipo_indicador = ti.id_tipo_indicador
                  INNER JOIN public.tunidad_medida tu on tu.id_unidad_medida = ti.id_unidad_medida
                  INNER JOIN public.tcategoria_indicador tc on tc.id_categoria = ti.id_categoria
-        WHERE ti.id_estado = 'A'  and ti.id_area_estrategica=#{id_area_estrategica}
+        WHERE ti.id_estado = 'A'
+          and ti.id_area_estrategica = #{id_area_estrategica}
           AND upper(denominacion_indicador) like ${buscar}
         ORDER BY ti.denominacion_indicador
             LIMIT ${pagina}
@@ -86,7 +116,30 @@
     <select id="getCantidadCatalogoIndicadoresByDenominacion" resultType="java.lang.Integer">
         SELECT COUNT(id_catalogo_indicador_pei)
         FROM public.tcatalogo_indicadores_pei ti
-        WHERE ti.id_estado = 'A'  and ti.id_area_estrategica=#{id_area_estrategica} AND upper(denominacion_indicador) like ${buscar}
+        WHERE ti.id_estado = 'A'
+          and ti.id_area_estrategica = #{id_area_estrategica}
+          AND upper(denominacion_indicador) like ${buscar}
     </select>
-
+    <select id="getListaCatalalogosIndicadoresByAreasEstrategicas" resultType="com.moxos.uab.domain.entity.die.CatalogoIndicadores">
+        SELECT id_catalogo_indicador_pei,
+               codigo|| ' - ' || denominacion_indicador || '(' || tu.abreviacion || '-' || tti.abreviacion || '-' || tc.abreviacion ||
+               ') ' as denominacion_indicador
+        FROM public.tcatalogo_indicadores_pei ti
+                 inner join public.tcategoria_indicador tc on tc.id_categoria = ti.id_categoria
+                 inner join public.ttipo_indicador tti on tti.id_tipo_indicador = ti.id_tipo_indicador
+                 inner join public.tunidad_medida tu on tu.id_unidad_medida = ti.id_unidad_medida
+        where id_area_estrategica = #{id_area_estrategica}
+          and ti.id_estado = 'A'
+    </select>
+    <select id="getItemCatalalogosIndicadoresByid" resultType="com.moxos.uab.domain.entity.die.CatalogoIndicadores">
+        SELECT id_catalogo_indicador_pei,
+               codigo|| ' - ' ||denominacion_indicador || '(' || tu.abreviacion || '-' || tti.abreviacion || '-' || tc.abreviacion ||
+               ') ' as denominacion_indicador
+        FROM public.tcatalogo_indicadores_pei ti
+                 inner join public.tcategoria_indicador tc on tc.id_categoria = ti.id_categoria
+                 inner join public.ttipo_indicador tti on tti.id_tipo_indicador = ti.id_tipo_indicador
+                 inner join public.tunidad_medida tu on tu.id_unidad_medida = ti.id_unidad_medida
+        where id_catalogo_indicador_pei = #{id_catalogo_indicador_pei}
+          and ti.id_estado = 'A'
+    </select>
 </mapper>

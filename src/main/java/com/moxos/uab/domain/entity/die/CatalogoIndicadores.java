@@ -11,6 +11,7 @@ public class CatalogoIndicadores extends Entidad {
     private Integer id_unidad_medida;
     private Integer id_tipo_indicador;
     private Integer id_categoria;
+    private String codigo;
     private String articulacion;
 
     private String area_estrategica;

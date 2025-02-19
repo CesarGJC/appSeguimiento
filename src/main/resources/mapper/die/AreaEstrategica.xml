@@ -28,9 +28,9 @@
         WHERE id_area_estrategica = #{id_area_estrategica} limit 1;
     </select>
     <select id="getAllAreaEstrategica" resultType="com.moxos.uab.domain.entity.die.AreaEstrategica">
-        SELECT id_area_estrategica, area_estrategica, id_estado, fec_registro, fec_modificacion, ult_usuario,gestion,codigo,orden
+        SELECT id_area_estrategica, area_estrategica, id_estado, fec_registro, fec_modificacion, ult_usuario
         FROM public.tareas_estrategia
-        WHERE id_area_estrategica=#{id_area_estrategica} and id_estado='A';
+        WHERE id_estado='A';
     </select>
     <select id="getAreasEstrategicasByArea" resultType="com.moxos.uab.domain.entity.die.AreaEstrategica">
         SELECT id_area_estrategica, area_estrategica, pp.descripcion, orden
