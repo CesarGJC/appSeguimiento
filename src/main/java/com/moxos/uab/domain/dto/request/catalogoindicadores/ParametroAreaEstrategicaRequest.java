@@ -3,7 +3,7 @@ package com.moxos.uab.domain.dto.request.catalogoindicadores;
 import lombok.Data;
 
 @Data
-public class ParametroAreaEstrategicaRequest {
+public class    ParametroAreaEstrategicaRequest {
     private Integer id;
     private Integer opcion;
 

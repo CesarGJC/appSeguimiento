@@ -35,7 +35,6 @@ public class ActividadesProgramadasFacadeImpl implements IActividadesProgramadas
     private final IResultadosService resultadoService;
     private final IDepartamentoService departamentoService;
     private final IProgramaSevice programaSevice;
-    private final ModelMapper modelMapper;
     private static final Logger logger = LogManager.getLogger(ActividadesProgramadasFacadeImpl.class);
 
     public ActividadesProgramadasFacadeImpl(IOperacionesService operacionesService, IConfigurationService configurationService, IFormularioService formularioService, IResultadosService resultadoService, IDepartamentoService departamentoService, IProgramaSevice programaSevice, ModelMapper modelMapper) {
@@ -45,7 +44,6 @@ public class ActividadesProgramadasFacadeImpl implements IActividadesProgramadas
         this.resultadoService = resultadoService;
         this.departamentoService = departamentoService;
         this.programaSevice = programaSevice;
-        this.modelMapper = modelMapper;
     }
 
 

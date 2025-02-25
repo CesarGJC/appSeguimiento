@@ -81,7 +81,7 @@
                                 <form:errors cssClass="invalid" path="resultado"/>
                             </div>
                             <div class="mb-3">
-                                <label class="form-label" for="encargado">Encargado</label>
+                                <label class="form-label" for="encargado">Responsable de la Información</label>
                                 <form:input path="encargado" cssClass="form-control"/>
                                 <form:errors cssClass="invalid" path="encargado"/>
                             </div>

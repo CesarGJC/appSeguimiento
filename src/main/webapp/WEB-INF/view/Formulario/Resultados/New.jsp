@@ -21,7 +21,6 @@
             <div class="tile border border-primary">
                 <div class="tile-title-w-btn">
                     <h3 class="title">Resultados esperados por cada accion</h3>
-
                 </div>
                 <div class="tile-body">
                     <div class="row">

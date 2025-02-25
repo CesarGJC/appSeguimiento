@@ -15,6 +15,7 @@
         <div>
             <h1><i class="fa fa-th-list"></i> Programacion de actividades</h1>
         </div>
+
     </div>
     <c:if test="${result !=null}">
         <div class="${result.className}" role="alert">

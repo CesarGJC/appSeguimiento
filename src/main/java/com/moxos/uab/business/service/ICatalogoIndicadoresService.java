@@ -5,7 +5,6 @@ import com.moxos.uab.domain.dto.request.catalogoindicadores.CatalogoIndicadoresR
 import com.moxos.uab.domain.dto.response.GeneralResponse;
 import com.moxos.uab.domain.dto.response.Response;
 import com.moxos.uab.domain.dto.response.catalogoindicadores.CatalogoIndicadoresResponse;
-import com.moxos.uab.domain.dto.response.indicadoresestrategicos.IndicadoresEstrategicosResponse;
 import com.moxos.uab.domain.dto.response.view.ListView;
 
 import java.util.List;

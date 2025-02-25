@@ -40,6 +40,16 @@ public class ParametrosController {
         return "Configuracion/Parametros/Index";
     }
 
+    @GetMapping("/listar")
+    public String listar(Model modelo) {
+        var response = configuracionFacade.obtenerConfiguraciones();
+        modelo.addAttribute("configuraciones", response);
+        int idPlanPei = Integer.parseInt(actividadesProgramadasFacade.getValorConfiguracionPorClave("id_plan_pei"));
+        List<FormularioResponse> formularioResponsesList = actividadesProgramadasFacade.getFormulariosPorPlan(idPlanPei);
+        modelo.addAttribute("formularioResponsesList", formularioResponsesList);
+        return "Configuracion/Parametros/_Listar";
+    }
+
     @GetMapping("/cambiar-plan")
     public String cambiarPlan(@ModelAttribute("model") ConfiguracionRequest model, Model modelo) {
         var response = configuracionFacade.getPlanesPei();

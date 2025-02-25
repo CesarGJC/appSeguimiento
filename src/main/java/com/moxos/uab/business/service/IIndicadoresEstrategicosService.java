@@ -1,7 +1,6 @@
 package com.moxos.uab.business.service;
 
 import com.moxos.uab.common.enums.SearchIndicadores;
-import com.moxos.uab.common.enums.SearchPoliticas;
 import com.moxos.uab.domain.dto.request.indicadoresestrategicos.IndicadoresEstrategicosRequest;
 import com.moxos.uab.domain.dto.response.GeneralResponse;
 import com.moxos.uab.domain.dto.response.Response;

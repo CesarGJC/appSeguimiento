@@ -43,6 +43,11 @@
         <div>
             <h1><i class="fa fa-th-list"></i> Programacion de actividades</h1>
         </div>
+        <ul class="app-breadcrumb breadcrumb">
+            <li class="breadcrumb-item"><i class="fa fa-home fs-6"></i></li>
+            <li class="breadcrumb-item"><a class="enlace" href="<c:url value="/formulario/programacion/index"/>">Formulario</a>
+            </li>
+        </ul>
     </div>
     <c:if test="${result !=null}">
         <div class="${result.className}" role="alert">

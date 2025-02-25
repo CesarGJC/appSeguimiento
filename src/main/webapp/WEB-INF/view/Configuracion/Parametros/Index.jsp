@@ -40,61 +40,13 @@
                             </div>
                         </div>
                     </c:forEach>
-                    <table data-table="true" class="table table-sm table-hover table-striped table-column-header">
-                        <thead>
-                        <tr>
-                            <th data-resize="true" data-filter="false"
-                                data-type="text" data-row-sort="0">Encargado
-                            </th>
-                            <th data-resize="true" data-filter="true"
-                                data-type="text" data-row-sort="1">Descripcion
-                            </th>
-                            <th></th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <c:forEach items="${formularioResponsesList}" var="item">
-                            <tr>
-                                <td data-label="ENCARGADO">${item.encargado}</td>
-                                <td data-label="ABREVIACION">
-                                    <strong>${item.titulo}</strong><br>
-                                    <strong>Gestion: </strong>${item.gestion}<br>
-                                    <strong>Descripcion del P.E.I.: </strong>${item.plan_pei}<br>
-                                    <strong>Area Estrategica: </strong>${item.area_estrategica}<br>
-                                    <strong>Apertura: </strong>${item.codigo} - ${item.apertura_programatica}<br>
-                                    <strong>Eje: </strong>${item.eje}<br>
-                                    <strong>Meta: </strong>${item.meta}<br>
-                                    <strong>Resultado: </strong>${item.resultado}<br>
-
-                                </td>
-                                <td data-label="OPERACION" id="td${item.id_formulario}">
-                                    <div class="dropdown">
-                                        <button class="btn btn-flat text-black" type="button" id="dropdownMenuButton1"
-                                                data-bs-toggle="dropdown" aria-expanded="false">
-                                            <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
-                                        </button>
-                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                            <li>
-                                                <a href="<c:url value="/programacion/detalle/index/${item.id_formulario}"></c:url>"
-                                                   class="dropdown-item enlace"><i class="fa fa-id-card-o"></i> Elaborar
-                                                    programacion</a></li>
-                                            <li>
-                                                <a href="<c:url value="/formulario/programacion/update"><c:param name="id" value="${item.id_formulario}"/></c:url>"
-                                                   class="dropdown-item enlace"><i
-                                                        class="fa fa-pencil"></i>Modificar</a></li>
-                                            <li>
-                                                <a class="dropdown-item" data-delete="true"
-                                                   data-atributes='"id_formulario": ${item.id_formulario}'
-                                                   data-id="${item.id_formulario}"
-                                                   href="#"><i class="fa fa-trash-o"></i> Eliminar</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </td>
-                            </tr>
-                        </c:forEach>
-                        </tbody>
-                    </table>
+                    <div class="row">
+                        <div id="table-container" data-toolbar="true" data-add="true">
+                            <jsp:include page="${request.contextPath}/configuracion/listar">
+                                <jsp:param name="cookie" value="false"/>
+                            </jsp:include>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -105,7 +57,6 @@
 <script src="<c:url value="/static/js/ajax-form.js?v=1" />"></script>
 <script type="module">
     let formulario = new AjaxForm(document.getElementById('contenedor'));
-
 </script>
 </body>
 </html>
