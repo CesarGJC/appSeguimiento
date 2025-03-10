@@ -25,4 +25,6 @@ public interface IDetallePeriodoProgramacionService {
     Response<Integer> getCantidadByTipo(String buscar, SearchDetallePeriodo searchPei, Integer id);
 
     Response<List<PeriodosProgramacionResponse>> getPeriodosPlan(int idPlan);
+
+    Response<List<ListView>> getPeriodosGestionesByid(int idPlanPei);
 }

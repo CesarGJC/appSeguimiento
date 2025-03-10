@@ -16,8 +16,8 @@ public class IndicadoresEstrategicosRequest {
     private List<ListView> politicasDesarrollo;
     @NotNull(message = "Debe seleccionar la Politica de Desarrollo")
     private int id_politica_desarrollo;
-    @NotNull(message = "Inserte Mensaje de Validacion")
-    @NotBlank(message = "Inserte Mensaje de Validacion")
+    @NotNull(message = "El Indicador Estrategico no puede estar vacío.")
+    @NotBlank(message = "El Indicador Estrategico es obligatorio.")
     private String indicador_estrategico;
     private int ult_usuario;
 }

@@ -25,6 +25,7 @@
                 <tr>
                     <td data-label="DENOMINACION">${item.denominacion_indicador}</td>
                     <td data-label="DETALLE">
+                        <strong>Codigo indicador: </strong>${item.codigo}<br>
                         <strong>Tipo unidad: </strong>${item.unidad}<br>
                         <strong>Tipo indicador: </strong>${item.tipo_indicador}<br>
                         <strong>Categoria: </strong>${item.categoria}

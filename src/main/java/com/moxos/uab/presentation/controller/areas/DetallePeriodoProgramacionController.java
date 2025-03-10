@@ -131,5 +131,15 @@ public class DetallePeriodoProgramacionController {
         return "DetallePeriodoProgramacion/_Notificacion";
     }
 
+    @GetMapping("/detalle-periodo-programacion/listar-filtrar")
+    public String filtrar(@ModelAttribute("model") ParametrosPaginacionBusquedaRequest<ParametroPeiRequest> model, @ModelAttribute("parametros") ParametroPeiRequest parametros, Model modelo) {
+        model.setOption(parametros);
+        var paginacion = politicasIndicadoresAreasFacade.getDetallePeriodoProgramacion(model);
+        double cantidadpaginas = Math.ceil((double) paginacion.getTotaldeRegistros() / paginacion.getRegistrosporPagina());
 
+        modelo.addAttribute("cantidadpaginas", cantidadpaginas);
+        modelo.addAttribute("model", paginacion);
+        return "DetallePeriodoProgramacion/_Listar";
+    }
 }
+

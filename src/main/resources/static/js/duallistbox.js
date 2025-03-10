@@ -295,7 +295,7 @@ class ListBox {
 
     setSelectOrMinimalHeight(value, refresh) {
         this.settings.selectorMinimalHeight = value;
-        var height = this.element.offsetHeight;
+        let height = this.element.offsetHeight;
         if (this.element.offsetHeight < value) {
             height = value;
         }

@@ -7,11 +7,11 @@ import lombok.Data;
 @Data
 public class PeiRequest {
     private Integer id_plan_pei;
-    @NotNull(message = "Inserte Mensaje de Validacion")
-    @NotBlank(message = "Inserte Mensaje de Validacion")
+    @NotNull(message = "La Gestion no puede estar vacio.")
+    @NotBlank(message = "La Gestion es obligatorio.")
     private String gestion;
-    @NotNull(message = "Inserte Mensaje de Validacion")
-    @NotBlank(message = "Inserte Mensaje de Validacion")
+    @NotNull(message = "El Plan Pei no puede estar vacio.")
+    @NotBlank(message = "El Plan Pei es obligatorio.")
     private String descripcion;
     private Integer ult_usuario;
 }

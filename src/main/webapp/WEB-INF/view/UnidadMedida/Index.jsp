@@ -85,7 +85,7 @@
 <script>
     let comboboxArea;
     let table = new TableBoostrap(document.getElementById('table-container'), {
-        title: "Lista de Tipos Indicadores",
+        title: "Lista de Tipos de Unidad",
         add: document.getElementById('addButton'),
         loadContent: () => {
             comboboxArea = new ComboBoxBoostrap('.filter', {});

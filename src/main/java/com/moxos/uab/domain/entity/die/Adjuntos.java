@@ -5,8 +5,14 @@ import lombok.Data;
 
 @Data
 public class Adjuntos extends Entidad {
-    private int id_adjunto;
-    private int id_evaluacion_desempeno;
-    private String nro_documento;
+    private Integer id_adjunto;
+    private Integer id_operaciones;
+    private String ruta;
+    private String documento;
     private String tipo_documento;
+    private String orden;
+    private String descripcion_documento;
+    private String nombre_documento;
+
+    private String ruta_documento;
 }

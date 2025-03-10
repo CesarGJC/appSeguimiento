@@ -13,8 +13,8 @@ public class PoliticasDesarrolloRequest {
     private List<ListView> areasEstrategicas;
     @NotNull(message = "Debe seleccionar el Area Estrategica")
     private int id_area_estrategica;
-    @NotNull(message = "Debe ingresar la Descripcion de las Politicas de Desarrollo")
-    @NotBlank(message = "Debe ingresar la Descripcion de las Politicas de Desarrollo")
+    @NotNull(message = "La Politica de Desarrollo no puede estar vacía.")
+    @NotBlank(message = "La Politica de Desarrollo es obligatoria. ")
     private String politica_desarrollo;
     private int ult_usuario;
 }

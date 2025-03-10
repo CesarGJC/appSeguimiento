@@ -21,16 +21,21 @@
                pp.id_plan_pei,
                te.id_area_estrategica,
                id_apertura_programatica,
-               titulo, ff.descripcion, eje, meta, resultado, encargado
+               titulo,
+               ff.descripcion,
+               eje,
+               meta,
+               resultado,
+               encargado
         FROM public.tformulario ff
-                 inner join public.tareas_estrategia te on ff.id_area_estrategica=te.id_area_estrategica
-                 inner join public.plan_pei pp on te.id_plan_pei=pp.id_plan_pei
+                 inner join public.tareas_estrategia te on ff.id_area_estrategica = te.id_area_estrategica
+                 inner join public.plan_pei pp on te.id_plan_pei = pp.id_plan_pei
         where id_formulario = #{id_formulario}
     </select>
     <update id="deleteFormulario">
         UPDATE tformulario
         SET id_estado='X'
-        WHERE id_formulario=#{id_formulario};
+        WHERE id_formulario = #{id_formulario};
     </update>
     <select id="getFormularioDetalle" resultType="com.moxos.uab.domain.entity.die.FormularioProgramacion">
         SELECT ff.id_formulario,
@@ -44,11 +49,51 @@
                ff.eje,
                ff.meta,
                ff.resultado,
-               ff.encargado,pp.id_plan_pei,te.id_area_estrategica,ap.id_apertura_programatica
+               ff.encargado,
+               pp.id_plan_pei,
+               te.id_area_estrategica,
+               ap.id_apertura_programatica
         FROM tformulario ff
                  JOIN tareas_estrategia te ON te.id_area_estrategica = ff.id_area_estrategica
                  JOIN plan_pei pp ON pp.id_plan_pei = te.id_plan_pei
                  JOIN aperturas_programaticas ap ON ap.id_apertura_programatica = ff.id_apertura_programatica
-        WHERE ff.id_estado = 'A' and id_formulario = #{idFormulario};
+        WHERE ff.id_estado = 'A'
+          and id_formulario = #{idFormulario};
+    </select>
+    <select id="getFormularioPlan" resultType="com.moxos.uab.domain.entity.die.FormularioProgramacion">
+        SELECT id_formulario,
+               gestion,
+               plan_pei,
+               area_estrategica,
+               apertura_programatica,
+               codigo,
+               titulo,
+               descripcion,
+               eje,
+               meta,
+               resultado,
+               encargado
+        FROM public.vw_formularios
+        where id_plan_pei = #{id_plan_pei}
+    </select>
+    <select id="getListaFormularioHabilitados" resultType="com.moxos.uab.domain.entity.die.FormularioProgramacion">
+        SELECT f.id_formulario,
+               gestion,
+               plan_pei,
+               area_estrategica,
+               apertura_programatica,
+               codigo,
+               titulo,
+               descripcion,
+               eje,
+               meta,
+               resultado,
+               encargado
+        FROM public.tpermisos tp
+                 inner join public.vw_formularios f on f.id_formulario = tp.id_formulario
+        where habilitado = true
+          and tp.id_unidad = #{id_unidad}
+          and tp.id_tipo_unidad = #{id_tipo_unidad}
+          and tp.id_estado = 'A' and f.id_plan_pei = #{id_plan_pei}
     </select>
 </mapper>

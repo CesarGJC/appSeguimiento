@@ -18,9 +18,9 @@ public class TiposCondiciones {
 
     private static List<ListView> tiposCondicionesString() {
         List<ListView> tiposCondiciones = new ArrayList<>();
+        tiposCondiciones.add(new ListView("2", "CONTIENE"));
         tiposCondiciones.add(new ListView("0", "IGUAL"));
         tiposCondiciones.add(new ListView("1", "DIFERENTE"));
-        tiposCondiciones.add(new ListView("2", "CONTIENE"));
         return tiposCondiciones;
     }
 

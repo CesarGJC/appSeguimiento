@@ -3,6 +3,7 @@ package com.moxos.uab.domain.dto.request.catalogoindicadores;
 import com.moxos.uab.domain.dto.response.view.ListView;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 
 import java.util.List;
@@ -27,8 +28,13 @@ public class CatalogoIndicadoresRequest {
     private Integer id_categoria;
     private List<ListView> categorias;
 
+    @NotNull(message = "La Articulacion no puede estar vacía.")
+    @NotBlank(message = "La Articulacion es obligatoria. ")
+    private String articulacion;
+
     @NotNull(message = "Debe ingresar la descripcion de la articulacion")
     @NotBlank(message = "Debe ingresar la descripcion de la articulacion")
-    private String articulacion;
+    @Pattern(regexp = "\\d+", message = "El campo debe contener solo números")
+    private String codigo = "0";
     private Integer ult_usuario;
 }

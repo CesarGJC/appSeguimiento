@@ -14,11 +14,11 @@ public class AreasEstrategicasRequest {
     private Integer id_plan_pei;
     private List<ListView> planesPei;
 
-    @NotNull(message = "Debe la descripcion del area estrategica")
-    @NotBlank(message = "Debe la descripcion del area estrategica")
+    @NotNull(message = "La Área Estratégica no puede estar vacía.")
+    @NotBlank(message = "La Área Estratégica es obligatoria.")
     private String area_estrategica;
 
-    @NotNull(message = "Debe ingresar el orden")
+    @NotNull(message = "El orden no puede estar vacío.")
     private Integer orden;
 
     private Integer ult_usuario;

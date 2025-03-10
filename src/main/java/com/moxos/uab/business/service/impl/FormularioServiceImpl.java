@@ -8,13 +8,15 @@ import com.moxos.uab.domain.dto.response.GeneralResponse;
 import com.moxos.uab.domain.dto.response.Response;
 import com.moxos.uab.domain.dto.response.formulario.FormularioProgramacionResponse;
 import com.moxos.uab.domain.dto.response.formulario.FormularioResponse;
-import com.moxos.uab.domain.entity.die.CategoriaIndicador;
 import com.moxos.uab.domain.entity.die.FormularioProgramacion;
+import com.moxos.uab.domain.entity.die.Permisos;
 import com.moxos.uab.persistence.die.FormularioDao;
+import com.moxos.uab.persistence.die.ResultadosDao;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class FormularioServiceImpl implements IFormularioService {
@@ -50,9 +52,9 @@ public class FormularioServiceImpl implements IFormularioService {
     public Response<Integer> saveFormularioProgramacion(FormularioRequest model) {
         try {
             Integer result = formularioDao.saveCategoriaIndicador(modelMapper.map(model, FormularioProgramacion.class));
-            return new Response<Integer>(true, "", result);
+            return new Response<>(true, "", result);
         } catch (Exception e) {
-            return new Response<Integer>(false, e.getMessage(), -1);
+            return new Response<>(false, e.getMessage(), -1);
         }
     }
 
@@ -76,6 +78,7 @@ public class FormularioServiceImpl implements IFormularioService {
         }
     }
 
+
     @Override
     public GeneralResponse deleteFormulario(Integer id) {
         try {
@@ -83,6 +86,32 @@ public class FormularioServiceImpl implements IFormularioService {
             return new GeneralResponse(true, "");
         } catch (Exception e) {
             return new GeneralResponse(false, e.getMessage());
+        }
+    }
+
+    @Override
+    public Response<List<FormularioResponse>> getFormularioPlan(Integer id) {
+        try {
+            List<FormularioResponse> formularios = formularioDao.getFormularioPlan(id).stream().map(p -> modelMapper.map(p, FormularioResponse.class))
+                    .collect(Collectors.toList());
+            return new Response<>(true, "", formularios);
+        } catch (Exception e) {
+            return new Response(false, e.getMessage(), null);
+        }
+    }
+
+    @Override
+    public Response<List<FormularioResponse>> getListaFormularioHabilitados(Integer idUnidad, Integer idTipoUnidad, Integer idPlanPei) {
+        try {
+            Permisos permisos = new Permisos();
+            permisos.setId_tipo_unidad(idTipoUnidad);
+            permisos.setId_unidad(idUnidad);
+            permisos.setId_plan_pei(idPlanPei);
+            List<FormularioResponse> formularios = formularioDao.getListaFormularioHabilitados(permisos).stream().map(p -> modelMapper.map(p, FormularioResponse.class))
+                    .collect(Collectors.toList());
+            return new Response<>(true, "", formularios);
+        } catch (Exception e) {
+            return new Response(false, e.getMessage(), null);
         }
     }
 }

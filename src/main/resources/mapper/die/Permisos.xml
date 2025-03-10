@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.moxos.uab.persistence.die.PermisosDao">
+    <select id="savePermisos" resultType="java.lang.Integer">
+        select *
+        from create_permisos_unidad(#{id_unidad}, #{id_tipo_unidad}, #{id_formulario}, #{ult_usuario})
+    </select>
+    <update id="deletePermisos">
+        UPDATE tpermisos
+        SET id_estado='X'
+        WHERE id_permisos = #{id_permisos};
+    </update>
+    <update id="habilitarPermisos">
+        UPDATE tpermisos
+        SET habilitado=#{habilitado}
+        WHERE id_permisos = #{id_permisos};
+    </update>
+    <select id="getByid" resultType="com.moxos.uab.domain.entity.die.Permisos">
+        SELECT tp.id_permisos,
+               tp.id_unidad,
+               tp.id_tipo_unidad,
+               tp.id_formulario,
+               tp.habilitado,
+               tp.id_estado,
+               tf.titulo
+        FROM public.tpermisos tp
+                 INNER JOIN tformulario tf on tp.id_formulario = tf.id_formulario
+        WHERE id_permisos = #{id_permisos} limit 1;
+    </select>
+</mapper>

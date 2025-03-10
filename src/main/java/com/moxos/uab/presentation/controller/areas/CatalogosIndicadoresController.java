@@ -12,6 +12,7 @@ import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -79,15 +80,7 @@ public class CatalogosIndicadoresController {
 
     @GetMapping("/catalogo-indicadores/new")
     public String nuevo(@ModelAttribute("model") CatalogoIndicadoresRequest model, Model modelo) {
-        model.setId_categoria(-1);
-        model.setCategorias(politicasIndicadoresAreasFacade.getCategoriaIndicador());
-        model.setId_tipo_indicador(-1);
-        model.setTiposIndicadores(politicasIndicadoresAreasFacade.getTiposIndicadores());
-        model.setId_unidad_medida(-1);
-        model.setTiposUnidades(politicasIndicadoresAreasFacade.getUnidadesMedidas());
-        var areaEstrategicasDetalle = politicasIndicadoresAreasFacade.getAreaEstrategicasModel(model.getId_area_estrategica());
-        modelo.addAttribute("model", model);
-        modelo.addAttribute("areaEstrategica", areaEstrategicasDetalle);
+        setParametros(model, modelo);
         return "CatalogosIndicadores/New";
     }
 
@@ -153,5 +146,41 @@ public class CatalogosIndicadoresController {
         else
             redirectAttributes.addFlashAttribute("result", new ResultResponse(response.getMessage(), "alert alert-danger"));
         return String.format("redirect:/catalogo-indicadores/index/%s", model.getId_area_estrategica());
+    }
+
+    @GetMapping("/catalogo-indicadores/new-ajax")
+    public String nuevoAjax(@ModelAttribute("model") CatalogoIndicadoresRequest model, Model modelo) {
+        setParametros(model, modelo);
+        return "CatalogosIndicadores/_New";
+    }
+
+    @PostMapping("/catalogo-indicadores/new-ajax")
+    public String nuevoAjax(@ModelAttribute("model") @Valid CatalogoIndicadoresRequest model, BindingResult result, Model modelo) {
+        if (result.hasErrors()) {
+            cargarParametros(modelo, model);
+            return "CatalogosIndicadores/_New";
+        }
+        model.setUlt_usuario(getUsuario().getId_usuario());
+        var response = politicasIndicadoresAreasFacade.saveCatalogoIndicadores(model);
+        if (response.isSuccess()) {
+            modelo.addAttribute("item", politicasIndicadoresAreasFacade.getCatalogoIndicador(response.getResult()));
+            return "CatalogosIndicadores/_FilasCombo";
+        } else {
+            result.addError(new FieldError("model", "descripcion", response.getMessage()));
+            modelo.addAttribute("model", model);
+            return "CatalogosIndicadores/_New";
+        }
+    }
+
+    private void setParametros(CatalogoIndicadoresRequest model, Model modelo) {
+        model.setId_categoria(-1);
+        model.setCategorias(politicasIndicadoresAreasFacade.getCategoriaIndicador());
+        model.setId_tipo_indicador(-1);
+        model.setTiposIndicadores(politicasIndicadoresAreasFacade.getTiposIndicadores());
+        model.setId_unidad_medida(-1);
+        model.setTiposUnidades(politicasIndicadoresAreasFacade.getUnidadesMedidas());
+        var areaEstrategicasDetalle = politicasIndicadoresAreasFacade.getAreaEstrategicasModel(model.getId_area_estrategica());
+        modelo.addAttribute("model", model);
+        modelo.addAttribute("areaEstrategica", areaEstrategicasDetalle);
     }
 }

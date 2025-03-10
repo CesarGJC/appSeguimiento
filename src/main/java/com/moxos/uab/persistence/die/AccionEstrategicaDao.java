@@ -12,7 +12,9 @@ public interface AccionEstrategicaDao {
 
     void deleteAccionEstrategica(AccionEstrategica accionEstrategica) throws DataAccessException;
 
-    List<AccionEstrategica> getAllAccionEstrategica() throws DataAccessException;
-
     AccionEstrategica getByid(int id_acciones_estrategica) throws DataAccessException;
+
+    List<AccionEstrategica> getAcciones(Integer id) throws DataAccessException;
+
+    AccionEstrategica getDetalleAccionesEstrategicas(int id_acciones_estrategica) throws DataAccessException;
 }

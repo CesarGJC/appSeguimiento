@@ -44,10 +44,6 @@
                                     <a href="<c:url value="/catalogo-indicadores/index/${item.id_area_estrategica}"/>"
                                        class="dropdown-item"><i class="fa fa-list" aria-hidden="true"></i> Catalogo indicadores</a></li>
                                 <li>
-                                <li>
-                                    <a href="#"
-                                       class="dropdown-item"> <i class="fa fa-list-alt" aria-hidden="true"></i> Objetivos estrategicos</a></li>
-                                <li>
                             </ul>
                         </div>
                     </td>

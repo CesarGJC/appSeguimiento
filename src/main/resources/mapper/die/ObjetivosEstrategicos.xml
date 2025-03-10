@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.moxos.uab.persistence.die.ObjetivosEstrategicosDao">
+    <select id="saveObjetivosEstrategicos" resultType="java.lang.Integer">
+        select *
+        from create_objetivo_estrategico(#{id_objetivos_estrategicos},#{id_area_estrategica}, #{objetivos_estrategicos},#{orden}, #{ult_usuario})
+    </select>
+    <update id="deleteObjetivosEstrategicos">
+        UPDATE tobjetivos_estrategicos
+        SET id_estado='X'
+        WHERE id_objetivos_estrategicos=#{id_objetivos_estrategicos};
+    </update>
+    <select id="getByid" resultType="com.moxos.uab.domain.entity.die.ObjetivoEstrategicos">
+        SELECT tob.id_objetivos_estrategicos,
+               tob.id_area_estrategica,
+               tob.objetivos_estrategicos,
+               tob.orden,
+               tob.id_estado,
+               ta.area_estrategica
+        FROM public.tobjetivos_estrategicos tob
+            INNER JOIN public.tareas_estrategia ta on tob.id_area_estrategica = ta.id_area_estrategica
+        WHERE id_objetivos_estrategicos=#{id_objetivos_estrategicos} limit 1;
+    </select>
+    <select id="getAllObjetivosEstrategicos" resultType="com.moxos.uab.domain.entity.die.ObjetivoEstrategicos">
+        SELECT id_area_estrategica, objetivos_estrategicos, orden, id_estado
+        FROM tobjetivos_estrategicos
+        WHERE id_estado='A';
+    </select>
+    <select id="getObjetivos" resultType="com.moxos.uab.domain.entity.die.ObjetivoEstrategicos">
+        SELECT id_objetivos_estrategicos, objetivos_estrategicos
+        FROM tobjetivos_estrategicos
+        WHERE id_area_estrategica=#{id}
+        AND id_estado='A'
+        ORDER BY orden
+    </select>
+</mapper>

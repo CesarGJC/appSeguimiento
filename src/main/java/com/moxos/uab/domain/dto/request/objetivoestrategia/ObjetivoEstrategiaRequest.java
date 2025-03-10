@@ -9,10 +9,10 @@ public class ObjetivoEstrategiaRequest {
     private int id_objetivo_estrategica;
     @NotNull(message = "Debe seleccionar la Area Estrategica")
     private int id_area_estrategica;
-    @NotNull(message = "Inserte Mensaje de Validacion")
-    @NotBlank(message = "Inserte Mensaje de Validacion")
+    @NotNull(message = "El Objetivo Estrategico no puede estar vacio.")
+    @NotBlank(message = "El Objetivo Estrategico es obligatorio.")
     private String objetivo_estrategica;
-    @NotNull(message = "Inserte Mensaje de Validacion")
-    @NotBlank(message = "Inserte Mensaje de Validacion")
+    @NotNull(message = "El Orden no puede estar vacio.")
+    @NotBlank(message = "El Orden es obligatorio.")
     private int orden;
 }

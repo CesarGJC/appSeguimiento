@@ -34,4 +34,37 @@
         SELECT *
         FROM mi_unv_listar_programas(#{id_universidad});
     </select>
+    <select id="getProgramaFacultad" resultType="com.moxos.uab.domain.entity.siiga.Programas">
+        SELECT fp.id_programa,
+               fp.id_facultad,
+               fp.programa,
+               f.facultad
+        FROM fcl_programas fp
+                 JOIN facultades f ON fp.id_facultad  = f.id_facultad
+        WHERE fp.id_estado = 'A' AND f.id_estado = 'A' AND f.codigo = 'PREGRADO' AND f.id_facultad != 9 and fp.id_programa=#{idPrograma};
+    </select>
+    <select id="getProgramasPorFacultad" resultType="com.moxos.uab.domain.entity.siiga.Programas">
+        SELECT fp.id_programa,
+               fp.id_facultad,
+               fp.programa,
+               f.facultad
+        FROM fcl_programas fp
+                 JOIN facultades f ON fp.id_facultad  = f.id_facultad
+        WHERE fp.id_estado = 'A'
+          AND f.id_estado = 'A'
+          AND f.codigo = 'PREGRADO'
+          AND f.id_facultad != 9
+          and fp.id_facultad=#{idFacultad};
+    </select>
+    <select id="getListaUnidadesProgramas" resultType="com.moxos.uab.domain.entity.siiga.Programas">
+        SELECT fp.id_programa,
+               fp.programa
+        FROM fcl_programas fp
+                 JOIN facultades f ON fp.id_facultad::integer = f.id_facultad
+        WHERE fp.id_estado = 'A'
+          AND f.id_estado = 'A'
+          AND f.codigo = 'PREGRADO'
+          AND f.id_facultad != 9
+        order by programa;
+    </select>
 </mapper>

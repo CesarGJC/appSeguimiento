@@ -7,11 +7,11 @@ import lombok.Data;
 @Data
 public class UnidadMedidaRequest {
     private Integer id_unidad_medida = 0;
-    @NotNull(message = "Inserte Mensaje de Validacion")
-    @NotBlank(message = "Inserte Mensaje de Validacion")
+    @NotNull(message = "La Descripcion no puede estar vacía.")
+    @NotBlank(message = "La Descripcion es obligatoria. ")
     private String descripcion;
-    @NotNull(message = "Inserte Mensaje de Validacion")
-    @NotBlank(message = "Inserte Mensaje de Validacion")
+    @NotNull(message = "La Abreviacion no puede estar vacía.")
+    @NotBlank(message = "La Abreviacion es obligatoria. ")
     private String abreviacion;
     private Integer ult_usuario;
 }

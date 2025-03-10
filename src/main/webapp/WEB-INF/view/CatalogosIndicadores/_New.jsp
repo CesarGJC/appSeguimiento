@@ -3,49 +3,50 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ page contentType="text/html" pageEncoding="UTF-8" %>
+<div class="row">
+    <div class="col">
+        <p><strong>Área Estratégica:</strong>
+            ${areaEstrategica.area_estrategica}
+        </p>
+    </div>
+</div>
 <form:form data-form="true" modelAttribute="model" method="post"
-           action="${pageContext.request.contextPath}/catalogo-indicadores/new">
-    <form:hidden path="id_catalogo_indicador"/>
+           action="${pageContext.request.contextPath}/catalogo-indicadores/new-ajax">
+    <form:hidden path="id_catalogo_indicador_pei"/>
+    <form:hidden path="id_area_estrategica"/>
     <div class="mb-3">
-        <label class="form-label" for="id_politica_desarrollo">Politicas de Desarrollo</label>
-        <form:select path="id_politica_desarrollo" cssClass="form-select filter" data-target="id_indicador_estrategico" data-url="${pageContext.request.contextPath}/catalogo-indicadores/indicadores" items="${model.politicasDesarrollo}"
+        <label class="form-label" for="codigo">Codigo indicador</label>
+        <form:input type="number" path="codigo" cssClass="form-control"/>
+        <form:errors cssClass="invalid" path="codigo"/>
+    </div>
+    <div class="mb-3">
+        <label class="form-label" for="id_unidad_medida">Unidades de Medida</label>
+        <form:select path="id_unidad_medida" cssClass="form-select filter"  items="${model.tiposUnidades}" itemLabel="value" itemValue="id"/>
+        <form:errors cssClass="invalid" path="id_unidad_medida"/>
+    </div>
+    <div class="mb-3">
+        <label class="form-label" for="id_tipo_indicador">Tipos Indicadores</label>
+        <form:select path="id_tipo_indicador" cssClass="form-select filter"
+                     items="${model.tiposIndicadores}"
                      itemLabel="value" itemValue="id"/>
-        <form:errors cssClass="invalid" path="id_politica_desarrollo"/>
+        <form:errors cssClass="invalid" path="id_tipo_indicador"/>
     </div>
     <div class="mb-3">
-        <label class="form-label" for="id_indicador_estrategico">Indicador Estrategico</label>
-        <form:select path="id_indicador_estrategico" cssClass="form-select" items="${model.indicador_estrategico}"
+        <label class="form-label" for="id_categoria">Categorias</label>
+        <form:select path="id_categoria" cssClass="form-select filter"
+                     items="${model.categorias}"
                      itemLabel="value" itemValue="id"/>
-        <form:errors cssClass="invalid" path="id_indicador_estrategico"/>
+        <form:errors cssClass="invalid" path="id_categoria"/>
     </div>
     <div class="mb-3">
-        <label class="form-label" for="catalogo_indicador">Descripcion de Catalogo Indicador</label>
-        <form:textarea path="catalogo_indicador" cssClass="form-control"/>
-        <form:errors cssClass="invalid" path="catalogo_indicador"/>
-    </div>
-    <div class="mb-3">
-        <label class="form-label" for="meta">Meta</label>
-        <form:textarea path="meta" cssClass="form-control"/>
-        <form:errors cssClass="invalid" path="meta"/>
-    </div>
-    <div class="mb-3">
-        <label class="form-label" for="linea_base">Linea Base</label>
-        <form:textarea path="linea_base" cssClass="form-control"/>
-        <form:errors cssClass="invalid" path="linea_base"/>
-    </div>
-    <div class="mb-3">
-        <label class="form-label" for="denominacion_indicador">Denominacion de Indicador</label>
+        <label class="form-label" for="denominacion_indicador">Denominacion Indicadores</label>
         <form:textarea path="denominacion_indicador" cssClass="form-control"/>
         <form:errors cssClass="invalid" path="denominacion_indicador"/>
     </div>
     <div class="mb-3">
-        <label class="form-label" for="formula">Formula</label>
-        <form:textarea path="formula" cssClass="form-control"/>
-        <form:errors cssClass="invalid" path="formula"/>
-    </div>
-    <div class="mb-3">
-        <label class="form-label" for="medios_verificacion">Medios de Verificacion</label>
-        <form:textarea path="medios_verificacion" cssClass="form-control"/>
-        <form:errors cssClass="invalid" path="medios_verificacion"/>
+        <label class="form-label" for="articulacion">Articulaciones</label>
+        <form:input path="articulacion" cssClass="form-control"/>
+        <form:errors cssClass="invalid" path="articulacion"/>
     </div>
 </form:form>

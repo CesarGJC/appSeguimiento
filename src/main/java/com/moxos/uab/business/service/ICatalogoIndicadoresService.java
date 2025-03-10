@@ -25,4 +25,8 @@ public interface ICatalogoIndicadoresService {
     Response<List<CatalogoIndicadoresResponse>> listarCatalogoIndicadoresByTipo(String buscar, SearchCatalogo SearchIndicadores, int pagina, int nroPagina, int id);
 
     Response<Integer> getCantidadByTipo(String buscar, SearchCatalogo SearchIndicadores, int id);
+
+    Response<List<ListView>> listCatalogoIndicadoresPorArea(int idAreaEstrategica);
+
+    Response<CatalogoIndicadoresRequest> itemCatalogoIndicador(int idCatalogoIndicador);
 }

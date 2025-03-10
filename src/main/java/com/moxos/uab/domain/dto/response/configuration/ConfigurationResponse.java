@@ -6,4 +6,10 @@ import lombok.Data;
 public class ConfigurationResponse {
     private int id_configuracion;
     private String gestion;
+    private String clave;
+    private String valor;
+    private String descripcion;
+    private String etiqueta;
+    private int tipo_valor;
+
 }

@@ -24,10 +24,9 @@ class ComboBoxBoostrap {
             if (!hasChangeEventAssigned(item)) {
                 item.addEventListener("change", async (event) => {
                     let url = event.target.dataset.url;
-                    let data = {
-                        id: event.target.value
-                    };
-                    let id=event.target.dataset.target;
+                    let data = getDataAttributesSelectComboBox(event.target);
+                    data.id = event.target.value;
+                    let id = event.target.dataset.target;
                     document.getElementById(id).innerHTML = await Get(url, data);
                 });
             }
@@ -69,4 +68,23 @@ Object.prototype.extendCombobox =
 
 function hasChangeEventAssigned(button) {
     return button.hasEventListenerCombo && button.hasEventListenerCombo('change');
+}
+
+function getDataAttributesSelectComboBox(input) {
+    let data = '{ "display": "item",'
+    Object.entries(input.dataset).forEach(([clave, valor]) => {
+        if (clave.includes('sistema')) {
+            let name = clave.replace("sistema", "").toLowerCase();
+            if (!isNaN(Number(valor))) {
+                data += '"' + name + '": ' + valor + ',';
+            } else if (valor.toLowerCase() === "true" || valor.toLowerCase() === "false") {
+                data += '"' + name + '": ' + valor + ',';
+            } else {
+                data += '"' + name + '": "' + valor + '",';
+            }
+        }
+    });
+    data = data.slice(0, -1)
+    data += '}';
+    return JSON.parse(data);
 }

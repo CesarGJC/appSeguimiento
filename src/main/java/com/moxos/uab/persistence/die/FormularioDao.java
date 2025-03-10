@@ -3,6 +3,7 @@ package com.moxos.uab.persistence.die;
 import com.moxos.uab.domain.dto.request.formulario.FormularioFilterRequest;
 import com.moxos.uab.domain.dto.request.general.FilterRequest;
 import com.moxos.uab.domain.entity.die.FormularioProgramacion;
+import com.moxos.uab.domain.entity.die.Permisos;
 import com.moxos.uab.persistence.die.provider.FormularioSqlProvider;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -26,4 +27,8 @@ public interface FormularioDao {
     void deleteFormulario(Integer id_formulario) throws DataAccessException;
 
     FormularioProgramacion getFormularioDetalle(int idFormulario) throws DataAccessException;
+
+    List<FormularioProgramacion> getFormularioPlan(Integer id_plan_pei) throws DataAccessException;
+
+    List<FormularioProgramacion> getListaFormularioHabilitados(Permisos permisos) throws DataAccessException;
 }

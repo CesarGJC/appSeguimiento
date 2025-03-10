@@ -14,11 +14,11 @@
     <div class="app-title">
         <div>
             <h1><i class="fa fa-th-list"></i> Plan ${plan.gestion}</h1>
-                    <p> ${plan.descripcion}</p>
+            <p> ${plan.descripcion}</p>
         </div>
         <ul class="app-breadcrumb breadcrumb">
-          <li class="breadcrumb-item"><i class="fa fa-home fs-6"></i></li>
-          <li class="breadcrumb-item"><a href="<c:url value="/pei/index"/>">Admin P.E.I.</a></li>
+            <li class="breadcrumb-item"><i class="fa fa-home fs-6"></i></li>
+            <li class="breadcrumb-item"><a href="<c:url value="/pei/index"/>">Admin P.E.I.</a></li>
         </ul>
     </div>
     <div class="row">
@@ -97,16 +97,18 @@
             comboboxArea = new ComboBoxBoostrap('.filter', {});
         }
     });
-
     function cargarElementoDetallePeriodoProgramacion(pagina) {
-        let params = {
-            pagina: pagina,
-            mostrar: document.getElementById("mostrar").value,
-            buscar: document.getElementById("buscar").value,
-            option: document.getElementById("option").value
-        };
-        table.getUpdateTable(params);
-    }
+    let params = {
+        pagina: pagina,
+        mostrar: document.getElementById("mostrar").value,
+        buscar: document.getElementById("buscar").value,
+        option: {
+            opcion: document.getElementById("opcion").value, // Valor del select
+            id: ${model.option.id} // ID del plan PEI
+        }
+    };
+    table.getUpdateTable(params);
+}
 
     function filtrarResultados(pagina) {
         if (event.keyCode === 13) {

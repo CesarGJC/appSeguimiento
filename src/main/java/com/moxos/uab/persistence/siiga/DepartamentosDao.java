@@ -17,4 +17,7 @@ public interface DepartamentosDao {
 
     List<Departamentos> getUnvListarDepartamentos(Universidades universidad) throws DataAccessException;
 
+    Departamentos getDepartamentoPorId(Integer idDepartamento) throws DataAccessException;
+
+    List<Departamentos> getListarUnidadesDepartamentos() throws DataAccessException;
 }

@@ -142,4 +142,6 @@ public class AreasEstrategicasController {
         modelo.addAttribute("model", paginacion);
         return "AreasEstrategicas/_Listar";
     }
+
+
 }

@@ -13,14 +13,14 @@
 <main class="app-content3">
     <div class="app-title">
         <div>
-            <h1><i class="fa fa-th-list"></i>Aperturas Programaticas</h1>
+            <h1><i class="fa fa-th-list"></i> Aperturas Programaticas</h1>
         </div>
     </div>
     <div class="row">
         <div class="col-sm-12">
             <div class="tile border border-primary">
                 <div class="tile-title-w-btn">
-                    <h3 class="title">Aperturas Programaticas</h3>
+                    <h3 class="title"> Aperturas Programaticas</h3>
                 </div>
                 <div class="tile-body">
                     <button id="addButton" type="button"
@@ -84,7 +84,7 @@
 <script>
     let comboboxArea;
     let table = new TableBoostrap(document.getElementById('table-container'), {
-        title: "Lista de Indicadores Estrategicos",
+        title: "Lista de Aperturas Programáticas",
         add: document.getElementById('addButton'),
         loadContent: () => {
             comboboxArea = new ComboBoxBoostrap('.filter', {});

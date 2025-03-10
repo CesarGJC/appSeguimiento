@@ -7,7 +7,7 @@
            action="${pageContext.request.contextPath}/pei/update">
     <form:hidden path="id_plan_pei"/>
     <div class="mb-3">
-        <label class="form-label" for="descripcion">Planes Pie</label>
+        <label class="form-label" for="descripcion">Planes Pei</label>
         <form:textarea path="descripcion" cssClass="form-control"/>
         <form:errors cssClass="invalid" path="descripcion"/>
     </div>

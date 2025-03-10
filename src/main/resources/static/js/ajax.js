@@ -2,7 +2,7 @@ function Post(url, data) {
     let init = {
         method: 'POST',
         body: JSON.stringify(data),
-        headers: {'Content-Type': 'application/json', 'X-CSRF-TOKEN': getCSRFToken()}
+        headers: {'Content-Type': 'application/json', 'X-XSRF-TOKEN': getCSRFToken()}
     };
     let request = new Request(url, init);
     return new Promise(function (resolve, reject) {

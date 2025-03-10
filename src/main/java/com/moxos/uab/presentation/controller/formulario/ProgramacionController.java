@@ -34,8 +34,9 @@ public class ProgramacionController {
         model.addAttribute("formulario", formularioProgramacion);
         return "Formulario/Detalle/Index";
     }
+
     @GetMapping("/formulario")
-    public String formulario(@ModelAttribute("id") Integer  id, Model model) {
+    public String formulario(@ModelAttribute("id") Integer id, Model model) {
         var formularioProgramacion = formularioProgramacionFacade.getFormularioProgramacionDetalle(id);
         model.addAttribute("formulario", formularioProgramacion);
         return "Formulario/Detalle/_Listar";
