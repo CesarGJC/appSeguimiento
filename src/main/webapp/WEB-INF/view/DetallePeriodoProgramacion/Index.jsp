@@ -48,6 +48,7 @@
                         </div>
                         <div class="col-md-4">
                             <div class="small fw-light">Buscar por</div>
+                            <input type="hidden" id="id" name="id" value="${model.option.id}">
                             <select id="opcion" class="form-select">
                                 <c:forEach var="item" items="${opciones}">
                                     <option value="${item.id}"
@@ -97,18 +98,19 @@
             comboboxArea = new ComboBoxBoostrap('.filter', {});
         }
     });
+
     function cargarElementoDetallePeriodoProgramacion(pagina) {
-    let params = {
-        pagina: pagina,
-        mostrar: document.getElementById("mostrar").value,
-        buscar: document.getElementById("buscar").value,
-        option: {
-            opcion: document.getElementById("opcion").value, // Valor del select
-            id: ${model.option.id} // ID del plan PEI
-        }
-    };
-    table.getUpdateTable(params);
-}
+        let params = {
+            pagina: pagina,
+            mostrar: document.getElementById("mostrar").value,
+            buscar: document.getElementById("buscar").value,
+            opcion: parseInt(document.getElementById("opcion").value), // Valor del select
+            id: parseInt(document.getElementById("id").value)
+
+
+        };
+        table.getUpdateTable(params);
+    }
 
     function filtrarResultados(pagina) {
         if (event.keyCode === 13) {

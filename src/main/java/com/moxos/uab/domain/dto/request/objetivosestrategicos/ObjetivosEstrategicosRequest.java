@@ -20,7 +20,6 @@ public class ObjetivosEstrategicosRequest {
     private String objetivos_estrategicos;
 
     @NotNull(message = "El Orden no puede estar vacio.")
-    @NotBlank(message = "El Orden es obligatorio.")
     private Integer orden;
 
     private Integer ult_usuario;

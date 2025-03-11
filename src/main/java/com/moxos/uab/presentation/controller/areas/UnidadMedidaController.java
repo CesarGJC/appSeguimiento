@@ -85,24 +85,24 @@ public class UnidadMedidaController {
     }
 
     @GetMapping("/unidad-medida/new")
-    public String nuevo(@ModelAttribute("model") UnidadMedidaRequest model, @ModelAttribute("display") String display, Model modelo) {
+    public String nuevo(@ModelAttribute("model") UnidadMedidaRequest model, Model modelo) {
         modelo.addAttribute("model", model);
-        modelo.addAttribute("display", display);
+        modelo.addAttribute("display", politicasIndicadoresAreasFacade.getUnidadesMedidas());
         return "UnidadMedida/_New";
     }
 
     @PostMapping("/unidad-medida/new")
-    public String nuevo(@ModelAttribute("model") @Valid UnidadMedidaRequest model, @ModelAttribute("display") String display, BindingResult result, Model modelo) {
+    public String nuevo(@ModelAttribute("model") @Valid UnidadMedidaRequest model, BindingResult result, Model modelo) {
         if (result.hasErrors()) {
             modelo.addAttribute("model", model);
-            modelo.addAttribute("display", display);
+            modelo.addAttribute("display", politicasIndicadoresAreasFacade.getUnidadesMedidas());
             return "UnidadMedida/_New";
         }
         model.setUlt_usuario(getUsuario().getId_usuario());
         Response<UnidadMedidaResponse> response = politicasIndicadoresAreasFacade.saveUnidadMedida(model);
         if (response.isSuccess()) {
             modelo.addAttribute("item", response.getResult());
-            return Objects.equals(display, "item") ? "UnidadMedida/_FilasCombo" : "UnidadMedida/_Filas";
+            return Objects.equals(politicasIndicadoresAreasFacade.getUnidadesMedidas(), "item") ? "UnidadMedida/_FilasCombo" : "UnidadMedida/_Filas";
         } else {
             result.addError(new FieldError("model", "descripcion", response.getMessage()));
             modelo.addAttribute("model", model);

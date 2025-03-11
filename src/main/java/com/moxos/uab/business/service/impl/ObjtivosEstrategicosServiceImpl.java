@@ -68,7 +68,7 @@ public class ObjtivosEstrategicosServiceImpl implements IObjetivosEstrategicosSe
     public Response<List<FormularioResultadosResponse>> getObjetivosEstrategicos(FormularioResultadosResponse formularioResultadosRequest) {
         try {
             List<FormularioResultadosResponse> formularioResultadosResponseList = new ArrayList<>();
-            var objetivos = objetivosEstrategicosDao.getObjetivos(formularioResultadosRequest.getId_area_estrategica());
+            var objetivos = objetivosEstrategicosDao.getObjetivosFormulario(formularioResultadosRequest.getId_formulario());
 
             for (var item : objetivos) {
                 var acciones = accionEstrategicaDao.getAcciones(item.getId_objetivos_estrategicos());

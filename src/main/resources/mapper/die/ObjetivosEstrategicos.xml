@@ -3,7 +3,7 @@
 <mapper namespace="com.moxos.uab.persistence.die.ObjetivosEstrategicosDao">
     <select id="saveObjetivosEstrategicos" resultType="java.lang.Integer">
         select *
-        from create_objetivo_estrategico(#{id_objetivos_estrategicos},#{id_area_estrategica}, #{objetivos_estrategicos},#{orden}, #{ult_usuario})
+        from create_objetivo_estrategico(#{id_objetivos_estrategicos},#{id_area_estrategica}, #{objetivos_estrategicos},#{orden}, #{ult_usuario},#{id_formulario})
     </select>
     <update id="deleteObjetivosEstrategicos">
         UPDATE tobjetivos_estrategicos
@@ -22,15 +22,27 @@
         WHERE id_objetivos_estrategicos=#{id_objetivos_estrategicos} limit 1;
     </select>
     <select id="getAllObjetivosEstrategicos" resultType="com.moxos.uab.domain.entity.die.ObjetivoEstrategicos">
-        SELECT id_area_estrategica, objetivos_estrategicos, orden, id_estado
+        SELECT id_area_estrategica, objetivos_estrategicos, orden, id_estado,id_formulario
         FROM tobjetivos_estrategicos
         WHERE id_estado='A';
     </select>
     <select id="getObjetivos" resultType="com.moxos.uab.domain.entity.die.ObjetivoEstrategicos">
-        SELECT id_objetivos_estrategicos, objetivos_estrategicos
+        SELECT id_objetivos_estrategicos, objetivos_estrategicos,id_formulario
         FROM tobjetivos_estrategicos
         WHERE id_area_estrategica=#{id}
         AND id_estado='A'
         ORDER BY orden
+    </select>
+    <select id="getObjetivosFormulario" resultType="com.moxos.uab.domain.entity.die.ObjetivoEstrategicos">
+        SELECT
+            id_objetivos_estrategicos,
+            objetivos_estrategicos
+        FROM
+            tobjetivos_estrategicos
+        WHERE
+            id_formulario = #{id_formulario}
+          AND id_estado = 'A'
+        ORDER BY
+            orden;
     </select>
 </mapper>

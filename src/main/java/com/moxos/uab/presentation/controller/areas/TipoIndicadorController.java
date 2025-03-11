@@ -84,28 +84,28 @@ public class TipoIndicadorController {
     }
 
     @GetMapping("/tipo-indicador/new")
-    public String nuevo(@ModelAttribute("model") TipoIndicadorRequest model, @ModelAttribute("display") String display, Model modelo) {
+    public String nuevo(@ModelAttribute("model") TipoIndicadorRequest model,  Model modelo) {
         modelo.addAttribute("model", model);
-        modelo.addAttribute("display", display);
+        modelo.addAttribute("display", politicasIndicadoresAreasFacade.getTiposIndicadores());
         return "TipoIndicador/_New";
     }
 
     @PostMapping("/tipo-indicador/new")
-    public String nuevo(@ModelAttribute("model") @Valid TipoIndicadorRequest model, @ModelAttribute("display") String display, BindingResult result, Model modelo) {
+    public String nuevo(@ModelAttribute("model") @Valid TipoIndicadorRequest model, BindingResult result, Model modelo) {
         if (result.hasErrors()) {
             modelo.addAttribute("model", model);
-            modelo.addAttribute("display", display);
+            modelo.addAttribute("display", politicasIndicadoresAreasFacade.getTiposIndicadores());
             return "TipoIndicador/_New";
         }
         model.setUlt_usuario(getUsuario().getId_usuario());
         Response<TipoIndicadorResponse> response = politicasIndicadoresAreasFacade.saveTipoIndicador(model);
         if (response.isSuccess()) {
             modelo.addAttribute("item", response.getResult());
-            return Objects.equals(display, "item") ? "TipoIndicador/_FilasCombo" : "TipoIndicador/_Filas";
+            return Objects.equals(politicasIndicadoresAreasFacade.getTiposIndicadores(), "item") ? "TipoIndicador/_FilasCombo" : "TipoIndicador/_Filas";
         } else {
             result.addError(new FieldError("model", "descripcion", response.getMessage()));
             modelo.addAttribute("model", model);
-            modelo.addAttribute("display", display);
+            modelo.addAttribute("display", politicasIndicadoresAreasFacade.getTiposIndicadores());
             return "TipoIndicador/_New";
         }
     }

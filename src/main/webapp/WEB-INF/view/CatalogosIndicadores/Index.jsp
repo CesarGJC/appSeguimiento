@@ -56,10 +56,11 @@
                         </div>
                         <div class="col-md-4">
                             <div class="small fw-light">Buscar por</div>
+                            <input type="hidden" id="id" name="id" value="${model.option.id}">
                             <select id="option" class="form-select">
                                 <c:forEach var="item" items="${opciones}">
                                     <option value="${item.id}"
-                                            <c:if test="${item.id == model.option}"> selected </c:if>>${item.value}</option>
+                                            <c:if test="${item.id == model.option.opcion}"> selected </c:if>>${item.value}</option>
                                 </c:forEach>
                             </select>
                         </div>
@@ -105,12 +106,14 @@
         title: "Lista de Catalogo de Indicadores"
     });
 
+
     function cargarElementoCatalogos(pagina) {
         let params = {
             pagina: pagina,
             mostrar: document.getElementById("mostrar").value,
             buscar: document.getElementById("buscar").value,
-            option: document.getElementById("option").value
+            opcion: parseInt(document.getElementById("option").value),
+            id: parseInt(document.getElementById("id").value)
         };
         table.getUpdateTable(params);
     }

@@ -114,7 +114,8 @@ public class CatalogosIndicadoresController {
     }
 
     @GetMapping("/catalogo-indicadores/listar-filtrar")
-    public String filtrar(@ModelAttribute("model") ParametrosPaginacionBusquedaRequest<ParametroAreaEstrategicaRequest> model, Model modelo) {
+    public String filtrar(@ModelAttribute("model") ParametrosPaginacionBusquedaRequest<ParametroAreaEstrategicaRequest> model, ParametroAreaEstrategicaRequest request, Model modelo) {
+        model.setOption(request);
         var paginacion = politicasIndicadoresAreasFacade.getCatalogosIndicadores(model);
         double cantidadpaginas = Math.ceil((double) paginacion.getTotaldeRegistros() / paginacion.getRegistrosporPagina());
         modelo.addAttribute("cantidadpaginas", cantidadpaginas);

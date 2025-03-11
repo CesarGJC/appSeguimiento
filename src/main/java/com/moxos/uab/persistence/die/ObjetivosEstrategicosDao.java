@@ -19,4 +19,5 @@ public interface ObjetivosEstrategicosDao {
 
     List<ObjetivoEstrategicos> getObjetivos(Integer id) throws DataAccessException;
 
+    List<ObjetivoEstrategicos> getObjetivosFormulario(Integer id_formulario) throws DataAccessException;
 }

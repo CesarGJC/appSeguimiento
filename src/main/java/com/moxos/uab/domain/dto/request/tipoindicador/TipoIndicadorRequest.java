@@ -7,6 +7,8 @@ import lombok.Data;
 @Data
 public class TipoIndicadorRequest {
     private Integer id_tipo_indicador=0;
+    @NotNull(message = "La Descripcion no puede estar vacía.")
+    @NotBlank(message = "La Descripcion es obligatoria. ")
     private String descripcion;
     @NotNull(message = "La Abreviacion no puede estar vacía.")
     @NotBlank(message = "La Abreviacion es obligatoria. ")

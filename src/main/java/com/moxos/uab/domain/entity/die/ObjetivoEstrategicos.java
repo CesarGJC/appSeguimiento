@@ -9,6 +9,6 @@ public class ObjetivoEstrategicos extends Entidad {
     private Integer id_area_estrategica;
     private String objetivos_estrategicos;
     private Integer orden;
-
+    private Integer id_formulario;
     private String descripcion;
 }

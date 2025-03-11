@@ -15,6 +15,7 @@ public class ObjetivosEstrategicosResponse {
     private String objetivos_estrategicos;
     private String orden;
     private Integer cantidad;
+    private Integer id_formulario;
     private List<AccionEstrategicaResponse> accionEstrategicas;
 
     public ObjetivosEstrategicosResponse(int id_objetivos_estrategicos, String objetivos_estrategicos, Integer cantidad) {

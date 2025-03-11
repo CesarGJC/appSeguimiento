@@ -86,24 +86,24 @@ public class    CategoriaIndicadorController {
     }
 
     @GetMapping("/categoria-indicador/new")
-    public String nuevo(@ModelAttribute("model") CategoriaIndicadorRequest model, @ModelAttribute("display") String display, Model modelo) {
+    public String nuevo(@ModelAttribute("model") CategoriaIndicadorRequest model, Model modelo) {
         modelo.addAttribute("model", model);
-        modelo.addAttribute("display", display);
+        modelo.addAttribute("display", politicasIndicadoresAreasFacade.getCategoriaIndicador());
         return "CategoriaIndicador/_New";
     }
 
     @PostMapping("/categoria-indicador/new")
-    public String nuevo(@ModelAttribute("model") @Valid CategoriaIndicadorRequest model, @ModelAttribute("display") String display, BindingResult result, Model modelo) {
+    public String nuevo(@ModelAttribute("model") @Valid CategoriaIndicadorRequest model, BindingResult result, Model modelo) {
         if (result.hasErrors()) {
             modelo.addAttribute("model", model);
-            modelo.addAttribute("display", display);
+            modelo.addAttribute("display", politicasIndicadoresAreasFacade.getCategoriaIndicador());
             return "CategoriaIndicador/_New";
         }
         model.setUlt_usuario(getUsuario().getId_usuario());
         Response<CategoriaIndicadorResponse> response = politicasIndicadoresAreasFacade.saveCategoriaIndicador(model);
         if (response.isSuccess()) {
             modelo.addAttribute("item", response.getResult());
-            return Objects.equals(display, "item") ? "CategoriaIndicador/_FilasCombo" : "CategoriaIndicador/_Filas";
+            return Objects.equals(politicasIndicadoresAreasFacade.getCategoriaIndicador(), "item") ? "CategoriaIndicador/_FilasCombo" : "CategoriaIndicador/_Filas";
         } else {
             result.addError(new FieldError("model", "descripcion", response.getMessage()));
             modelo.addAttribute("model", model);
