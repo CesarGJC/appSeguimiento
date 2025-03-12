@@ -84,6 +84,7 @@
 <script src="<c:url value="/static/js/toast.boostrap.js"/>"></script>
 <script src="<c:url value="/static/js/table.bootstrap.js?v=63"/>"></script>
 <script src="<c:url value="/static/js/filter-table.js?v=2"/>"></script>
+<script src="<c:url value="/static/js/app/formulario/programacion/index.js"/>"></script>
 <c:if test="${result !=null}">
     <script>
         setTimeout(function () {
@@ -91,39 +92,5 @@
         }, 5000);
     </script>
 </c:if>
-<script>
-    let comboCondition = new FilterComboBox(document.getElementById('option'));
-    let table = new TableBoostrap(document.getElementById('table-container'), {
-        title: "Lista formulario por plan estrategico institucional"
-    });
-
-    function cargarElementoFormulario(pagina) {
-        let params = {
-            pagina: pagina,
-            mostrar: document.getElementById("mostrar").value,
-            value: document.getElementById("buscar").value,
-            type: document.getElementById("condiciones").value,
-            option: document.getElementById("option").value,
-            cookie: false
-        };
-        table.getUpdateTable(params);
-    }
-
-    function limpiarCoockieElementoFormulario(pagina) {
-        let params = {
-            pagina: pagina,
-            mostrar: document.getElementById("mostrar").value,
-            cookie: true
-        };
-        table.getUpdateTable(params);
-    }
-
-    function filtrarResultados(pagina) {
-        if (event.keyCode === 13) {
-            cargarElementoFormulario(pagina);
-        }
-    }
-
-</script>
 </body>
 </html>

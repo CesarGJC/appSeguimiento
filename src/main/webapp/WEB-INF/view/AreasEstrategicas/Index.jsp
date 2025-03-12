@@ -73,6 +73,7 @@
 <script src="<c:url value="/static/js/sweetalert.min.js" />"></script>
 <script src="<c:url value="/static/js/toast.boostrap.js"/>"></script>
 <script src="<c:url value="/static/js/table.bootstrap.js?v=62"/>"></script>
+<script src="<c:url value="/static/js/app/areas-estrategicas/index.js"/>"></script>
 <c:if test="${result !=null}">
     <script>
         setTimeout(function () {
@@ -80,27 +81,5 @@
         }, 5000);
     </script>
 </c:if>
-<script>
-    let table = new TableBoostrap(document.getElementById('table-container'), {
-        title: "Lista de Areas Estrategicas",
-        add: document.getElementById('addButton')
-    });
-
-    function cargarElementoAreas(pagina) {
-        let params = {
-            pagina: pagina,
-            mostrar: document.getElementById("mostrar").value,
-            buscar: document.getElementById("buscar").value,
-            option: document.getElementById("option").value
-        };
-        table.getUpdateTable(params);
-    }
-
-    function filtrarResultados(pagina) {
-        if (event.keyCode === 13) {
-            cargarElementoAreas(pagina);
-        }
-    }
-</script>
 </body>
 </html>

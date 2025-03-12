@@ -4,3 +4,4 @@
 <script src="<c:url value="/static/js/ajax.js?v=3"/>"></script>
 <script src="<c:url value="/static/js/utils.js?v=2"/>"></script>
 <script src="<c:url value="/static/js/submiformloader.js?v=10"/>"></script>
+<script src="<c:url value="/static/js/content-protection.js?v=1"/>"></script>

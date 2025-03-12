@@ -94,13 +94,6 @@
 <script src="<c:url value="/static/js/toast.boostrap.js"/>"></script>
 <script src="<c:url value="/static/js/galeria-fotos.js?v=2"/>"></script>
 <script src="<c:url value="/static/js/upoad-document.js?v=17"/>"></script>
-<script>
-    let galeriaFotos = new GaleriaFotos(document.getElementById('main'));
-    let uploadDocument = new UploadDocument(document.getElementById('main'), {
-        loadContent: () => {
-            galeriaFotos = new GaleriaFotos(document.getElementById('main'));
-        }
-    });
-</script>
+<script src="<c:url value="/static/js/app/formulario/adjunto/index.js"/>"></script>
 </body>
 </html>

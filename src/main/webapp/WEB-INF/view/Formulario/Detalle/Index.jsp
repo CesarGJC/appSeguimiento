@@ -142,11 +142,7 @@
 <%@ include file="../../_js.jsp" %>
 <script src="<c:url value="/static/js/toast.boostrap.js"/>"></script>
 <script src="<c:url value="/static/js/ajax-form.js?v=1" />"></script>
+<script src="<c:url value="/static/js/app/formulario/programacion/detalle/index.js" />"></script>
 
-
-<script type="module">
-    let formulario=new AjaxForm(document.getElementById('contenedor'));
-
-</script>
 </body>
 </html>

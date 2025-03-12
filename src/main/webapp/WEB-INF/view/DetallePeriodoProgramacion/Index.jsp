@@ -82,6 +82,7 @@
 <script src="<c:url value="/static/js/toast.boostrap.js"/>"></script>
 <script src="<c:url value="/static/js/table.bootstrap.js?v=63"/>"></script>
 <script src="<c:url value="/static/js/ComboBoxBoostrap.js?v=6"/>"></script>
+<script src="<c:url value="/static/js/app/detalle-periodo-programacion/index.js"/>"></script>
 <c:if test="${result !=null}">
     <script>
         setTimeout(function () {
@@ -89,35 +90,5 @@
         }, 5000);
     </script>
 </c:if>
-<script>
-    let comboboxArea;
-    let table = new TableBoostrap(document.getElementById('table-container'), {
-        title: "Lista de los Planes Estrategicos Institucionales",
-        add: document.getElementById('addButton'),
-        loadContent: () => {
-            comboboxArea = new ComboBoxBoostrap('.filter', {});
-        }
-    });
-
-    function cargarElementoDetallePeriodoProgramacion(pagina) {
-        let params = {
-            pagina: pagina,
-            mostrar: document.getElementById("mostrar").value,
-            buscar: document.getElementById("buscar").value,
-            opcion: parseInt(document.getElementById("opcion").value), // Valor del select
-            id: parseInt(document.getElementById("id").value)
-
-
-        };
-        table.getUpdateTable(params);
-    }
-
-    function filtrarResultados(pagina) {
-        if (event.keyCode === 13) {
-            cargarElementoDetallePeriodoProgramacion(pagina);
-        }
-    }
-
-</script>
 </body>
 </html>

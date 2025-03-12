@@ -24,8 +24,8 @@
                    href="#">Eliminar Pei</a>
             </li>
             <li><a
-                   href="<c:url value="detalle-periodo-programacion/index"><c:param name="id_plan_pei" value="${item.id_plan_pei}"/></c:url>"
-                   class="dropdown-item">Agregar Detalle</a>
+                    href="<c:url value="/detalle-periodo-programacion/index/${item.id_plan_pei}"/>"
+                    class="dropdown-item">Agregar Detalle</a>
             </li>
         </ul>
     </div>
