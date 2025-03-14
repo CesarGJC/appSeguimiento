@@ -65,7 +65,7 @@ public class PoliticasIndicadoresAreasFacadeImpl implements IPoliticasIndicadore
     private final IAperturasProgramaticasService aperturasProgramaticasService;
     private final IResultadosGestionService resultadosGestionService;
 
-    public PoliticasIndicadoresAreasFacadeImpl(IAreasEstrategicasService areasEstrategicasService, IPoliticasDesarrolloService politicasDesarrolloService, IConfigurationService configurationService, IIndicadoresEstrategicosService indicadoresEstrategicosService, ICatalogoIndicadoresService catalogoIndicadoresService, IPeiService peiService, IDetallePeriodoProgramacionService detallePeriodoProgramacionService, ModelMapper modelMapper, IObjetivosEstrategicosService objetivosEstrategicosService, IAccionesEstrategicasService accionesEstrategicasService, PlanesDao planesDao, ICategoriaIndicadorService categoriaIndicadorService, ITipoIndicadorService tipoIndicadorService, IUnidadMedidaService unidadMedidaService, IAperturasProgramaticasService aperturasProgramaticasService,  IResultadosGestionService resultadosGestionService) {
+    public PoliticasIndicadoresAreasFacadeImpl(IAreasEstrategicasService areasEstrategicasService, IPoliticasDesarrolloService politicasDesarrolloService, IConfigurationService configurationService, IIndicadoresEstrategicosService indicadoresEstrategicosService, ICatalogoIndicadoresService catalogoIndicadoresService, IPeiService peiService, IDetallePeriodoProgramacionService detallePeriodoProgramacionService, ModelMapper modelMapper, IObjetivosEstrategicosService objetivosEstrategicosService, IAccionesEstrategicasService accionesEstrategicasService, PlanesDao planesDao, ICategoriaIndicadorService categoriaIndicadorService, ITipoIndicadorService tipoIndicadorService, IUnidadMedidaService unidadMedidaService, IAperturasProgramaticasService aperturasProgramaticasService, IResultadosGestionService resultadosGestionService) {
         this.areasEstrategicasService = areasEstrategicasService;
         this.politicasDesarrolloService = politicasDesarrolloService;
         this.configurationService = configurationService;
@@ -241,7 +241,7 @@ public class PoliticasIndicadoresAreasFacadeImpl implements IPoliticasIndicadore
 
     @Override
     public ResultadosGestionRequest getResultadosGestionModel(int idResultados) {
-        var response= resultadosGestionService.getById(idResultados);
+        var response = resultadosGestionService.getById(idResultados);
         return modelMapper.map(response.getResult(), ResultadosGestionRequest.class);
     }
 
@@ -447,7 +447,7 @@ public class PoliticasIndicadoresAreasFacadeImpl implements IPoliticasIndicadore
         int pagina = (model.getPagina() - 1) * cantidadderegistrosporpagina;
 
         //Parametro de busqueda en elementos
-        String buscar = model.getBuscar() == null ? "'%%'" : STR."'%\{model.getBuscar().toUpperCase()}%'";
+        String buscar = model.getBuscar() == null ? "'%%'" : "'%" + model.getBuscar().toUpperCase() + "%'";
         ParametroAreaEstrategicaRequest opcion = model.getOption();
         //Listar elementos a mostrar
         Response<List<CatalogoIndicadoresResponse>> designados = catalogoIndicadoresService.listarCatalogoIndicadoresByTipo(buscar, SearchCatalogo.values()[opcion.getOpcion()], cantidadderegistrosporpagina, pagina, opcion.getId());
