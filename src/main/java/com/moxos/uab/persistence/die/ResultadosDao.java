@@ -1,5 +1,6 @@
 package com.moxos.uab.persistence.die;
 
+import com.moxos.uab.domain.entity.die.AreaEstrategica;
 import com.moxos.uab.domain.entity.die.Resultados;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.dao.DataAccessException;
@@ -21,4 +22,8 @@ public interface ResultadosDao {
     List<Resultados> getListaResultadoPorGestionFormulario(Resultados resultados) throws DataAccessException;
 
     Resultados getResultadosDetallePorPeriodo(Resultados resultados) throws DataAccessException;
+
+    Resultados getResultadoDescripcion(Integer id_resultados) throws DataAccessException;
+
+    List<Resultados> getResultadosPorid(Integer id_resultados) throws DataAccessException;
 }

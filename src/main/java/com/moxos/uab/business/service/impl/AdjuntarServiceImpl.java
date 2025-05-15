@@ -49,7 +49,7 @@ public class AdjuntarServiceImpl implements IAdjuntarService {
     public Response<List<AdjuntosResponse>> getListaAdjuntoPorActvidades(Integer idOperaciones, String tipoDocumento) {
         try {
             Adjuntos adjuntos = new Adjuntos();
-            adjuntos.setId_operaciones(idOperaciones);
+            adjuntos.setId_operaciones_actividad(idOperaciones);
             adjuntos.setTipo_documento(tipoDocumento);
             var response = adjuntosDao.getListarDocumentosAdjuntosPoActividad(adjuntos)
                     .stream().map(p -> modelMapper.map(p, AdjuntosResponse.class)).collect(Collectors.toList());

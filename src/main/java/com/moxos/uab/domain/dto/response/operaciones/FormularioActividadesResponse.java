@@ -6,12 +6,10 @@ import java.util.Date;
 
 @Data
 public class FormularioActividadesResponse {
-    private Integer id_operaciones;
-    private String programa;
+    private Integer id_operaciones_actividad;
     private String operaciones;
     private String titulo;
     private String descripcion;
-    private String gestion;
     private String elaborador;
     private String resultado;
     private String vistas;

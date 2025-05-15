@@ -53,7 +53,7 @@
                                 <form:errors cssClass="invalid" path="id_area_estrategica"/>
                             </div>
                             <div data-step="3" data-intro="<br>Elige el formulario que deseas programar" class="mb-3">
-                                <label class="form-label" for="id_apertura_programatica">Apertura Programatica</label>
+                                <label class="form-label" for="id_apertura_programatica">Formulario</label>
                                 <form:select path="id_apertura_programatica" cssClass="form-select filter"
                                              items="${model.aperturaProgramaticas}"
                                              itemLabel="value" itemValue="id"/>

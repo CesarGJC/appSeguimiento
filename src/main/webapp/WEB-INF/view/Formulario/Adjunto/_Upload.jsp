@@ -4,10 +4,10 @@
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="fomr" uri="http://www.springframework.org/tags/form" %>
 <%@ page contentType="text/html" pageEncoding="UTF-8" %>
-<form:form data-form="true" data-target="itemDiv${model.id_adjunto}" modelAttribute="model" method="post"
+<form:form data-form="true" data-target="itemDiv${model.id_adjunto_operaciones_actividad}" modelAttribute="model" method="post"
            enctype="multipart/form-data"
            action="${pageContext.request.contextPath}/documento/adjunto/upload">
-    <form:hidden path="id_adjunto"/>
+    <form:hidden path="id_adjunto_operaciones_actividad"/>
     <form:hidden path="tipo_documento"/>
     <form:hidden path="documento"/>
     <div class="mb-3">

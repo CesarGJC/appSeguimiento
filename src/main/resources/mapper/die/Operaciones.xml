@@ -3,57 +3,54 @@
 <mapper namespace="com.moxos.uab.persistence.die.OperacionesDao">
     <select id="saveOperaciones" resultType="java.lang.Integer">
         select *
-        from  public.create_toperaciones(
-                #{id_operaciones},
-                #{id_resultados},
-                #{id_programa},
-                #{id_departamento},
-                #{operaciones},
+        from public.create_toperaciones_actividad(
+                #{id_operaciones_actividad},
+                #{id_descripcion_operaciones_poa},
+                #{id_trimestre},
+                #{progreso},
                 #{titulo},
                 #{descripcion},
                 #{elaborador},
                 #{resultado},
                 #{fec_publicacion},
                 #{ult_usuario},
-                #{id_detalle_periodos_programacion}, #{documento});
+                #{documento});
     </select>
-    <select id="getByid" resultType="com.moxos.uab.domain.entity.die.Operaciones">
-        SELECT id_operaciones,
-               dpp.id_detalle_periodos_programacion,
-               fp.id_programa,
-               fp.id_facultad,
-               id_formulario,
-               tr.id_resultados,
-               operaciones,
-               titulo,
-               top.descripcion,
-               elaborador,
-               resultado,
-               fec_publicacion
-        FROM public.toperaciones top
-                 inner join public.fcl_programas fp on fp.id_programa = top.id_programa
-                 inner join public.tresultados_gestion tg on tg.id_resultados_gestion = top.id_resultados_gestion
-                 inner join public.detalle_periodos_programacion dpp
-                            on dpp.id_detalle_periodos_programacion = tg.id_detalle_periodos_programacion
-                 inner join public.tresultados tr on tr.id_resultados = tg.id_resultados
-                 inner join public.tcatalogo_indicadores_pei tip
-                            on tip.id_catalogo_indicador_pei = tr.id_catalogo_indicador_pei
-        where top.id_operaciones = #{id_operaciones}
+    <select id="getByid" resultType="com.moxos.uab.domain.entity.die.OperacionesActividades">
+        SELECT toa.id_operaciones_actividad,
+               toa.id_descripcion_operaciones_poa,
+               toa.id_trimestre,
+               toa.progreso,
+               dop.descripcion_operaciones_poa,
+               toa.titulo,
+               toa.descripcion,
+               toa.elaborador,
+               toa.resultado,
+               toa.vistas,
+               toa.fec_publicacion,
+               toa.descargas,
+               toa.id_estado,
+               toa.fec_registro,
+               toa.fec_modificacion,
+               toa.ult_usuario
+        FROM public.toperaciones_actividad toa
+                 INNER JOIN public.tdescripcion_operaciones_poa dop
+                            ON toa.id_descripcion_operaciones_poa = dop.id_descripcion_operaciones_poa
+        WHERE toa.id_operaciones_actividad = #{id_operaciones_actividad}
     </select>
-    <select id="getAllOperaciones" resultType="com.moxos.uab.domain.entity.die.Operaciones">
-        SELECT id_resultados_gestion, id_programa,id_departamento,operaciones, titulo,descripcion,elaborador,resultado,vistas
-        FROM toperaciones
+    <select id="getAllOperaciones" resultType="com.moxos.uab.domain.entity.die.OperacionesActividades">
+        SELECT id_descripcion_operaciones_poa, operacionesActividades, titulo,descripcion,elaborador,resultado,vistas
+        FROM toperaciones_actividad
         WHERE id_estado='A';
     </select>
     <update id="deleteOperaciones">
-        UPDATE toperaciones
+        UPDATE toperaciones_actividad
         SET id_estado='X'
-        WHERE id_operaciones=#{id_operaciones};
+        WHERE id_operaciones_actividad=#{id_operaciones_actividad};
     </update>
-    <select id="getOperaciones" resultType="com.moxos.uab.domain.entity.die.Operaciones">
+    <select id="getOperaciones" resultType="com.moxos.uab.domain.entity.die.OperacionesActividades">
         SELECT id_operaciones,
                trg.id_resultados_gestion,
-               id_programa,
                titulo,
                descripcion,
                elaborador,
@@ -66,5 +63,15 @@
         SELECT id_programa, programa
         FROM public.fcl_programas
         where id_facultad=#{id_facultad}
+    </select>
+    <select id="getOperacionesByid" resultType="com.moxos.uab.domain.entity.die.OperacionesActividades">
+
+    </select>
+
+    <select id="getListaOperaciones" resultType="com.moxos.uab.domain.entity.die.OperacionesActividades">
+        SELECT id_operaciones_actividad, resultado
+        FROM public.toperaciones_actividad
+        where id_descripcion_operaciones_poa = #{id}
+          and id_estado = 'A';
     </select>
 </mapper>

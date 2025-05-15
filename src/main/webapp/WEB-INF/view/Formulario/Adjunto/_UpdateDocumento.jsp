@@ -10,7 +10,7 @@
         <h2>${item.descripcion_documento}</h2>
         <form id="downloadForm" action="<c:url value="/documento/adjunto/download"/>"
               method="get">
-            <input name="id" value="${item.id_adjunto}" type="hidden">
+            <input name="id" value="${item.id_adjunto_operaciones_actividad}" type="hidden">
         </form>
     </div>
 </div>
@@ -19,7 +19,7 @@
         <div class="left">
             <button data-bs-open="true"
                     data-url="${pageContext.request.contextPath}/documento/adjunto/upload"
-                    data-sistema-id="${item.id_adjunto}"
+                    data-sistema-id="${item.id_adjunto_operaciones_actividad}"
                     data-type="${item.tipo_documento}" class="btn-attcah">
                 <i class="fa fa-paperclip"></i>
                 Añadir archivo

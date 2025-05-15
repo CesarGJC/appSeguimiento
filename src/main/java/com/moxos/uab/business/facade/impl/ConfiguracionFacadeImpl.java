@@ -3,7 +3,7 @@ package com.moxos.uab.business.facade.impl;
 import com.moxos.uab.business.facade.IConfiguracionFacade;
 import com.moxos.uab.business.service.*;
 import com.moxos.uab.common.enums.ConfiguracionEnums;
-import com.moxos.uab.domain.dto.request.DetallePeriodoProgramacion.DetallePeriodoProgramacionRequest;
+import com.moxos.uab.domain.dto.request.detallePeriodoProgramacion.DetallePeriodoProgramacionRequest;
 import com.moxos.uab.domain.dto.request.configuracion.ConfiguracionRequest;
 import com.moxos.uab.domain.dto.request.permisos.AsignarPermisosRequest;
 import com.moxos.uab.domain.dto.request.permisos.HabilitarPermisoRequest;
@@ -20,7 +20,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service

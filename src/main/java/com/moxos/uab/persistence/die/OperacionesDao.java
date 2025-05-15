@@ -2,7 +2,7 @@ package com.moxos.uab.persistence.die;
 
 import com.moxos.uab.domain.dto.request.general.FilterRequest;
 import com.moxos.uab.domain.dto.request.operaciones.OperacionesFilterRequest;
-import com.moxos.uab.domain.entity.die.Operaciones;
+import com.moxos.uab.domain.entity.die.OperacionesActividades;
 import com.moxos.uab.domain.entity.die.Programas;
 import com.moxos.uab.persistence.die.provider.OperacionesSqlProvider;
 import org.apache.ibatis.annotations.Mapper;
@@ -16,23 +16,25 @@ import java.util.List;
 public interface OperacionesDao {
 
     @SelectProvider(type = OperacionesSqlProvider.class, method = "getFormulariosActividades")
-    List<Operaciones> getFormulariosActividades(@Param("filtro") FilterRequest<OperacionesFilterRequest> filtro, @Param("idFormulario") Integer id, @Param("idPrograma") Integer idPrograma, @Param("idDepartamento") Integer idDepartamento);
+    List<OperacionesActividades> getFormulariosActividades(@Param("filtro") FilterRequest<OperacionesFilterRequest> filtro, @Param("id_descripcion_operaciones_poa") Integer idDescripcion);
 
     @SelectProvider(type = OperacionesSqlProvider.class, method = "getCantidadByTipo")
-    Integer getCantidadByTipo(@Param("filtro") FilterRequest<OperacionesFilterRequest> filtro, @Param("idFormulario") Integer id, @Param("idPrograma") Integer idPrograma, @Param("idDepartamento") Integer idDepartamento);
+    Integer getCantidadByTipo(@Param("filtro") FilterRequest<OperacionesFilterRequest> filtro, @Param("id_descripcion_operaciones_poa") Integer idDescripcion);
 
-    Integer saveOperaciones(Operaciones operaciones) throws DataAccessException;
+    Integer saveOperaciones(OperacionesActividades operacionesActividades) throws DataAccessException;
 
-    void deleteOperaciones(Operaciones operaciones) throws DataAccessException;
+    void deleteOperaciones(OperacionesActividades operacionesActividades) throws DataAccessException;
 
-    List<Operaciones> getAllOperaciones() throws DataAccessException;
+    List<OperacionesActividades> getAllOperaciones() throws DataAccessException;
 
-    Operaciones getByid(int id_operaciones) throws DataAccessException;
+    OperacionesActividades getByid(int id_operaciones) throws DataAccessException;
 
-    List<Operaciones> getOperacionesByid(Integer id) throws DataAccessException;
+    List<OperacionesActividades> getOperacionesByid(Integer id) throws DataAccessException;
 
     List<Programas> getProgramasPorFacultad(Integer id_facultad) throws DataAccessException;
 
     @SelectProvider(type = OperacionesSqlProvider.class, method = "getProgramaFacultad")
     Programas getProgramaFacultad(@Param("idFacultad") int idFacultad, @Param("idPrograma") int idPrograma);
+
+    List<OperacionesActividades> getListaOperaciones(Integer id) throws DataAccessException;
 }

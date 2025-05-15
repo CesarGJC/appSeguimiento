@@ -1,15 +1,13 @@
 package com.moxos.uab.presentation.controller.areas;
 
 import com.moxos.uab.business.facade.IPoliticasIndicadoresAreasFacade;
-import com.moxos.uab.domain.dto.request.DetallePeriodoProgramacion.DetallePeriodoProgramacionRequest;
-import com.moxos.uab.domain.dto.request.DetallePeriodoProgramacion.ParametroPeiRequest;
+import com.moxos.uab.domain.dto.request.detallePeriodoProgramacion.DetallePeriodoProgramacionRequest;
+import com.moxos.uab.domain.dto.request.detallePeriodoProgramacion.ParametroPeiRequest;
 import com.moxos.uab.domain.dto.request.general.ParametrosPaginacionBusquedaRequest;
 import com.moxos.uab.domain.dto.request.general.SelectListItemDto;
-import com.moxos.uab.domain.dto.request.pei.PeiRequest;
 import com.moxos.uab.domain.dto.response.DetallePeriodoProgramacion.DetallePeriodoProgramacionResponse;
 import com.moxos.uab.domain.dto.response.GeneralResponse;
 import com.moxos.uab.domain.dto.response.Response;
-import com.moxos.uab.domain.dto.response.pei.PeiResponse;
 import com.moxos.uab.domain.entity.siiga.Clientes;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;

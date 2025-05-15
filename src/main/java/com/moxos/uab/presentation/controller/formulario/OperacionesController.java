@@ -14,9 +14,7 @@ import com.moxos.uab.domain.dto.request.operaciones.OperacionesFilterRequest;
 import com.moxos.uab.domain.dto.request.operaciones.OperacionesRequest;
 import com.moxos.uab.domain.dto.request.operaciones.ProgramasActividadesUnidadRequest;
 import com.moxos.uab.domain.dto.response.GeneralResponse;
-import com.moxos.uab.domain.dto.response.formulario.FormularioResponse;
 import com.moxos.uab.domain.dto.response.resultados.ResultadosDetalleResponse;
-import com.moxos.uab.domain.dto.response.view.ListView;
 import com.moxos.uab.domain.entity.siiga.Clientes;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -56,118 +54,15 @@ public class OperacionesController {
         return (Clientes) attr.getRequest().getSession().getAttribute("__sess_cliente");
     }
 
-    @GetMapping("/index")
-    public String index(RedirectAttributes redirectAttributes) {
-        if (getUsuario().getId_programa() != 0 & getUsuario().getId_departamento() != 0) {
-            return "redirect:/operaciones/seleccionar-unidad";
-        }
-        if (getUsuario().getId_programa() == 0 & getUsuario().getId_departamento() != 0) {
-            redirectAttributes.addAttribute("id_departamento", getUsuario().getId_departamento());
-            return "redirect:/operaciones/listar-planes";
-        }
-        if (getUsuario().getId_programa() != 0 && getUsuario().getId_departamento() == 0) {
-            redirectAttributes.addAttribute("id_programa", getUsuario().getId_programa());
-            return "redirect:/operaciones/listar-planes";
-        }
-        if ((getUsuario().getId_programa() == 0 || getUsuario().getId_departamento() == 0) && getUsuario().getId_facultad() != 0) {
-            return "redirect:/operaciones/seleccionar-programa";
-        }
-        return "Formulario/Operaciones/AccesoDenegado";
-    }
-
-    @GetMapping("/listar-planes")
-    public String listarPlanes(@ModelAttribute("model") ProgramasActividadesUnidadRequest model, Model modelo) {
-        int idPlanPei = Integer.parseInt(configuracionFacade.getValorConfiguracionPorClave("id_plan_pei"));
-        List<FormularioResponse> formularioResponsesList = configuracionFacade.getFormulariosPorPlan(model.getId_programa() == 0 ? model.getId_departamento() : model.getId_programa(), model.getId_programa() == 0 ? 1 : 2, idPlanPei);
-
-        modelo.addAttribute("programaResponse", actividadesFacade.getProgramaFacultad(model.getId_departamento(), model.getId_programa()));
-        modelo.addAttribute("formularioResponsesList", formularioResponsesList);
-        modelo.addAttribute("model", model);
-        return "Formulario/Operaciones/Index";
-    }
-
-    @GetMapping("/seleccionar-unidad")
-    public String seleccionarUnidadAcademicoAdministrativa(@ModelAttribute("model") ProgramasActividadesUnidadRequest model, Model modelo) {
-        List<ListView> tiposUnidades = new ArrayList<>();
-        tiposUnidades.add(new ListView("1", "Unidades administrativas"));
-        tiposUnidades.add(new ListView("2", "Unidades academicas"));
-        modelo.addAttribute("tiposUnidades", tiposUnidades);
-        modelo.addAttribute("model", model);
-        return "Formulario/Operaciones/SeleccionarAcademicaAdministrativa";
-    }
-
-    @PostMapping("/seleccionar-unidad")
-    public String seleccionarUnidadAcademicoAdministrativa(@ModelAttribute("model") ProgramasActividadesUnidadRequest model, RedirectAttributes redirectAttributes) {
-        redirectAttributes.addAttribute("id", model.getId());
-        if (model.getTipoUnidad() == 1) {
-            redirectAttributes.addAttribute("id_departamento", getUsuario().getId_departamento());
-            return "redirect:/operaciones/listar-planes";
-        }
-        redirectAttributes.addAttribute("id_programa", getUsuario().getId_programa());
-        return "redirect:/operaciones/listar-planes";
-    }
-
-    @GetMapping("/seleccionar-tipo")
-    public String seleccionarUnidad(@ModelAttribute("model") ProgramasActividadesUnidadRequest model, Model modelo) {
-        List<ListView> tiposUnidades = new ArrayList<>();
-        tiposUnidades.add(new ListView("1", "Unidades administrativas"));
-        tiposUnidades.add(new ListView("2", "Unidades academicas"));
-        modelo.addAttribute("tiposUnidades", tiposUnidades);
-        modelo.addAttribute("model", model);
-        return "Formulario/Operaciones/SeleccionarTipoUnidad";
-    }
-
-    @PostMapping("/seleccionar-tipo")
-    public String seleccionarUnidad(@ModelAttribute("model") ProgramasActividadesUnidadRequest model, RedirectAttributes redirectAttributes) {
-        if (model.getTipoUnidad() == 1) {
-            model.setId_departamento(getUsuario().getId_departamento());
-            redirectAttributes.addAttribute("id_departamento", getUsuario().getId_departamento());
-            redirectAttributes.addAttribute("id", model.getId());
-            return "redirect:/operaciones/actividades";
-        }
-        if (model.getTipoUnidad() == 2) {
-            if (getUsuario().getId_programa() != 0) {
-                model.setId_programa(getUsuario().getId_departamento());
-                redirectAttributes.addAttribute("id_programa", getUsuario().getId_programa());
-                redirectAttributes.addAttribute("id", model.getId());
-                return "redirect:/operaciones/actividades";
-            }
-            if (getUsuario().getId_programa() == 0 && getUsuario().getId_facultad() != 0) {
-                redirectAttributes.addAttribute("id", model.getId());
-                return "redirect:/operaciones/seleccionar-programa";
-            }
-        }
-        return "redirect:/operaciones/actividades";
-    }
-
-    @GetMapping("/seleccionar-programa")
-    public String seleccionarPrograma(@ModelAttribute("model") ProgramasActividadesUnidadRequest model, Model modelo) {
-        List<ListView> programasUnidades = actividadesFacade.getListaPrograma(getUsuario().getId_facultad());
-        modelo.addAttribute("programasUnidades", programasUnidades);
-        modelo.addAttribute("model", model);
-        return "Formulario/Operaciones/SeleccionarPrograma";
-    }
-
-    @PostMapping("/seleccionar-programa")
-    public String seleccionarPrograma(@ModelAttribute("model") ProgramasActividadesUnidadRequest model, RedirectAttributes redirectAttributes) {
-        redirectAttributes.addAttribute("id", model.getId());
-        redirectAttributes.addAttribute("id_programa", model.getId_programa());
-        return "redirect:/operaciones/listar-planes";
-    }
-
     @GetMapping("/actividades")
     public String actividades(@ModelAttribute("model") ParametrosPaginacionBusquedaRequest<OperacionesFilterRequest> model, @ModelAttribute("modelPrograma") ProgramasActividadesUnidadRequest modelPrograma, Model modelo) {
         model.setOption(new OperacionesFilterRequest());
         //Lista de opciones de busqueda
         List<SelectListItemDto> opcionesElementos = new ArrayList<>();
         opcionesElementos.add(new SelectListItemTypeDto("operaciones", "ACTIVIDAD", 0));
-        opcionesElementos.add(new SelectListItemTypeDto("gestion", "GESTION", 0));
         opcionesElementos.add(new SelectListItemTypeDto("elaborador", "ELABORADO POR", 0));
-        opcionesElementos.add(new SelectListItemTypeDto("resultado", "RESULTADO", 0));
-        opcionesElementos.add(new SelectListItemTypeDto("indicador", "INDICADOR", 0));
         opcionesElementos.add(new SelectListItemTypeDto("titulo", "TITULO", 0));
         var response = actividadesFacade.getFormularioPorId(modelPrograma.getId());
-
         modelo.addAttribute("programaResponse", actividadesFacade.getProgramaFacultad(modelPrograma.getId_departamento(), modelPrograma.getId_programa()));
         modelo.addAttribute("opciones", opcionesElementos);
         modelo.addAttribute("model", model);
@@ -187,7 +82,6 @@ public class OperacionesController {
 
     @GetMapping("/new")
     public String nuevo(@ModelAttribute("model") OperacionesRequest model, Model modelo) {
-        model.setId_detalle_periodos_programacion(Integer.parseInt(configuracionFacade.getValorConfiguracionPorClave("id_periodo_gestion")));
         OperacionesRequest response = actividadesFacade.crearOperacionesRequest(model);
         modelo.addAttribute("model", response);
         modelo.addAttribute("programaResponse", actividadesFacade.getProgramaFacultad(model.getId_departamento(), model.getId_programa()));
@@ -196,9 +90,13 @@ public class OperacionesController {
 
     @PostMapping("/new")
     public String nuevo(@ModelAttribute("model") @Valid OperacionesRequest model, BindingResult result, Model modelo, RedirectAttributes redirectAttributes) {
+       if(model.isPorcentaje()){
+           if(model.getProgreso()<=0){
+               result.addError(new FieldError("model", "progreso", "Debe introducir un valor en el progreso"));
+           }
+       }
         if (result.hasErrors()) {
             modelo.addAttribute("programaResponse", actividadesFacade.getProgramaFacultad(model.getId_departamento(), model.getId_programa()));
-            modelo.addAttribute("resultadoEsperado", actividadesFacade.getResultadoPorPeriodoGestionPorId(model.getId_resultados(), model.getId_detalle_periodos_programacion()));
             modelo.addAttribute("model", actividadesFacade.crearOperacionesRequest(model));
             return "Formulario/Operaciones/New";
         }
@@ -207,10 +105,13 @@ public class OperacionesController {
 
     @GetMapping("/update")
     public String update(@ModelAttribute("model") OperacionesRequest model, Model modelo) {
-        model = actividadesFacade.getOperacionesRequest(model);
-        OperacionesRequest response = actividadesFacade.crearOperacionesRequest(model);
+        var request = actividadesFacade.getOperacionesRequest(model);
+        request.setId_programa(model.getId_programa());
+        request.setId_departamento(model.getId_departamento());
+        request.setId_programa(model.getId_programa());
+        request.setId_formulario(model.getId_formulario());
+        OperacionesRequest response = actividadesFacade.crearOperacionesRequest(request);
         modelo.addAttribute("model", response);
-        modelo.addAttribute("resultadoEsperado", actividadesFacade.getResultadoPorPeriodoGestionPorId(response.getId_resultados(), response.getId_detalle_periodos_programacion()));
         modelo.addAttribute("programaResponse", actividadesFacade.getProgramaFacultad(model.getId_departamento(), model.getId_programa()));
         return "Formulario/Operaciones/Update";
     }
@@ -220,7 +121,6 @@ public class OperacionesController {
         if (result.hasErrors()) {
             modelo.addAttribute("model", actividadesFacade.crearOperacionesRequest(model));
             modelo.addAttribute("programaResponse", actividadesFacade.getProgramaFacultad(model.getId_departamento(), model.getId_programa()));
-            modelo.addAttribute("resultadoEsperado", actividadesFacade.getResultadoPorPeriodoGestionPorId(model.getId_resultados(), model.getId_detalle_periodos_programacion()));
             return "Formulario/Operaciones/Update";
         }
         return redirigirActividades(model, result, modelo, redirectAttributes, "Formulario/Operaciones/Update");
@@ -260,12 +160,12 @@ public class OperacionesController {
             result.addError(new FieldError("model", "titulo", response.getMessage()));
             modelo.addAttribute("model", actividadesFacade.crearOperacionesRequest(model));
             modelo.addAttribute("programaResponse", actividadesFacade.getProgramaFacultad(getUsuario().getId_facultad(), getUsuario().getId_programa()));
-            modelo.addAttribute("resultadoEsperado", actividadesFacade.getResultadoPorPeriodoGestionPorId(model.getId_resultados(), model.getId_detalle_periodos_programacion()));
             return ruta;
         }
         redirectAttributes.addAttribute("id", model.getId_formulario());
         redirectAttributes.addAttribute("id_programa", model.getId_programa());
         redirectAttributes.addAttribute("id_departamento", model.getId_departamento());
+        redirectAttributes.addAttribute("id_descripcion_operaciones_poa", model.getId_descripcion_operaciones_poa());
         return "redirect:/operaciones/actividades";
     }
 

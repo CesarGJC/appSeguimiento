@@ -17,7 +17,7 @@
             <form:hidden path="id_objetivos_estrategicos"/>
             <form:hidden path="id_formulario"/>
             <div class="row">
-                <label class="control-label col-md-3">Objetivo Estrategico:</label>
+                <label class="control-label col-md-3">Accion Estrategico:</label>
                 <div class="col-md-9">
                     <c:out value="${model.acciones_estrategica}"/>
                 </div>

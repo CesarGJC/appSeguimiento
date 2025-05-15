@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.moxos.uab.persistence.die.TrimestreDao">
+    <select id="getTrimestre" resultType="com.moxos.uab.domain.entity.die.Trimestre">
+        SELECT trimestre, programado
+        FROM public.ttrimestre
+        WHERE id_estado='A' AND id_descripcion_operaciones_poa=#{id}
+    </select>
+
+    <select id="getTrimestreProgramadosYEejecutados" resultType="com.moxos.uab.domain.entity.die.Trimestre">
+        SELECT tt.id_trimestre,
+               trimestre,
+               programado,
+               case when e.ejecutado is null then 0 else e.ejecutado end ejecutado
+        FROM public.tdescripcion_operaciones_poa top
+                 inner join public.ttrimestre tt
+                            on tt.id_descripcion_operaciones_poa = top.id_descripcion_operaciones_poa
+                 left join (select id_trimestre, sum(progreso) as ejecutado
+                            from public.toperaciones_actividad
+                            where id_descripcion_operaciones_poa = #{id}
+                              and id_estado = 'A'
+                            group by id_trimestre) e on e.id_trimestre = tt.id_trimestre
+        where top.id_descripcion_operaciones_poa = #{id}
+          and tt.id_estado = 'A'
+        order by tt.id_trimestre
+    </select>
+
+    <select id="getListaTrimestrePorDescripcion" resultType="com.moxos.uab.domain.entity.die.Trimestre">
+        SELECT id_trimestre, trimestre
+        FROM public.tdescripcion_operaciones_poa top
+                 inner join public.ttrimestre tt
+                            on tt.id_descripcion_operaciones_poa = top.id_descripcion_operaciones_poa
+        where top.id_descripcion_operaciones_poa = #{id}
+          and tt.id_estado = 'A'
+          and programado > 0
+    </select>
+</mapper>

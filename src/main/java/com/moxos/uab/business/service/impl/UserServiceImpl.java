@@ -1,24 +1,21 @@
 package com.moxos.uab.business.service.impl;
 
 import com.moxos.uab.business.service.IUserService;
-import com.moxos.uab.common.util.Utils;
 import com.moxos.uab.domain.entity.siiga.*;
 import com.moxos.uab.persistence.siiga.*;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
 import java.util.Base64;
 import java.util.List;
 
 @Service
+@AllArgsConstructor
 @Transactional
 public class UserServiceImpl implements IUserService {
 
+    private PhotoStorageService photoStorageService;
     private final ClientesDao clientesDao;
     private final RolesDao rolesDao;
     private final UniversidadesDao universidadesDao;
@@ -27,15 +24,6 @@ public class UserServiceImpl implements IUserService {
     private final DepartamentosDao departamentosDao;
     private final PlanesDao planesDao;
 
-    public UserServiceImpl(ClientesDao clientesDao, RolesDao rolesDao, UniversidadesDao universidadesDao, FacultadesDao facultadesDao, ProgramasDao programasDao, DepartamentosDao departamentosDao, PlanesDao planesDao) {
-        this.clientesDao = clientesDao;
-        this.rolesDao = rolesDao;
-        this.universidadesDao = universidadesDao;
-        this.facultadesDao = facultadesDao;
-        this.programasDao = programasDao;
-        this.departamentosDao = departamentosDao;
-        this.planesDao = planesDao;
-    }
 
     @Override
     public Clientes getBuscarConexion(String correo) {
@@ -118,24 +106,8 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public String getImagen(String path) {
-        String imagen;
-
-        String scontentype = "image/png";
-        String rootPath = path + File.separator + "docadjuntos" + File.separator + "nulo.png";
-        File fnew = new File(rootPath);
-        if (!fnew.exists()) {
-            fnew = new File(path + File.separator + "docadjuntos" + File.separator + "nulo.png");
-        }
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        try {
-            BufferedImage originalImage = ImageIO.read(fnew);
-            ImageIO.write(Utils.resize(originalImage, 70, 70), "png", baos);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        byte[] imageInByte = baos.toByteArray();
-        imagen = "data:" + scontentype + ";base64," + Base64.getEncoder().encodeToString(imageInByte);
-        return imagen;
+    public String getImagen() {
+        byte[] imageInByte = photoStorageService.byteResource("docadjuntos", "nulo.png", 70, 70, 0.6F);
+        return "data:image/png;base64," + Base64.getEncoder().encodeToString(imageInByte);
     }
 }

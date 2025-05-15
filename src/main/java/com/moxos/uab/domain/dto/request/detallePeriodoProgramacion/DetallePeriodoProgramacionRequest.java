@@ -1,11 +1,8 @@
-package com.moxos.uab.domain.dto.request.DetallePeriodoProgramacion;
+package com.moxos.uab.domain.dto.request.detallePeriodoProgramacion;
 
-import com.moxos.uab.domain.dto.response.view.ListView;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
-
-import java.util.List;
 
 @Data
 public class DetallePeriodoProgramacionRequest {

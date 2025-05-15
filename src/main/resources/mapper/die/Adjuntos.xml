@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.moxos.uab.persistence.die.AdjuntosDao">
     <select id="getListarDocumentosAdjuntosPoActividad" resultType="com.moxos.uab.domain.entity.die.Adjuntos">
-        SELECT id_adjunto,
+        SELECT id_adjunto_operaciones_actividad,
                ruta,
                documento,
                tipo_documento,
@@ -13,15 +13,15 @@
                    WHEN td.ruta = 'image.png' THEN '/imagenes/nulo/image.png'
                    ELSE (('/imagenes/' || td.documento) || '/') || td.ruta
                    END AS ruta_documento
-        FROM public.tadjuntos td
-        where id_operaciones = #{id_operaciones}
+        FROM public.tadjuntos_operaciones_actividad td
+        where id_operaciones_actividad = #{id_operaciones_actividad}
           and id_estado = 'A'
           and tipo_documento = #{tipo_documento};
     </select>
     <select id="saveAdjuntos" resultType="java.lang.Integer">
         select *
-        from create_adjuntos(
-                #{id_adjunto},
+        from create_adjuntos_operaciones_actividad(
+                #{id_adjunto_operaciones_actividad},
                 #{descripcion_documento},
                 #{nombre_documento},
                 #{ruta},
@@ -29,16 +29,16 @@
              )
     </select>
     <select id="getByid" resultType="com.moxos.uab.domain.entity.die.Adjuntos">
-        SELECT id_adjunto,
+        SELECT id_adjunto_operaciones_actividad,
                documento,
                descripcion_documento,
                nombre_documento,
                tipo_documento
-        FROM public.tadjuntos td
-        where id_adjunto = #{idAdjunto}
+        FROM public.tadjuntos_operaciones_actividad td
+        where id_adjunto_operaciones_actividad = #{id_adjunto_operaciones_actividad}
     </select>
     <select id="getByDetalleid" resultType="com.moxos.uab.domain.entity.die.Adjuntos">
-        SELECT id_adjunto,
+        SELECT id_adjunto_operaciones_actividad,
                ruta,
                documento,
                tipo_documento,
@@ -49,11 +49,11 @@
                    WHEN td.ruta = 'image.png' THEN '/imagenes/nulo/image.png'
                    ELSE (('/imagenes/' || td.documento) || '/') || td.ruta
                    END AS ruta_documento
-        FROM public.tadjuntos td
-        where id_adjunto = #{idAdjunto}
+        FROM public.tadjuntos_operaciones_actividad td
+        where id_adjunto_operaciones_actividad = #{id_adjunto_operaciones_actividad}
     </select>
     <select id="getAdjuntoPorIdActividad" resultType="com.moxos.uab.domain.entity.die.Adjuntos">
-        SELECT id_adjunto,
+        SELECT id_adjunto_operaciones_actividad,
                ruta,
                documento,
                tipo_documento,
@@ -64,8 +64,8 @@
                    WHEN td.ruta = 'image.png' THEN '/imagenes/nulo/image.png'
                    ELSE (('/imagenes/' || td.documento) || '/') || td.ruta
                    END AS ruta_documento
-        FROM public.tadjuntos td
-        where id_operaciones = #{idOperacion}
+        FROM public.tadjuntos_operaciones_actividad td
+        where id_operaciones_actividad = #{id_operaciones_actividad}
           and id_estado = 'A'
           and tipo_documento = 'documento'
     </select>

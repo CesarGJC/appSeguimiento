@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.moxos.uab.persistence.die.DescripcionOperacionesPoaDao">
+    <select id="saveDescripcionOperacionesPoa" resultType="java.lang.Integer">
+        select *
+        from create_descripcion_operaciones_poa(
+                #{id_descripcion_operaciones_poa},
+                #{descripcion_operaciones_poa},
+                #{id_resultados},
+                #{orden},
+                #{linea_base},
+                #{id_accion_corto_plazo_poa},
+                #{primerTrimestre},
+                #{segundoTrimestre},
+                #{tercerTrimestre},
+                #{cuartoTrimestre},
+                #{ult_usuario}
+             )
+    </select>
+    <update id="deleteDescripcionOperacionesPoa">
+        UPDATE tdescripcion_operaciones_poa
+        SET id_estado='X'
+        WHERE id_descripcion_operaciones_poa = #{id_descripcion_operaciones_poa};
+    </update>
+    <select id="getByid" resultType="com.moxos.uab.domain.entity.die.DescripcionOperacionesPoa">
+        SELECT tdop.id_descripcion_operaciones_poa,
+               tdop.descripcion_operaciones_poa,
+               tdop.id_resultados,
+               tdop.id_estado,
+               tdop.orden,
+               tdop.linea_base,
+               tdop.id_accion_corto_plazo_poa,
+               togp.id_programa,
+               togp.id_departamento,
+               togp.id_detalle_periodos_programacion
+        FROM public.tdescripcion_operaciones_poa tdop
+                 INNER JOIN public.taccion_corto_plazo_poa tacp
+                            on tacp.id_accion_corto_plazo_poa = tdop.id_accion_corto_plazo_poa
+                 INNER JOIN public.tobjetivos_gestion_poa togp
+                            on togp.id_objetivos_gestion_poa = tacp.id_objetivos_gestion_poa
+        WHERE id_descripcion_operaciones_poa = #{id_descripcion_operaciones_poa}
+          and tacp.id_estado = 'A'
+    </select>
+    <select id="getAllDescripcionOperacionesPoa" resultType="com.moxos.uab.domain.entity.die.AccionCortoPlazoPoa">
+        SELECT id_descripcion_operaciones_poa, descripcion_operaciones_poa, id_resultados,id_estado, orden,linea_base id_accion_corto_plazo_poa
+        FROM public.tdescripcion_operaciones_poa
+        WHERE id_estado='A'
+    </select>
+    <select id="getDescripcionOperacionesPoa" resultType="com.moxos.uab.domain.entity.die.DescripcionOperacionesPoa" >
+        SELECT tdop.id_descripcion_operaciones_poa,
+               tdop.descripcion_operaciones_poa,
+               tdop.linea_base,
+               tip.codigo,
+               tip.denominacion_indicador,
+               tum.abreviacion as tipo_unidad,
+               tr.formula,
+               tr.meta_base                                     as meta_base_estimada,
+               trg.descripcion                                  as meta_base
+        FROM public.tdescripcion_operaciones_poa tdop
+                 INNER JOIN public.tresultados tr on tdop.id_resultados = tr.id_resultados
+                 INNER JOIN public.tcatalogo_indicadores_pei tip
+                            on tip.id_catalogo_indicador_pei = tr.id_catalogo_indicador_pei
+                 INNER JOIN public.tunidad_medida tum on tum.id_unidad_medida = tip.id_unidad_medida
+                 INNER JOIN public.tresultados_gestion trg on trg.id_resultados = tr.id_resultados
+        WHERE tdop.id_estado = 'A'
+          AND trg.id_detalle_periodos_programacion = #{id_detalle_periodos_programacion}
+          AND tdop.id_accion_corto_plazo_poa = #{id_accion_corto_plazo_poa}
+        ORDER BY tdop.orden
+    </select>
+    <select id="getDescripcionPorPeriodo" resultType="com.moxos.uab.domain.entity.die.DescripcionOperacionesPoa">
+        SELECT tdop.id_descripcion_operaciones_poa,
+               tdop.descripcion_operaciones_poa,
+               tdop.id_estado,
+               tdop.orden,
+               tdop.linea_base,
+        FROM public.tdescripcion_operaciones_poa tdop
+                 inner join public.detalle_periodos_programacion dpp
+                            on dpp.id_detalle_periodos_programacion = tdop.id_detalle_periodos_programacion
+        where dpp.id_estado = 'A'
+          and dppid_detalle_periodos_programacion = #{id_detalle_periodos_programacion}
+          and tdop.id_descripcion_operaciones_poa = #{id_descripcion_operaciones_poa}
+    </select>
+
+    <select id="esPorcentaje" resultType="java.lang.Boolean">
+        select case when tu.abreviacion='%' then true else false end
+        from public.tdescripcion_operaciones_poa top
+                 inner join public.tresultados tr on tr.id_resultados=top.id_resultados
+                 inner join public.tcatalogo_indicadores_pei tip on tip.id_catalogo_indicador_pei=tr.id_catalogo_indicador_pei
+                 inner join public.tunidad_medida tu on tu.id_unidad_medida=tip.id_unidad_medida
+        where top.id_estado='A' and id_descripcion_operaciones_poa=#{id_descripcion_operaciones_poa} limit 1;
+
+    </select>
+</mapper>

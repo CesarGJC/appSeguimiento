@@ -28,6 +28,12 @@ public interface FormularioDao {
 
     FormularioProgramacion getFormularioDetalle(int idFormulario) throws DataAccessException;
 
+    FormularioProgramacion getFormularioDetallePorPeriodoGestion(int idFormulario, int idDetallePeriodoGestion) throws DataAccessException;
+
+    FormularioProgramacion getFormularioDetallePoa(int idFormulario) throws DataAccessException;
+
+    FormularioProgramacion getFormularioDetallePoaPorPeriodoGestion(int idFormulario, int idDetallePeriodoGestion) throws DataAccessException;
+
     List<FormularioProgramacion> getFormularioPlan(Integer id_plan_pei) throws DataAccessException;
 
     List<FormularioProgramacion> getListaFormularioHabilitados(Permisos permisos) throws DataAccessException;

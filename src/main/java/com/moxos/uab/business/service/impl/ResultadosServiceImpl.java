@@ -6,6 +6,7 @@ import com.moxos.uab.domain.dto.response.GeneralResponse;
 import com.moxos.uab.domain.dto.response.Response;
 import com.moxos.uab.domain.dto.response.operaciones.ProgramaResponse;
 import com.moxos.uab.domain.dto.response.resultados.ResultadosDetalleResponse;
+import com.moxos.uab.domain.dto.response.resultados.ResultadosResponse;
 import com.moxos.uab.domain.dto.response.view.ListView;
 import com.moxos.uab.domain.entity.die.Resultados;
 import com.moxos.uab.persistence.die.ResultadosDao;
@@ -82,6 +83,33 @@ public class ResultadosServiceImpl implements IResultadosService {
             var response = modelMapper.map(resultadosDao.getResultadosDetallePorPeriodo(resultados), ResultadosDetalleResponse.class);
             return new Response<>(true, "", response);
         } catch (Exception e) {
+            return new Response<>(false, e.getMessage(), null);
+        }
+    }
+
+    @Override
+    public Response<ResultadosResponse> getResultadoDescripcion(Integer idResultado) {
+        try {
+            Resultados resultado = resultadosDao.getResultadoDescripcion(idResultado);
+            if (resultado == null) {
+                return new Response<>(false, " " + idResultado, null);
+            }
+            ResultadosResponse response = modelMapper.map(resultado, ResultadosResponse.class);
+            return new Response<>(true, "", response);
+        } catch (Exception e) {
+            return new Response<>(false, e.getMessage(), null);
+        }
+    }
+
+
+    @Override
+    public Response<List<ListView>> listarResultados(Integer id) {
+        try {
+            List<ListView> listViews = new ArrayList<>();
+            for (var item: resultadosDao.getResultadosPorid(id))
+                listViews.add(new ListView(String.valueOf(item.getId_resultados()), item.getDescripcion()));
+            return new Response<>(true, "", listViews);
+        }catch (Exception e) {
             return new Response<>(false, e.getMessage(), null);
         }
     }

@@ -17,16 +17,16 @@
             <tbody>
             <c:forEach items="${model.lista}" var="item">
                 <tr>
-                    <td id="td${item.id_operaciones}">
+                    <td id="td${item.id_operaciones_actividad}">
                         <div class="mb-3">
                             <div class="card p-2">
                                 <div class="card-header text-end">
                                     <a class="btn btn-light text-black enlace"
-                                       href="<c:url value="/operaciones/update"><c:param name="id_operaciones" value="${item.id_operaciones}"/></c:url> "><i
+                                       href="<c:url value="/operaciones/update"><c:param name="id_operaciones_actividad" value="${item.id_operaciones_actividad}"/><c:param name="id_programa" value="${modelPrograma.id_programa}"/><c:param name="id_departamento" value="${modelPrograma.id_departamento}"/><c:param name="id_formulario" value="${item.id_formulario}"/></c:url> "><i
                                             class="fa fa-pencil"></i></a>
                                     <a class="btn btn-light text-black" data-delete="true"
-                                       data-atributes='"id_operaciones": ${item.id_operaciones}'
-                                       data-id="${item.id_operaciones}"
+                                       data-atributes='"id_operaciones_actividad": ${item.id_operaciones_actividad}'
+                                       data-id="${item.id_operaciones_actividad}"
                                        href="#"><i class="fa fa-trash-o" ></i></a>
                                 </div>
                                 <div class="d-flex flex-row">
@@ -37,18 +37,15 @@
                                         <strong>Descripcion:</strong>
                                         <p class="card-text">${item.descripcion}</p>
                                         <p class="card-text">
-                                            <strong>Operaciones / Actividades: </strong>${item.operaciones}<br>
                                             <strong>Resultado logrado: </strong>${item.resultado}<br>
-                                            <strong>Programa: </strong>${item.programa}<br>
-                                            <strong>Gestion: </strong>${item.gestion}<br>
                                             <strong>Elaborado por: </strong>${item.elaborador}<br>
                                             <strong>Indicador: </strong>${item.indicador}<br>
                                         </p>
-                                        <a href="<c:url value="/documento/adjunto/index"><c:param name="id" value="${item.id_operaciones}"/></c:url>" class="btn btn-primary enlace">Ver galeria</a>
+                                        <a href="<c:url value="/documento/adjunto/index"><c:param name="id" value="${item.id_operaciones_actividad}"/></c:url>" class="btn btn-primary enlace">Ver galeria</a>
                                     </div>
                                 </div>
                                 <div class="card-footer text-end">
-                                    <a href="<c:url value="/documento/adjunto/download-documento"><c:param name="id" value="${item.id_operaciones}"/></c:url>"><i class="fa fa-cloud-download"></i> Descargar documento</a>  |
+                                    <a href="<c:url value="/documento/adjunto/download-documento"><c:param name="id" value="${item.id_operaciones_actividad}"/></c:url>"><i class="fa fa-cloud-download"></i> Descargar documento</a>  |
                                     <strong>Elbaborado en fecha <fmt:formatDate pattern="dd/MM/yyyy" value="${item.fec_publicacion}"/></strong>
                                 </div>
                             </div>

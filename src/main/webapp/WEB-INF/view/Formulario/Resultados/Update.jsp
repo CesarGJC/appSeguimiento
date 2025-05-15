@@ -66,12 +66,12 @@
                             </div>
                             <div class="mb-3">
                                 <label class="form-label" for="linea_base">Linea Base</label>
-                                <form:input path="linea_base" cssClass="form-control"/>
+                                <form:input type="number" path="linea_base" cssClass="form-control"/>
                                 <form:errors cssClass="invalid" path="linea_base"/>
                             </div>
                             <div class="mb-3">
                                 <label class="form-label" for="meta_base">Meta Base</label>
-                                <form:input path="meta_base" cssClass="form-control"/>
+                                <form:input type="number" path="meta_base" cssClass="form-control"/>
                                 <form:errors cssClass="invalid" path="meta_base"/>
                             </div>
                             <div class="mb-3">

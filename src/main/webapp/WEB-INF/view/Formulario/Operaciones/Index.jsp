@@ -44,7 +44,7 @@
                             <strong>Eje: </strong>${item.eje}<br></p>
                         <hr>
                         <div class="mb-5">
-                            <a href="<c:url value="/operaciones/actividades"><c:param value="${model.id_programa}" name="id_programa"/> <c:param value="${model.id_departamento}" name="id_departamento"/>  <c:param value="${item.id_formulario}" name="id"/> </c:url> "
+                            <a href="<c:url value="/poa/new/${item.id_formulario}"/>"
                                class="btn btn-primary btn-lg px-4">Registrar Actividades</a>
                         </div>
                     </div>

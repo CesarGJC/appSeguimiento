@@ -53,12 +53,7 @@
 <main id="main" data-context="${pageContext.request.contextPath}" class="app-content3">
     <div class="app-title">
         <div>
-            <c:if test="${!model.institutoInvestigacion}">
-                <h1><i class="fa fa-th-list"></i> ${programaResponse.programa}</h1>
-            </c:if>
-            <c:if test="${model.institutoInvestigacion}">
-                <h1><i class="fa fa-th-list"></i> ${programaResponse.facultad}</h1>
-            </c:if>
+            <h1><i class="fa fa-th-list"></i> ${programaResponse.programa}</h1>
         </div>
     </div>
     <div class="row">
@@ -70,58 +65,49 @@
                 <div class="tile-body">
                     <form:form modelAttribute="model" method="post"
                                action="${pageContext.request.contextPath}/operaciones/update">
-                        <form:hidden path="id_operaciones"/>
-                        <form:hidden path="id_resultados_gestion"/>
-                        <form:hidden path="id_detalle_periodos_programacion"/>
+                                              <form:hidden path="id_operaciones_actividad"/>
+                        <form:hidden path="id_descripcion_operaciones_poa"/>
                         <form:hidden path="id_programa"/>
                         <form:hidden path="id_formulario"/>
                         <form:hidden path="id_departamento"/>
-                        <div class="mb-3">
-                            <label class="form-label" for="id_resultados">Resultados esperados</label>
-                            <form:select path="id_resultados"
-                                         data-sistema-idPeriodoGestion="${model.id_detalle_periodos_programacion}"
-                                         cssClass="form-select filter"
-                                         data-url="${pageContext.request.contextPath}/operaciones/resultado"
-                                         data-target="result-detail"
-                                         items="${model.resultadosEsperados}"
-                                         itemLabel="value" itemValue="id"/>
-                            <form:errors cssClass="invalid" path="id_resultados"/>
-                        </div>
-                        <div class="mb-3" id="result-detail">
-                            <c:if test="${resultadoEsperado!=null}">
-                                <div class="bd-callout bd-callout-info">
-                                    <strong>Acciones
-                                        estrategicas: </strong> ${resultadoEsperado.acciones_estrategica}<br>
-                                    <strong>Indicador: </strong> ${resultadoEsperado.denominacion_indicador} <strong>Formulario: </strong> ${resultadoEsperado.formula}
-                                    <strong>Categoria: </strong> ${resultadoEsperado.categoria_indicador} <strong>Unidad: </strong> ${resultadoEsperado.unidad_medidad}(${resultadoEsperado.abreviacion})<br>
-                                    <strong>Resultados esperado: </strong> ${resultadoEsperado.descripcion} <strong>Gestion: </strong> ${resultadoEsperado.gestion}
-                                    <strong>Linea base: </strong> ${resultadoEsperado.linea_base} <strong>Meta
-                                    base: </strong> ${resultadoEsperado.meta_base}<br>
-                                </div>
-                            </c:if>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label" for="resultado">OPERACIÓN Y/O ACTIVIDAD</label>
-                            <form:textarea path="operaciones" cssClass="form-control"/>
-                            <form:errors cssClass="invalid" path="operaciones"/>
-                        </div>
-                        <div class="mb-3">
+                        <form:hidden path="porcentaje"/>
+                        <div data-step="1"
+                             data-intro="<br>Se describe Detalle las Actividades, Tareas y/o Proyectos (Inversión) ejecutados de acuerdo a las Operaciones. "
+                             class="mb-3">
                             <label class="form-label" for="resultado">Resultados logrados</label>
                             <form:textarea path="resultado" cssClass="form-control"/>
                             <form:errors cssClass="invalid" path="resultado"/>
                         </div>
-                        <div class="mb-3">
-                            <label class="form-label" for="titulo">Titulo de la publicacion</label>
+                        <div data-step="2" data-intro="<br> Seleccionar en el trimestre que sera reportado la actividad"
+                             class="mb-3">
+                            <label class="form-label" for="id_trimestre">Trimestre</label>
+                            <form:select path="id_trimestre" cssClass="form-select" items="${model.trimestre}"
+                                         itemLabel="value" itemValue="id"/>
+                            <form:errors cssClass="invalid" path="id_trimestre"/>
+                        </div>
+                        <c:if test="${model.porcentaje}">
+                            <div data-step="3"
+                                 data-intro="<br>El porcentaje de avance de la actividad "
+                                 class="mb-3">
+                                <label class="form-label" for="resultado">Porcentaje de progreso</label>
+                                <form:input type="number" path="progreso" cssClass="form-control"/>
+                                <form:errors cssClass="invalid" path="progreso"/>
+                            </div>
+                        </c:if>
+                        <h4>Detalle para su publicacion</h4>
+                        <div data-step="4" data-intro="<br>Ingresa el Titulo de la Publicacion/Actividad." class="mb-3">
+                            <label class="form-label" for="titulo">Titulo de la Actividad</label>
                             <form:input path="titulo" cssClass="form-control"/>
                             <form:errors cssClass="invalid" path="titulo"/>
                         </div>
-                        <div class="mb-3">
+                        <div data-step="5" data-intro="<br>Ingresa el nombre del responsable o encargado asignado."
+                             class="mb-3">
                             <label class="form-label" for="elaborador">Elaborado por</label>
                             <form:input path="elaborador" cssClass="form-control"/>
                             <form:errors cssClass="invalid" path="elaborador"/>
                         </div>
-                        <div class="mb-3">
-                            <label class="form-label" for="elaborador">Fecha de publicacion</label>
+                        <div data-step="6" data-intro="<br>Ingrese la fecha de Actividad." class="mb-3">
+                            <label class="form-label" for="elaborador">Fecha de Actividad</label>
                             <form:input type="date" path="fec_publicacion" cssClass="form-control date"/>
                             <form:errors cssClass="invalid" path="fec_publicacion"/>
                         </div>
@@ -131,7 +117,7 @@
                         </div>
                     </form:form>
                     <div class="mb-3">
-                        <label class="form-label" for="id_programa">Descripcion de la publicacion</label>
+                        <label class="form-label" for="id_programa">Descripcion de la Actividad</label>
                         <div id="toolbar">
                             <!-- Selección de fuente -->
                             <select class="ql-font">
@@ -181,7 +167,7 @@
                             class="bi bi-check-circle-fill me-2"></i>Registrar
                     </button>
                     <a class="btn btn-secondary enlace"
-                       href="<c:url value="/operaciones/actividades"><c:param name="id" value="${model.id_formulario}"/><c:param name="id_departamento" value="${model.id_departamento}"/><c:param name="id_programa" value="${model.id_programa}"/></c:url>"><i
+                       href="<c:url value="/operaciones/actividades"><c:param name="id" value="${model.id_formulario}"/><c:param name="id_descripcion_operaciones_poa" value="${model.id_descripcion_operaciones_poa}"/><c:param name="id_departamento" value="${model.id_departamento}"/><c:param name="id_programa" value="${model.id_programa}"/></c:url>"><i
                             class="bi bi-x-circle-fill me-2"></i>Cancelar</a>
                 </div>
             </div>

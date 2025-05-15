@@ -28,23 +28,23 @@
                     <div class="container">
                         <div class="gallery-container">
                             <c:forEach items="${documentos.imagenes}" var="item" varStatus="count">
-                                <div class="gallery-item" id="itemDiv${item.id_adjunto}">
-                                    <img src="<c:url value="${item.ruta_documento}"/>" id="image-${item.id_adjunto}"
+                                <div class="gallery-item" id="itemDiv${item.id_adjunto_operaciones_actividad}">
+                                    <img src="<c:url value="${item.ruta_documento}"/>" id="image-${item.id_adjunto_operaciones_actividad}"
                                          alt="Imagen ${count.count}">
-                                    <div class="gallery-info" data-preview="true" data-id="image-${item.id_adjunto}"
+                                    <div class="gallery-info" data-preview="true" data-id="image-${item.id_adjunto_operaciones_actividad}"
                                          data-description="${item.descripcion_documento}">
                                         <p>${item.descripcion_documento}</p>
                                     </div>
                                     <button class="btn btn-dark btn-sm btn-top-right rounded-circle"
                                             data-bs-open="true"
                                             data-url="${pageContext.request.contextPath}/documento/adjunto/upload"
-                                            data-sistema-id="${item.id_adjunto}"
+                                            data-sistema-id="${item.id_adjunto_operaciones_actividad}"
                                             data-type="${item.tipo_documento}"
                                     ><i
                                             class="fa fa-pencil"></i></button>
                                     <form name="download" action="<c:url value="/documento/adjunto/download"/>"
                                           method="get">
-                                        <input name="id" value="${item.id_adjunto}" type="hidden">
+                                        <input name="id" value="${item.id_adjunto_operaciones_actividad}" type="hidden">
                                         <button type="submit" class="button-download btn-bottom-center"><i
                                                 class="fa fa-cloud-download"></i> Descargar
                                         </button>
@@ -53,7 +53,7 @@
                             </c:forEach>
                         </div>
                     </div>
-                    <div class="container" id="itemDiv${item.id_adjunto}">
+                    <div class="container" id="itemDiv${item.id_adjunto_operaciones_actividad}">
                         <c:forEach items="${documentos.documentos}" var="item" varStatus="count">
                             <div class="content-area">
                                 <div class="page-title text-center">
@@ -61,7 +61,7 @@
                                     <h2>${item.descripcion_documento}</h2>
                                     <form id="downloadForm" action="<c:url value="/documento/adjunto/download"/>"
                                           method="get">
-                                           <input name="id" value="${item.id_adjunto}" type="hidden">
+                                           <input name="id" value="${item.id_adjunto_operaciones_actividad}" type="hidden">
                                     </form>
                                 </div>
                             </div>
@@ -70,14 +70,14 @@
                                     <div class="left">
                                         <button data-bs-open="true"
                                                 data-url="${pageContext.request.contextPath}/documento/adjunto/upload"
-                                                data-sistema-id="${item.id_adjunto}"
+                                                data-sistema-id="${item.id_adjunto_operaciones_actividad}"
                                                 data-type="${item.tipo_documento}" class="btn-attcah">
                                             <i class="fa fa-paperclip"></i>
                                             Añadir archivo
                                         </button>
                                         <span>${item.nombre_documento}</span>
                                     </div>
-                                    <input name="id" value="${item.id_adjunto}" type="hidden">
+                                    <input name="id" value="${item.id_adjunto_operaciones_actividad}" type="hidden">
                                     <button onclick="document.getElementById('downloadForm').submit()" class="right"><i class="fa fa-cloud-download"></i>
                                         Descargar
                                     </button>

@@ -13,7 +13,7 @@ public interface IAuthenticationFacade {
 
     void setParametrosClientesUsuario(Clientes cliente);
 
-    String getImagen(String path);
+    String getImagen();
 
     Clientes getBuscarRolCliente(Integer id_rol, Clientes cliente);
 

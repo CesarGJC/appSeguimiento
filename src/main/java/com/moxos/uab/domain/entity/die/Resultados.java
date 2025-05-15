@@ -2,10 +2,12 @@ package com.moxos.uab.domain.entity.die;
 
 import com.moxos.uab.domain.entity.siiga.Entidad;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.util.List;
 
 @Data
+@EqualsAndHashCode(callSuper=false)
 public class Resultados extends Entidad {
     private Integer id_resultados;
     private Integer id_acciones_estrategica;

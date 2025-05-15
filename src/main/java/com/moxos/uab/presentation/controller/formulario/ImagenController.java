@@ -1,5 +1,7 @@
 package com.moxos.uab.presentation.controller.formulario;
 
+import com.moxos.uab.business.service.impl.PhotoStorageService;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -15,16 +17,15 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 @Controller
+@AllArgsConstructor
 @RequestMapping("/imagenes")
 public class ImagenController {
 
-    @Value("${app.upload.path}")
-    private String path;
+    private final PhotoStorageService photoStorageService;
 
     @GetMapping("/{directorio}/{nombreImagen}")
     @ResponseBody
     public Resource obtenerImagen(@PathVariable String nombreImagen, @PathVariable String directorio) throws MalformedURLException {
-        Path ruta = Paths.get(path + "/investigacion/" + directorio + "/").resolve(nombreImagen).normalize();
-        return new UrlResource(ruta.toUri());
+        return photoStorageService.download("/investigacion/" + directorio, nombreImagen);
     }
 }

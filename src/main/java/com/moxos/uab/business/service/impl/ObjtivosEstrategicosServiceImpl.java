@@ -84,8 +84,8 @@ public class ObjtivosEstrategicosServiceImpl implements IObjetivosEstrategicosSe
                                 new AccionEstrategicaResponse(accion.getId_acciones_estrategica(), accion.getAcciones_estrategica(), resultados.isEmpty() ? 1 : resultados.size()),
                                 ResultadosResponse.builder().codigo(resultado.getCodigo()).abreviacionUnidadMedida(resultado.getAbreviacionUnidadMedida()).id_resultados(resultado.getId_resultados()).id_acciones_estrategica(resultado.getId_acciones_estrategica()).articulacion(resultado.getArticulacion()).linea_base(resultado.getLinea_base()).meta_base(resultado.getMeta_base()).denominacion_indicador(resultado.getDenominacion_indicador()).descripcion(resultado.getDescripcion()).formula(resultado.getFormula()).fuente_informacion(resultado.getFuente_informacion())
                                         .resultadosGestionResponseList(resultado.getResultadosGestion().stream()
-                                        .map(producto -> modelMapper.map(producto, ResultadosGestionPeriodosResponse.class))
-                                        .collect(Collectors.toList())).build()));
+                                                .map(producto -> modelMapper.map(producto, ResultadosGestionPeriodosResponse.class))
+                                                .collect(Collectors.toList())).build()));
                     }
                     if (resultados.isEmpty()) {
                         formularioResultadosResponseList.add(createObjetivosEstrategicosResponse(formularioResultadosRequest,

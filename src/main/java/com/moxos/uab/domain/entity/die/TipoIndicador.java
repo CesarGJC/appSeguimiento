@@ -2,8 +2,10 @@ package com.moxos.uab.domain.entity.die;
 
 import com.moxos.uab.domain.entity.siiga.Entidad;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
+@EqualsAndHashCode(callSuper=false)
 public class TipoIndicador extends Entidad {
     private Integer id_tipo_indicador;
     private String descripcion;

@@ -82,11 +82,11 @@
         where rg.id_estado='A' and r.id_formulario=#{id_formulario} and r.id_estado='A' and r.id_acciones_estrategica=#{id_acciones_estrategica}
     </select>
     <select id="getListaResultadoPorGestionFormulario"  resultType="com.moxos.uab.domain.entity.die.Resultados">
-        SELECT tr.id_resultados, 'DESCRIPCION: '||tr.descripcion||' META: '||tr.meta_base||' LINEA BASE: '|| tr.linea_base||' FORMULA: '|| tr.formula As descripcion
+        SELECT tr.id_resultados, 'DESCRIPCION: '||tr.descripcion||' META: '||tg.descripcion||' FORMULA: '|| tr.formula As descripcion
         FROM public.tresultados tr
                  INNER JOIN public.tresultados_gestion tg on tg.id_resultados=tr.id_resultados
                  INNER JOIN public.detalle_periodos_programacion tdp on tdp.id_detalle_periodos_programacion=tg.id_detalle_periodos_programacion
-        WHERE tr.id_estado='A' AND tg.id_detalle_periodos_programacion=#{id_detalle_periodos_programacion} AND tr.id_formulario=#{id_formulario}
+        WHERE tr.id_estado='A' and tg.descripcion::integer >0 AND tg.id_detalle_periodos_programacion=#{id_detalle_periodos_programacion} AND tr.id_formulario=#{id_formulario}
     </select>
     <select id="getResultadosDetallePorPeriodo" resultType="com.moxos.uab.domain.entity.die.Resultados">
         SELECT tr.id_resultados,
@@ -117,5 +117,10 @@
         where tr.id_estado = 'A'
           and tg.id_detalle_periodos_programacion = #{id_detalle_periodos_programacion}
           and tr.id_resultados = #{id_resultados}
+    </select>
+    <select id="getResultadoDescripcion" resultType="com.moxos.uab.domain.entity.die.Resultados">
+        SELECT id_resultados, descripcion,
+        FROM public.tresultados
+        WHERE id_resultados=#{id_resultados}
     </select>
 </mapper>

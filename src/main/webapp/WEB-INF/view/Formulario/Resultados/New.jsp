@@ -57,7 +57,7 @@
                                 <form:errors cssClass="invalid" path="id_catalogo_indicador_pei"/>
                             </div>
                             <div data-step="2" data-intro="<br>Ingresa la Descripcion de la Operación." class="mb-3 mt-3">
-                                <label class="form-label" for="descripcion">Descripcion</label>
+                                <label class="form-label" for="descripcion">Descripcion de Operaciones/Actividades</label>
                                 <form:textarea path="descripcion" cssClass="form-control"/>
                                 <form:errors cssClass="invalid" path="descripcion"/>
                             </div>
@@ -68,12 +68,12 @@
                             </div>
                             <div data-step="4" data-intro="<br>Describe la situación inicial, considerando el último quinquenio de planificación, es el punto de orientación para medir el grado de avance de la planificación en los procesos de seguimiento y evaluación." class="mb-3">
                                 <label class="form-label" for="linea_base">Linea Base</label>
-                                <form:input path="linea_base" cssClass="form-control"/>
+                                <form:input type="number" path="linea_base" cssClass="form-control"/>
                                 <form:errors cssClass="invalid" path="linea_base"/>
                             </div>
                             <div data-step="5" data-intro="<br>Describe la cuantificación o cualificación del indicador. Cuando se le asigna una meta o valor a un indicador éste empieza a tener significado." class="mb-3">
                                 <label class="form-label" for="meta_base">Meta Base</label>
-                                <form:input path="meta_base" cssClass="form-control"/>
+                                <form:input type="number" path="meta_base" cssClass="form-control"/>
                                 <form:errors cssClass="invalid" path="meta_base"/>
                             </div>
                             <div data-step="6" data-intro="<br>Se describe los Medios de Verificación." class="mb-3">

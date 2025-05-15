@@ -2,8 +2,10 @@ package com.moxos.uab.domain.entity.die;
 
 import com.moxos.uab.domain.entity.siiga.Entidad;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
+@EqualsAndHashCode(callSuper=false)
 public class ResponsableMeta extends Entidad {
     private int id_responsable_meta;
     private int id_catalogo_indicador;

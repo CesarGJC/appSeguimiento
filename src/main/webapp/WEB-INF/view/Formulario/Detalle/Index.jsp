@@ -107,8 +107,8 @@
                                 <thead>
                                 <tr>
                                     <th rowspan="2">ÁREA ORGANIZACIONAL RESPONSABLE</th>
-                                    <th rowspan="2">ACCIÓN DE CORTO PLAZO</th>
-                                    <th rowspan="2">OBJETIVO DE GESTIÓN INSTITUCIONAL</th>
+                                    <th rowspan="2">OBJETIVOS ESTRATÉGICOS (Resultado Institucional - Impacto)</th>
+                                    <th rowspan="2">ACCIONES ESTRATÉGICAS INSTITUCIONALES (Producto)</th>
                                     <th rowspan="2">DESCRIPCIÓN DE LAS OPERACIONES</th>
                                     <th colspan="6">INDICADOR</th>
                                     <th colspan="${fn:length(formulario.periodos)}">PROGRAMACIÓN FÍSICA</th>

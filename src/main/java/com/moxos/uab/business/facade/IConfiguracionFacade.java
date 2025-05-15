@@ -1,6 +1,6 @@
 package com.moxos.uab.business.facade;
 
-import com.moxos.uab.domain.dto.request.DetallePeriodoProgramacion.DetallePeriodoProgramacionRequest;
+import com.moxos.uab.domain.dto.request.detallePeriodoProgramacion.DetallePeriodoProgramacionRequest;
 import com.moxos.uab.domain.dto.request.configuracion.ConfiguracionRequest;
 import com.moxos.uab.domain.dto.request.permisos.AsignarPermisosRequest;
 import com.moxos.uab.domain.dto.request.permisos.HabilitarPermisoRequest;
@@ -8,7 +8,6 @@ import com.moxos.uab.domain.dto.response.GeneralResponse;
 import com.moxos.uab.domain.dto.response.Response;
 import com.moxos.uab.domain.dto.response.configuration.ConfiguracionParametrosResponse;
 import com.moxos.uab.domain.dto.response.configuration.ConfiguracionPlanInstitucionalResponse;
-import com.moxos.uab.domain.dto.response.configuration.ConfigurationResponse;
 import com.moxos.uab.domain.dto.response.formulario.FormularioResponse;
 import com.moxos.uab.domain.dto.response.pei.PeiResponse;
 import com.moxos.uab.domain.dto.response.permisos.PermisosUnidadResponse;

@@ -15,5 +15,5 @@ public interface IUserService {
 
     void setParametrosClientesUsuario(Clientes cliente);
 
-    String getImagen(String path);
+    String getImagen();
 }

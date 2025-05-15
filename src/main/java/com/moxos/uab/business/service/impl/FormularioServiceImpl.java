@@ -6,12 +6,14 @@ import com.moxos.uab.domain.dto.request.formulario.FormularioRequest;
 import com.moxos.uab.domain.dto.request.general.FilterRequest;
 import com.moxos.uab.domain.dto.response.GeneralResponse;
 import com.moxos.uab.domain.dto.response.Response;
+import com.moxos.uab.domain.dto.response.formulario.FormularioProgramacionPoaResponse;
 import com.moxos.uab.domain.dto.response.formulario.FormularioProgramacionResponse;
 import com.moxos.uab.domain.dto.response.formulario.FormularioResponse;
+import com.moxos.uab.domain.dto.response.formulariopoa.FormularioPoaGestionResponse;
+import com.moxos.uab.domain.dto.response.formulariopoa.FormularioPoaResponse;
 import com.moxos.uab.domain.entity.die.FormularioProgramacion;
 import com.moxos.uab.domain.entity.die.Permisos;
 import com.moxos.uab.persistence.die.FormularioDao;
-import com.moxos.uab.persistence.die.ResultadosDao;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
@@ -78,6 +80,35 @@ public class FormularioServiceImpl implements IFormularioService {
         }
     }
 
+    @Override
+    public Response<FormularioProgramacionPoaResponse> getFormularioProgramacionDetallePorPeriodoGestion(int id, int idDetallePeriodoGestion) {
+        try {
+            FormularioProgramacionPoaResponse result = modelMapper.map(formularioDao.getFormularioDetallePorPeriodoGestion(id, idDetallePeriodoGestion), FormularioProgramacionPoaResponse.class);
+            return new Response<>(true, "", result);
+        } catch (Exception e) {
+            return new Response<>(false, e.getMessage(), null);
+        }
+    }
+
+    @Override
+    public Response<FormularioPoaResponse> getFormularioProgramacionPoaDetalle(int id) {
+        try {
+            FormularioPoaResponse result = modelMapper.map(formularioDao.getFormularioDetallePoa(id), FormularioPoaResponse.class);
+            return new Response<>(true, "", result);
+        } catch (Exception e) {
+            return new Response<>(false, e.getMessage(), null);
+        }
+    }
+
+    @Override
+    public Response<FormularioPoaGestionResponse> getFormularioProgramacionPoaDetallePorPeriodoGestion(int id, int idDetallePeriodoGestion) {
+        try {
+            FormularioPoaGestionResponse result = modelMapper.map(formularioDao.getFormularioDetallePoaPorPeriodoGestion(id, idDetallePeriodoGestion), FormularioPoaGestionResponse.class);
+            return new Response<>(true, "", result);
+        } catch (Exception e) {
+            return new Response<>(false, e.getMessage(), null);
+        }
+    }
 
     @Override
     public GeneralResponse deleteFormulario(Integer id) {
@@ -96,7 +127,7 @@ public class FormularioServiceImpl implements IFormularioService {
                     .collect(Collectors.toList());
             return new Response<>(true, "", formularios);
         } catch (Exception e) {
-            return new Response(false, e.getMessage(), null);
+            return new Response<>(false, e.getMessage(), null);
         }
     }
 
@@ -111,7 +142,7 @@ public class FormularioServiceImpl implements IFormularioService {
                     .collect(Collectors.toList());
             return new Response<>(true, "", formularios);
         } catch (Exception e) {
-            return new Response(false, e.getMessage(), null);
+            return new Response<>(false, e.getMessage(), null);
         }
     }
 }

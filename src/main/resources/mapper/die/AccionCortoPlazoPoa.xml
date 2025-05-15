@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.moxos.uab.persistence.die.AccionCortoPlazoPoaDao">
+    <select id="saveAccionCortoPlazoPoa" resultType="java.lang.Integer">
+        select *
+        from create_accion_corto_plazo_poa(
+                #{id_accion_corto_plazo_poa},
+                #{accion_corto_plazo_poa},
+                #{orden},
+                #{id_objetivos_gestion_poa},
+                #{ult_usuario}
+             )
+    </select>
+    <update id="deleteAccionCortoPlazoPoa">
+        UPDATE taccion_corto_plazo_poa
+        SET id_estado='X'
+        WHERE id_accion_corto_plazo_poa = #{id_accion_corto_plazo_poa};
+    </update>
+    <select id="getByid" resultType="com.moxos.uab.domain.entity.die.AccionCortoPlazoPoa">
+        SELECT tacp.id_accion_corto_plazo_poa,
+               tacp.accion_corto_plazo_poa,
+               tacp.id_estado,
+               tacp.orden,
+               togp.id_objetivos_gestion_poa,
+               togp.id_programa,
+               togp.id_departamento,
+               togp.id_detalle_periodos_programacion
+        FROM public.taccion_corto_plazo_poa tacp
+                 INNER JOIN public.tobjetivos_gestion_poa togp
+                            on tacp.id_objetivos_gestion_poa = togp.id_objetivos_gestion_poa
+        WHERE id_accion_corto_plazo_poa = #{id_accion_corto_plazo_poa} and tacp.id_estado='A'
+    </select>
+    <select id="getAllAccionesCortoPlazoPoa" resultType="com.moxos.uab.domain.entity.die.AccionCortoPlazoPoa">
+        SELECT accion_corto_plazo_poa, id_estado, orden, id_objetivos_gestion_poa
+        FROM public.taccion_corto_plazo_poa
+        WHERE id_estado='A'
+    </select>
+    <select id="getAccionesCortoPlazo" resultType="com.moxos.uab.domain.entity.die.AccionCortoPlazoPoa" >
+        SELECT id_accion_corto_plazo_poa, accion_corto_plazo_poa, id_estado, orden, id_objetivos_gestion_poa
+        FROM public.taccion_corto_plazo_poa
+        WHERE id_objetivos_gestion_poa=${id_objetivos_gestion_poa} AND id_estado='A'
+        ORDER BY orden
+    </select>
+    <select id="getDetalleAccionesCortoPlazo" resultType="com.moxos.uab.domain.entity.die.AccionCortoPlazoPoa">
+        SELECT tdp.descripcion, tacp.accion_corto_plazo_poa, togp.objetivos_gestion_poa
+        FROM public.taccion_corto_plazo_poa tacp
+                 INNER JOIN public.tobjetivos_gestion_poa togp on togp.id_objetivos_gestion_poa=tacp.id_objetivos_gestion_poa
+                 INNER JOIN public.detalle_periodos_programacion tdp on tdp.id_detalle_periodos_programacion=togp.id_detalle_periodos_programacion
+        WHERE tacp.id_accion_corto_plazo_poa=#{id_accion_corto_plazo_poa}
+    </select>
+</mapper>

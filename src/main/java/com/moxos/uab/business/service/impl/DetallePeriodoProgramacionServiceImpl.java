@@ -3,16 +3,13 @@ package com.moxos.uab.business.service.impl;
 
 import com.moxos.uab.business.service.IDetallePeriodoProgramacionService;
 import com.moxos.uab.common.enums.SearchDetallePeriodo;
-import com.moxos.uab.domain.dto.request.DetallePeriodoProgramacion.DetallePeriodoProgramacionRequest;
-import com.moxos.uab.domain.dto.request.politicasdesarrollo.PoliticasDesarrolloRequest;
+import com.moxos.uab.domain.dto.request.detallePeriodoProgramacion.DetallePeriodoProgramacionRequest;
 import com.moxos.uab.domain.dto.response.DetallePeriodoProgramacion.DetallePeriodoProgramacionResponse;
 import com.moxos.uab.domain.dto.response.DetallePeriodoProgramacion.PeriodosProgramacionResponse;
 import com.moxos.uab.domain.dto.response.GeneralResponse;
 import com.moxos.uab.domain.dto.response.Response;
-import com.moxos.uab.domain.dto.response.politicasdesarrollo.PoliticasDesarrolloResponse;
 import com.moxos.uab.domain.dto.response.view.ListView;
 import com.moxos.uab.domain.entity.die.DetallePeriodoProgramacion;
-import com.moxos.uab.domain.entity.die.PoliticasDesarrollo;
 import com.moxos.uab.persistence.die.DetallePeriodoProgramacionDao;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;

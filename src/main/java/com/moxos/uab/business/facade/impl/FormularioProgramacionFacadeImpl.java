@@ -19,6 +19,7 @@ import com.moxos.uab.domain.dto.response.formulario.FormularioResultadosResponse
 import com.moxos.uab.domain.dto.response.resultadosgestion.ResultadosGestionDetalleResponse;
 import com.moxos.uab.domain.dto.response.view.ListView;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,6 +28,7 @@ import java.util.List;
 
 @Service
 @Transactional
+@AllArgsConstructor
 public class FormularioProgramacionFacadeImpl implements IFormularioProgramacionFacade {
     private final IFormularioService formularioService;
     private final IDetallePeriodoProgramacionService detallePeriodoProgramacionService;
@@ -34,15 +36,6 @@ public class FormularioProgramacionFacadeImpl implements IFormularioProgramacion
     private final ICatalogoIndicadoresService catalogoIndicadoresService;
     private final IResultadosGestionService resultadosGestionService;
     private final IResultadosService resultadosService;
-
-    public FormularioProgramacionFacadeImpl(IFormularioService formularioService, IDetallePeriodoProgramacionService detallePeriodoProgramacionService, IObjetivosEstrategicosService objetivosEstrategicosService, ICatalogoIndicadoresService catalogoIndicadoresService, IResultadosGestionService resultadosGestionService, IResultadosService resultadosService) {
-        this.formularioService = formularioService;
-        this.detallePeriodoProgramacionService = detallePeriodoProgramacionService;
-        this.objetivosEstrategicosService = objetivosEstrategicosService;
-        this.catalogoIndicadoresService = catalogoIndicadoresService;
-        this.resultadosGestionService = resultadosGestionService;
-        this.resultadosService = resultadosService;
-    }
 
     @Override
     public IndexViewModelFilter<FormularioResponse, Integer> getFormularioProgramacion(ParametrosPaginacionBusquedaRequest<FilterRequest<FormularioFilterRequest>> busqueda) {
@@ -96,9 +89,9 @@ public class FormularioProgramacionFacadeImpl implements IFormularioProgramacion
     public FormularioProgramacionResponse getFormularioProgramacionCabecera(Integer id) {
         var response = formularioService.getFormularioProgramacionDetalle(id).getResult();
         response.setPeriodos(detallePeriodoProgramacionService.getPeriodosPlan(response.getId_plan_pei()).getResult());
-        // response.setObjetivosEstrategicos(objetivosEstrategicosService.getObjetivosEstrategicos(response.getId_area_estrategica()).getResult());
         return response;
     }
+
 
     @Override
     public FormularioProgramacionResponse getFormularioProgramacionDetalle(Integer id) {
@@ -106,6 +99,7 @@ public class FormularioProgramacionFacadeImpl implements IFormularioProgramacion
         response.setPeriodos(detallePeriodoProgramacionService.getPeriodosPlan(response.getId_plan_pei()).getResult());
         response.setFormularioResultadosResponseList(objetivosEstrategicosService.getObjetivosEstrategicos(new FormularioResultadosResponse(response.getId_formulario(), response.getId_area_estrategica(), response.getEncargado(), response.getPeriodos().size())).getResult());
         return response;
+
     }
 
     @Override
@@ -145,6 +139,7 @@ public class FormularioProgramacionFacadeImpl implements IFormularioProgramacion
     public List<ListView> getListarResultadosPorGestionFormulario(Integer idPeriodoGestion, Integer idFormulario) {
         return List.of();
     }
+
 
     @Override
     public Response<ResultadosRequest> getResultadoByid(Integer id) {

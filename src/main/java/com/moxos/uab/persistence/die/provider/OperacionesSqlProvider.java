@@ -12,8 +12,7 @@ import java.util.Map;
 public class OperacionesSqlProvider {
     public static String getFormulariosActividades(Map<String, Object> params) {
         FilterRequest<OperacionesFilterRequest> filtro = (FilterRequest<OperacionesFilterRequest>) params.get("filtro");
-        Integer idPrograma = (Integer) params.get("idPrograma");
-        StringBuilder sql = new StringBuilder(idPrograma == 0 ? "SELECT * FROM public.vw_operaciones WHERE  id_departamento=#{idDepartamento} and id_formulario=#{idFormulario}" : "SELECT * FROM public.vw_operaciones WHERE id_programa=#{idPrograma} and id_formulario=#{idFormulario}");
+        StringBuilder sql = new StringBuilder("SELECT * FROM public.vw_operaciones WHERE  id_descripcion_operaciones_poa=#{id_descripcion_operaciones_poa}");
         setParametros(filtro.getParams(), sql);
         sql.append(" ORDER BY titulo LIMIT #{filtro.filter.pagina} OFFSET #{filtro.filter.nro_pagina};");
         return sql.toString();
@@ -21,8 +20,7 @@ public class OperacionesSqlProvider {
 
     public static String getCantidadByTipo(Map<String, Object> params) {
         FilterRequest<OperacionesFilterRequest> filtro = (FilterRequest<OperacionesFilterRequest>) params.get("filtro");
-        Integer idPrograma = (Integer) params.get("idPrograma");
-        StringBuilder sql = new StringBuilder(idPrograma == 0 ? "SELECT count(id_operaciones) FROM public.vw_operaciones WHERE id_departamento=#{idDepartamento} and id_formulario=#{idFormulario}" : "SELECT count(id_operaciones) FROM public.vw_operaciones WHERE id_programa=#{idPrograma} and id_formulario=#{idFormulario}");
+        StringBuilder sql = new StringBuilder( "SELECT count(id_operaciones_actividad) FROM public.vw_operaciones WHERE id_descripcion_operaciones_poa=#{id_descripcion_operaciones_poa}");
         setParametros(filtro.getParams(), sql);
         return sql.toString();
     }

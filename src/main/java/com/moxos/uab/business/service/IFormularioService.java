@@ -5,8 +5,11 @@ import com.moxos.uab.domain.dto.request.formulario.FormularioRequest;
 import com.moxos.uab.domain.dto.request.general.FilterRequest;
 import com.moxos.uab.domain.dto.response.GeneralResponse;
 import com.moxos.uab.domain.dto.response.Response;
+import com.moxos.uab.domain.dto.response.formulario.FormularioProgramacionPoaResponse;
 import com.moxos.uab.domain.dto.response.formulario.FormularioProgramacionResponse;
 import com.moxos.uab.domain.dto.response.formulario.FormularioResponse;
+import com.moxos.uab.domain.dto.response.formulariopoa.FormularioPoaGestionResponse;
+import com.moxos.uab.domain.dto.response.formulariopoa.FormularioPoaResponse;
 
 import java.util.List;
 
@@ -22,6 +25,12 @@ public interface IFormularioService {
     GeneralResponse deleteFormulario(Integer id);
 
     Response<FormularioProgramacionResponse> getFormularioProgramacionDetalle(int id);
+
+    Response<FormularioProgramacionPoaResponse> getFormularioProgramacionDetallePorPeriodoGestion(int id, int idDetallePeriodoGestion);
+
+    Response<FormularioPoaResponse> getFormularioProgramacionPoaDetalle(int id);
+
+    Response<FormularioPoaGestionResponse> getFormularioProgramacionPoaDetallePorPeriodoGestion(int id, int idDetallePeriodoGestion);
 
     Response<List<FormularioResponse>> getFormularioPlan(Integer id);
 

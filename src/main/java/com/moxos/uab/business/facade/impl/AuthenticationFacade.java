@@ -5,6 +5,7 @@ import com.moxos.uab.business.service.IEnlacesService;
 import com.moxos.uab.business.service.IRolesService;
 import com.moxos.uab.business.service.IUserService;
 import com.moxos.uab.domain.entity.siiga.*;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,18 +13,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@AllArgsConstructor
 @Transactional
 public class AuthenticationFacade implements IAuthenticationFacade {
-
     private final IUserService userService;
     private final IRolesService userRolesService;
     private final IEnlacesService enlacesService;
-
-    public AuthenticationFacade(IUserService userService, IRolesService userRolesService, IEnlacesService enlacesService) {
-        this.userService = userService;
-        this.userRolesService = userRolesService;
-        this.enlacesService = enlacesService;
-    }
 
     @Override
     public Clientes getBuscarConexion(String correo) {
@@ -46,8 +41,8 @@ public class AuthenticationFacade implements IAuthenticationFacade {
     }
 
     @Override
-    public String getImagen(String path) {
-        return userService.getImagen(path);
+    public String getImagen() {
+        return userService.getImagen();
     }
 
     @Override

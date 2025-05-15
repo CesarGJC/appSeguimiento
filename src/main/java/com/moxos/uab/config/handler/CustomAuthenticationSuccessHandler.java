@@ -7,7 +7,6 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
@@ -15,19 +14,17 @@ import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.WebAttributes;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.security.Principal;
 import java.io.IOException;
 import java.util.List;
 
-@Component
+@Service
 public class CustomAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
 
     private final IAuthenticationFacade mi;
-    @Value("${app.upload.path}")
-    private String path;
-    private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
+    private final RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
     public CustomAuthenticationSuccessHandler(IAuthenticationFacade mi) {
         this.mi = mi;
@@ -39,7 +36,7 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
                                         Authentication authentication) throws IOException, ServletException {
         String userName = authentication.getPrincipal() instanceof Principal ? ((Principal) authentication.getPrincipal()).getName() : ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername();
         Clientes cliente = this.mi.getBuscarConexion(userName);
-        cliente.setImagen(mi.getImagen(path));
+        cliente.setImagen(mi.getImagen());
         request.getSession().setAttribute("__sess_cliente", cliente);
         if (cliente.getId_rol() == 1) { // es Administrativo
             List<Roles> roles = this.mi.getListarRolesCliente(cliente.getId_usuario());
@@ -56,17 +53,18 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
         } else {
             mi.setParametrosClientesUsuario(cliente);
             Accesos acceso = mi.asignarAccesos(cliente);
-            request.getSession().setAttribute("__sess_acceso", acceso); // Subimos los 'accesos' a la sesion
-            request.getSession().setAttribute("__sess_cliente", cliente); // Subimos 'cliente' a la sesion
+            request.getSession().setAttribute("__sess_acceso", acceso); // Subimos los 'accesos' a la session
+            request.getSession().setAttribute("__sess_cliente", cliente); // Subimos 'cliente' a la session
             if (cliente.getAlmacenes().size() > 1) { // tiene mas de 1 rol
                 response.sendRedirect(request.getContextPath() + "/elegirAlmacen");
             }
-            handle(request, response, authentication);
+            handle(request, response);
             clearAuthenticationAttributes(request);
 
         }
     }
-    protected void handle(  HttpServletRequest request, HttpServletResponse response,  Authentication authentication ) throws IOException {
+
+    protected void handle(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String targetUrl = "/index";
         if (response.isCommitted()) {
             return;

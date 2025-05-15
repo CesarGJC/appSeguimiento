@@ -18,6 +18,7 @@ import com.moxos.uab.domain.dto.response.operaciones.FormularioActividadesRespon
 import com.moxos.uab.domain.dto.response.operaciones.ProgramaResponse;
 import com.moxos.uab.domain.dto.response.resultados.ResultadosDetalleResponse;
 import com.moxos.uab.domain.dto.response.view.ListView;
+import lombok.AllArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.modelmapper.ModelMapper;
@@ -27,27 +28,19 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
+@AllArgsConstructor
 @Transactional
 public class ActividadesProgramadasFacadeImpl implements IActividadesProgramadasFacade {
     private final IOperacionesService operacionesService;
     private final IConfigurationService configurationService;
     private final IFormularioService formularioService;
     private final IResultadosService resultadoService;
+    private final IDescripcionOperacionesPoaService descripcionOperacionesPoaService;
     private final IDepartamentoService departamentoService;
-    private final IProgramaSevice programaSevice;
+    private final IProgramaSevice programaService;
+    private final ITrimestreService trimestreService;
     private final ModelMapper modelMapper;
     private static final Logger logger = LogManager.getLogger(ActividadesProgramadasFacadeImpl.class);
-
-    public ActividadesProgramadasFacadeImpl(IOperacionesService operacionesService, IConfigurationService configurationService, IFormularioService formularioService, IResultadosService resultadoService, IDepartamentoService departamentoService, IProgramaSevice programaSevice, ModelMapper modelMapper) {
-        this.operacionesService = operacionesService;
-        this.configurationService = configurationService;
-        this.formularioService = formularioService;
-        this.resultadoService = resultadoService;
-        this.departamentoService = departamentoService;
-        this.programaSevice = programaSevice;
-        this.modelMapper = modelMapper;
-    }
-
 
     @Override
     public Response<Integer> saveOperaciones(OperacionesRequest operacionesRequest) {
@@ -105,14 +98,16 @@ public class ActividadesProgramadasFacadeImpl implements IActividadesProgramadas
 
     @Override
     public OperacionesRequest crearOperacionesRequest(OperacionesRequest model) {
-        var resultados = resultadoService.getListarResultadosPorGestionFormulario(model.getId_detalle_periodos_programacion(), model.getId_formulario()).getResult();
-        model.setResultadosEsperados(resultados);
+        var trimestre = trimestreService.getTrimestrePorDescripcion(model.getId_descripcion_operaciones_poa());
+        var responseDescripcion = descripcionOperacionesPoaService.esPorcentaje(model.getId_descripcion_operaciones_poa());
+        model.setPorcentaje(responseDescripcion.isSuccess());
+        model.setTrimestre(trimestre);
         return model;
     }
 
     @Override
     public OperacionesRequest getOperacionesRequest(OperacionesRequest model) {
-        return operacionesService.getByid(model.getId_operaciones()).getResult();
+        return operacionesService.getByid(model.getId_operaciones_actividad()).getResult();
     }
 
     @Override
@@ -127,7 +122,7 @@ public class ActividadesProgramadasFacadeImpl implements IActividadesProgramadas
 
     @Override
     public ProgramaResponse getProgramaFacultad(int idDepartamento, int idPrograma) {
-        Response<ProgramaResponse> response = idPrograma == 0 ? departamentoService.getDepartamento(idDepartamento) : programaSevice.getPrograma(idPrograma);
+        Response<ProgramaResponse> response = idPrograma == 0 ? departamentoService.getDepartamento(idDepartamento) : programaService.getPrograma(idPrograma);
         if (!response.isSuccess()) {
             logger.error("No se pudo encontro el objeto ");
             return null;
@@ -137,7 +132,7 @@ public class ActividadesProgramadasFacadeImpl implements IActividadesProgramadas
 
     @Override
     public List<ListView> getListaPrograma(Integer idFacultad) {
-        return programaSevice.getListaProgramas(idFacultad).getResult();
+        return programaService.getListaProgramas(idFacultad).getResult();
     }
 
 }

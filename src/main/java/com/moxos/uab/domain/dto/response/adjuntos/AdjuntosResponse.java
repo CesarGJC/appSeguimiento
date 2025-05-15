@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class AdjuntosResponse {
-    private Integer id_adjunto;
+    private Integer id_adjunto_operaciones_actividad;
     private String ruta;
     private String documento;
     private String tipo_documento;

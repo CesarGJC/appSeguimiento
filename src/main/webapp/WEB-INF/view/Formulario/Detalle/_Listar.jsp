@@ -152,10 +152,25 @@
                         <td>${item.resultadosResponse.denominacion_indicador}</td>
                         <td>${item.resultadosResponse.abreviacionUnidadMedida}</td>
                         <td>${item.resultadosResponse.formula}</td>
-                        <td>${item.resultadosResponse.linea_base}</td>
-                        <td>${item.resultadosResponse.meta_base}</td>
+                        <c:choose>
+                            <c:when test="${item.resultadosResponse.abreviacionUnidadMedida=='%'}">
+                                <td>${item.resultadosResponse.linea_base}${item.resultadosResponse.abreviacionUnidadMedida}</td>
+                                <td>${item.resultadosResponse.meta_base}${item.resultadosResponse.abreviacionUnidadMedida}</td>
+                            </c:when>
+                            <c:otherwise>
+                                <td>${item.resultadosResponse.linea_base}</td>
+                                <td>${item.resultadosResponse.meta_base}</td>
+                            </c:otherwise>
+                        </c:choose>
                         <c:forEach var="periodo" items="${item.resultadosResponse.resultadosGestionResponseList}">
-                            <td>${periodo.descripcionResultado}</td>
+                            <c:choose>
+                                <c:when test="${item.resultadosResponse.abreviacionUnidadMedida=='%'}">
+                                    <td>${periodo.descripcionResultado}${item.resultadosResponse.abreviacionUnidadMedida}</td>
+                                </c:when>
+                                <c:otherwise>
+                                    <td>${periodo.descripcionResultado}</td>
+                                </c:otherwise>
+                            </c:choose>
                         </c:forEach>
                         <td>${item.resultadosResponse.fuente_informacion}</td>
                     </c:if>

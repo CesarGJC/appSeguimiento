@@ -1,80 +1,132 @@
 package com.moxos.uab.business.service.impl;
 
+import com.moxos.uab.config.ArchivoProperties;
 import com.moxos.uab.domain.dto.response.GeneralResponse;
 import com.moxos.uab.domain.dto.response.Response;
+import jakarta.servlet.http.HttpServletResponse;
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.tika.Tika;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
+import java.io.*;
+import java.net.MalformedURLException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.*;
 import java.util.Objects;
-import java.util.Set;
+import java.util.Optional;
+import java.util.regex.Pattern;
 
 @Service
+@AllArgsConstructor
+@Slf4j
 public class ArchivoService {
-    private static final Set<String> EXTENSIONES_PERMITIDAS_IMAGENES = Set.of("jpg", "png", "jpeg", "doc");
-    private static final Set<String> TIPOS_MIME_PERMITIDOS_IMAGENES = Set.of("image/jpeg", "image/png");
-    private static final Set<String> EXTENSIONES_PERMITIDAS_DOCUMENTOS = Set.of("pdf", "txt", "doc", "docx", "xlsx", "xls");
-    private static final Set<String> TIPOS_MIME_PERMITIDOS_DOCUMENTOS = Set.of("application/pdf", "text/plain", "application/x-tika-ooxml", "application/vnd.ms-excel", "application/vnd.ms-office", "application/vnd.openxmlformats-officedocument.wordprocessingml.document");
-    private static final Tika TIKA = new Tika();
-    @Value("${app.upload.path}") // Directorio seguro
-    private String directorioBase;
 
-    public Response<String> guardarArchivo(MultipartFile archivo, String nombreArchivo, String directorio, String tipoDocumento) throws IOException {
-        var response = validarArchivo(archivo, tipoDocumento);
-        if (!response.isSuccess())
-            return new Response<>(false, response.getMessage(), "");
+    private final ArchivoProperties archivoProperties;
+    private final Tika tika = new Tika();
+    private static final Pattern INVALID_FILENAME_CHARS = Pattern.compile("[^a-zA-Z0-9.\\-_]");
+    private static final int BUFFER_SIZE = 1024;
 
-        String extension = obtenerExtension(archivo.getOriginalFilename());
-        String directorioDocumento = crearDirectorio(directorio);
-        // Normalizar nombre de archivo
-        String nombreArchivoSeguro = Objects.requireNonNull(String.format("%s.%s", nombreArchivo, extension)).replaceAll("[^a-zA-Z0-9.\\-_]", "_");
+    public Response<String> save(MultipartFile archivo, String nombreArchivo, String directorio, String tipoDocumento) throws IOException {
+        var validacion = validarArchivo(archivo, tipoDocumento);
+        if (!validacion.isSuccess()) return new Response<>(false, validacion.getMessage(), "");
 
-        Path rutaDestino = Paths.get(directorioDocumento).resolve(nombreArchivoSeguro).normalize();
-        Files.copy(archivo.getInputStream(), rutaDestino, StandardCopyOption.REPLACE_EXISTING);
+        String extension = obtenerExtension(Objects.requireNonNull(archivo.getOriginalFilename()));
+        String nombreSeguro = generarNombreSeguro(nombreArchivo, extension);
 
-        return new Response<>(true, "", nombreArchivoSeguro);
+        var dirResponse = crearDirectorioSeguro(directorio);
+        if (!dirResponse.isSuccess()) return new Response<>(false, dirResponse.getMessage(), "");
+
+        var rutaValidada = validarPathSeguro(nombreSeguro, dirResponse.getResult());
+        if (!rutaValidada.isSuccess()) return new Response<>(false, rutaValidada.getMessage(), "");
+
+        Files.copy(archivo.getInputStream(), rutaValidada.getResult(), StandardCopyOption.REPLACE_EXISTING);
+
+        return new Response<>(true, "", nombreSeguro);
     }
 
+    public void download(String fileName, String nameResource, String directorio, HttpServletResponse response) {
+        try {
+            Path baseDir = construirDirectorio(directorio);
+            var recursoResp = getResourceSeguro(fileName, baseDir);
+
+            if (!recursoResp.isSuccess()) {
+                log.error(recursoResp.getMessage());
+                response.sendError(HttpServletResponse.SC_NOT_FOUND, recursoResp.getMessage());
+                return;
+            }
+
+            File archivo = recursoResp.getResult().getFile();
+            String contentType = Optional.ofNullable(Files.probeContentType(archivo.toPath()))
+                    .orElse("application/octet-stream");
+
+            response.setContentType(contentType);
+            response.setHeader("Content-Disposition", "attachment; filename=\"" + nameResource + "\"");
+            response.setContentLength((int) archivo.length());
+
+            try (InputStream is = new FileInputStream(archivo);
+                 OutputStream os = response.getOutputStream()) {
+                byte[] buffer = new byte[BUFFER_SIZE];
+                int bytesRead;
+                while ((bytesRead = is.read(buffer)) != -1) {
+                    os.write(buffer, 0, bytesRead);
+                }
+                os.flush();
+            }
+        } catch (IOException e) {
+            log.error("Error al descargar archivo: {}", e.getMessage(), e);
+        }
+    }
+
+    // ------------------ MÉTODOS INTERNOS ------------------
+
     private GeneralResponse validarArchivo(MultipartFile archivo, String tipoDocumento) throws IOException {
-        if (archivo.isEmpty()) {
-            return new GeneralResponse(false, "El archivo está vacío o el archivo está corrupto.");
-        }
+        if (archivo.isEmpty()) return new GeneralResponse(false, "El archivo está vacío.");
 
-        String nombreOriginal = archivo.getOriginalFilename();
-        if (nombreOriginal == null || nombreOriginal.contains("..")) {
+        String originalName = archivo.getOriginalFilename();
+        if (originalName == null || originalName.contains(".."))
             return new GeneralResponse(false, "Nombre de archivo inválido.");
-        }
 
-        // Validar extensión
-        String extension = obtenerExtension(nombreOriginal);
-        if (tipoDocumento.equals("image")) {
-            if (!EXTENSIONES_PERMITIDAS_IMAGENES.contains(extension)) {
-                return new GeneralResponse(false, "Extensión de imagenes no permitida.");
-            }
-            // Validar tipo MIME
-            String tipoMimeReal = TIKA.detect(archivo.getInputStream());
-            if (!TIPOS_MIME_PERMITIDOS_IMAGENES.contains(tipoMimeReal)) {
-                return new GeneralResponse(false, "Tipo de imagenes no permitido.");
-            }
-        }
-        if (tipoDocumento.equals("documento")) {
-            if (!EXTENSIONES_PERMITIDAS_DOCUMENTOS.contains(extension)) {
-                return new GeneralResponse(false, "Extensión de documento no permitida debe subir imagenes en word excel txt.");
-            }
-            // Validar tipo MIME
-            String tipoMimeReal = TIKA.detect(archivo.getInputStream());
-            if (!TIPOS_MIME_PERMITIDOS_DOCUMENTOS.contains(tipoMimeReal)) {
-                return new GeneralResponse(false, "Tipo de documento no permitido  debe subir imagenes en word excel txt.");
-            }
-        }
+        byte[] bytes = archivo.getBytes();
+        String contenido = new String(bytes, StandardCharsets.UTF_8);
+
+        if (contienePalabrasProhibidas(contenido))
+            return new GeneralResponse(false, "El archivo contiene contenido prohibido.");
+
+        String extension = obtenerExtension(originalName);
+        String mime = tika.detect(bytes);
+
+        if (!validarExtension(extension, tipoDocumento))
+            return new GeneralResponse(false, "Extensión no permitida para " + tipoDocumento + ".");
+
+        if (!validarMime(mime, tipoDocumento))
+            return new GeneralResponse(false, "Tipo MIME no permitido para " + tipoDocumento + ".");
 
         return new GeneralResponse(true, "");
+    }
+
+    private boolean contienePalabrasProhibidas(String contenido) {
+        return archivoProperties.getPalabrasProhibidas().stream()
+                .anyMatch(p -> contenido.toUpperCase().contains(p.toUpperCase()));
+    }
+
+    private boolean validarExtension(String ext, String tipo) {
+        return switch (tipo) {
+            case "image" -> archivoProperties.getExtensionesPermitidasImagenes().contains(ext);
+            case "documento" -> archivoProperties.getExtensionesPermitidasDocumentos().contains(ext);
+            default -> false;
+        };
+    }
+
+    private boolean validarMime(String mime, String tipo) {
+        return switch (tipo) {
+            case "image" -> archivoProperties.getMimeImagenesPermitidas().contains(mime);
+            case "documento" -> archivoProperties.getMimeDocumentosPermitidos().contains(mime);
+            default -> false;
+        };
     }
 
     private String obtenerExtension(String nombreArchivo) {
@@ -82,12 +134,54 @@ public class ArchivoService {
         return (index == -1) ? "" : nombreArchivo.substring(index + 1).toLowerCase();
     }
 
-    private String crearDirectorio(String nombreDirectorio) throws IOException {
-        String directorio = String.format("%s/investigacion/%s", directorioBase, nombreDirectorio);
-        Path path = Paths.get(directorio);
-        if (!Files.exists(path)) {
-            Files.createDirectories(path);
+    private String generarNombreSeguro(String nombre, String extension) {
+        String combinado = nombre + "." + extension;
+        return INVALID_FILENAME_CHARS.matcher(combinado).replaceAll("_");
+    }
+
+    private Path construirDirectorio(String nombre) {
+        return Paths.get(archivoProperties.getDirectorioBase(), "investigacion", nombre).toAbsolutePath().normalize();
+    }
+
+    private Response<Path> crearDirectorioSeguro(String nombreDirectorio) throws IOException {
+        Path destino = construirDirectorio(nombreDirectorio);
+        Path raiz = Paths.get(archivoProperties.getRaizSegura()).toAbsolutePath().normalize();
+
+        if (!destino.startsWith(raiz)) {
+            return new Response<>(false, "Acceso no autorizado al crear directorio.", null);
         }
-        return directorio;
+
+        if (!Files.exists(destino)) {
+            Files.createDirectories(destino);
+        }
+
+        return new Response<>(true, "", destino);
+    }
+
+    private Response<Path> validarPathSeguro(String nombreArchivo, Path directorio) {
+        Path raiz = Paths.get(archivoProperties.getRaizSegura()).toAbsolutePath().normalize();
+        Path destino = directorio.resolve(nombreArchivo).normalize();
+
+        if (!destino.startsWith(raiz)) {
+            return new Response<>(false, "Acceso no autorizado al path.", null);
+        }
+
+        return new Response<>(true, "", destino);
+    }
+
+    private Response<Resource> getResourceSeguro(String nombreArchivo, Path directorio) throws MalformedURLException {
+        Path raiz = Paths.get(archivoProperties.getRaizSegura()).toAbsolutePath().normalize();
+        Path archivoDestino = directorio.resolve(nombreArchivo).normalize();
+
+        if (!archivoDestino.startsWith(raiz)) {
+            return new Response<>(false, "Acceso no autorizado a archivos fuera del directorio permitido", null);
+        }
+
+        Resource recurso = new UrlResource(archivoDestino.toUri());
+        if (!recurso.exists() || !recurso.isReadable()) {
+            return new Response<>(false, "No se puede leer el archivo: " + nombreArchivo, null);
+        }
+
+        return new Response<>(true, "", recurso);
     }
 }

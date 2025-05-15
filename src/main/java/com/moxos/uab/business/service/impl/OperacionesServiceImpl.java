@@ -8,14 +8,11 @@ import com.moxos.uab.domain.dto.request.operaciones.ProgramasActividadesUnidadRe
 import com.moxos.uab.domain.dto.response.GeneralResponse;
 import com.moxos.uab.domain.dto.response.Response;
 import com.moxos.uab.domain.dto.response.operaciones.FormularioActividadesResponse;
-import com.moxos.uab.domain.dto.response.operaciones.ProgramaResponse;
-import com.moxos.uab.domain.dto.response.view.ListView;
-import com.moxos.uab.domain.entity.die.Operaciones;
+import com.moxos.uab.domain.entity.die.OperacionesActividades;
 import com.moxos.uab.persistence.die.OperacionesDao;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -33,9 +30,9 @@ public class OperacionesServiceImpl implements IOperacionesService {
     public Response<Integer> saveOperaciones(OperacionesRequest operacionesRequest) {
         try {
             UUID uuid = UUID.randomUUID();
-            Operaciones operaciones = modelMapper.map(operacionesRequest, Operaciones.class);
-            operaciones.setDocumento(uuid.toString());
-            Integer result = operacionesDao.saveOperaciones(operaciones);
+            OperacionesActividades operacionesActividades = modelMapper.map(operacionesRequest, OperacionesActividades.class);
+            operacionesActividades.setDocumento(uuid.toString());
+            Integer result = operacionesDao.saveOperaciones(operacionesActividades);
             return new Response<>(true, "", result);
         } catch (Exception e) {
             return new Response<>(false, e.getMessage(), -1);
@@ -45,7 +42,7 @@ public class OperacionesServiceImpl implements IOperacionesService {
     @Override
     public GeneralResponse deleteOperaciones(OperacionesRequest operacionesRequest) {
         try {
-            operacionesDao.deleteOperaciones(modelMapper.map(operacionesRequest, Operaciones.class));
+            operacionesDao.deleteOperaciones(modelMapper.map(operacionesRequest, OperacionesActividades.class));
             return new GeneralResponse(true, "");
         } catch (Exception e) {
             return new GeneralResponse(false, e.getMessage());
@@ -65,7 +62,7 @@ public class OperacionesServiceImpl implements IOperacionesService {
     @Override
     public Response<List<FormularioActividadesResponse>> getFormulariosActividades(FilterRequest<OperacionesFilterRequest> buscar, ProgramasActividadesUnidadRequest model) {
         try {
-            List<FormularioActividadesResponse> formularios = operacionesDao.getFormulariosActividades(buscar, model.getId(), model.getId_programa(), model.getId_departamento()).stream().map(p -> modelMapper.map(p, FormularioActividadesResponse.class)).toList();
+            List<FormularioActividadesResponse> formularios = operacionesDao.getFormulariosActividades(buscar, model.getId_descripcion_operaciones_poa()).stream().map(p -> modelMapper.map(p, FormularioActividadesResponse.class)).toList();
             return new Response<>(true, "", formularios);
         } catch (Exception e) {
             return new Response<>(false, e.getMessage(), null);
@@ -75,7 +72,7 @@ public class OperacionesServiceImpl implements IOperacionesService {
     @Override
     public Response<Integer> getCantidadByTipo(FilterRequest<OperacionesFilterRequest> buscar, ProgramasActividadesUnidadRequest model) {
         try {
-            Integer cantidad = operacionesDao.getCantidadByTipo(buscar, model.getId(), model.getId_programa(), model.getId_departamento());
+            Integer cantidad = operacionesDao.getCantidadByTipo(buscar, model.getId_descripcion_operaciones_poa());
             return new Response<>(true, "", cantidad);
         } catch (Exception e) {
             return new Response<>(false, e.getMessage(), null);

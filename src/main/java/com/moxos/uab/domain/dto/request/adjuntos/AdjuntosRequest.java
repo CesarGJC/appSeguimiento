@@ -8,7 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Data
 public class AdjuntosRequest {
-    private int id_adjunto;
+    private int id_adjunto_operaciones_actividad;
     private String nombre_documento = "";
     private String documento;
     private String tipo_documento;

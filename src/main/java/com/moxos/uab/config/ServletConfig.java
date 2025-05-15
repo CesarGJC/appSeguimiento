@@ -30,11 +30,11 @@ public class ServletConfig {
         return new StandardServletMultipartResolver();
     }
 
-    @Bean
+   /* @Bean
     public FilterRegistrationBean<HtmlMinifyFilter> htmlMinifyFilter() {
         FilterRegistrationBean<HtmlMinifyFilter> registrationBean = new FilterRegistrationBean<>();
         registrationBean.setFilter(new HtmlMinifyFilter());
         registrationBean.addUrlPatterns("/*");
         return registrationBean;
-    }
+    } */
 }

@@ -30,7 +30,7 @@
         </div>
         <ul class="app-breadcrumb breadcrumb">
             <li class="breadcrumb-item"><i class="fa fa-home fs-6"></i></li>
-            <li class="breadcrumb-item"><a class="enlace" href="<c:url value="/operaciones/index"/>">Proyectos</a>
+            <li class="breadcrumb-item"><a class="enlace" href="<c:url value="/poa/new/${modelPrograma.id}"><c:param name="id_programa" value="${modelPrograma.id_programa}"/><c:param name="id_departamento" value="${modelPrograma.id_departamento}"/></c:url>">Proyectos</a>
             </li>
         </ul>
     </div>
@@ -57,7 +57,7 @@
                     <div class="row mb-3">
                         <div class="col">
                             <a class="btn btn-primary enlace"
-                               href="<c:url value="/operaciones/new"><c:param name="id_programa" value="${modelPrograma.id_programa}"/><c:param name="id_departamento" value="${modelPrograma.id_departamento}"/><c:param name="id_formulario" value="${item.id_formulario}"/></c:url> "><i
+                               href="<c:url value="/operaciones/new"><c:param name="id_programa" value="${modelPrograma.id_programa}"/><c:param name="id_departamento" value="${modelPrograma.id_departamento}"/><c:param name="id_formulario" value="${item.id_formulario}"/><c:param name="id_descripcion_operaciones_poa" value="${modelPrograma.id_descripcion_operaciones_poa}"/> </c:url> "><i
                                     class="fa fa-plus"></i> Actividad</a>
                         </div>
                     </div>
@@ -104,6 +104,7 @@
                                 <jsp:param name="id" value="${modelPrograma.id}"/>
                                 <jsp:param name="id_programa" value="${modelPrograma.id_programa}"/>
                                 <jsp:param name="id_departamento" value="${modelPrograma.id_departamento}"/>
+                                <jsp:param name="id_descripcion_operaciones_poa" value="${modelPrograma.id_descripcion_operaciones_poa}"/>
                                 <jsp:param name="cookie" value="false"/>
                             </jsp:include>
                         </div>
@@ -118,7 +119,7 @@
 <script src="<c:url value="/static/js/toast.boostrap.js"/>"></script>
 <script src="<c:url value="/static/js/table.bootstrap.js?v=63"/>"></script>
 <script src="<c:url value="/static/js/filter-table.js?v=2"/>"></script>
-<script src="<c:url value="/static/js/app/formulario/operaciones/actividades.js"/>"></script>
+<script src="<c:url value="/static/js/app/formulario/operaciones-actividades/actividades.js"/>"></script>
 <c:if test="${result !=null}">
     <script>
         setTimeout(function () {
